@@ -2,9 +2,16 @@ name: Update Sprites
 
 on:
   schedule:
+    # Runs once a day at 06:00 UTC. GitHub's cron times are ALWAYS UTC —
+    # adjust for your local timezone (Israel is UTC+2 or UTC+3 with DST).
     - cron: '0 6 * * *'
+  # Lets you trigger it manually from the Actions tab, no waiting for the clock.
   workflow_dispatch: {}
 
+# Gives the automatic GITHUB_TOKEN permission to push commits back into
+# this same repo. Also double-check: Settings > Actions > General >
+# Workflow permissions > "Read and write permissions" must be enabled,
+# this setting alone isn't always enough on its own.
 permissions:
   contents: write
 
@@ -29,15 +36,19 @@ jobs:
 
       - name: Run the sprite-update script
         run: node scripts/update-sprites.js
+        # If the script needs secrets (an API key, etc.), pass them here as
+        # env vars pulled from repo Settings > Secrets and variables > Actions:
+        # env:
+        #   SOME_API_KEY: ${{ secrets.SOME_API_KEY }}
 
-      - name: Commit and push if sprites.json changed
+      - name: Commit and push if either season file changed
         run: |
           git config user.name "sprite-automation-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/sprites.json
+          git add data/season-current.json data/season-previous.json
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "chore: auto-update sprites.json [skip ci]"
+            git commit -m "chore: auto-update season sprite data [skip ci]"
             git push
           fi
