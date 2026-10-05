@@ -100,7 +100,6 @@ async function extractEntries(page) {
 async function selectSeasonFilter(page, label) {
   const targetOption = page.getByText(label, { exact: true });
 
-  // אם הכפתור/אפשרות אינם גלויים, מנסים לפתוח את תפריט הסינון (Dropdown)
   if (!(await targetOption.first().isVisible().catch(() => false))) {
     const filterMenuButton = page.locator('.fn-filter, .dropdown, button:has-text("Season"), div:has-text("Season")');
     if (await filterMenuButton.first().isVisible().catch(() => false)) {
@@ -109,7 +108,6 @@ async function selectSeasonFilter(page, label) {
     }
   }
 
-  // לוחצים על הפילטר המבוקש וממתינים לעדכון הרשת וה-DOM
   await Promise.all([
     page.waitForLoadState('networkidle').catch(() => {}),
     targetOption.first().click(),
@@ -136,4 +134,28 @@ function buildCategories(rawEntries) {
       cat.baseImage = entry.image || cat.baseImage;
     }
 
-    cat
+    cat.items.push({
+      itemId: `${slugify(baseSlug)}_${variant ? variant.id : 'normal'}`,
+      isBase: !variant,
+      variantLabel: variant ? variant.label : null,
+      image: entry.image || '',
+      released: entry.released,
+    });
+  }
+
+  return order.map((baseSlug) => {
+    const cat = categories[baseSlug];
+    const catName =
+      cat.baseName ||
+      baseSlug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+    const items = cat.items
+      .map((it) => ({
+        id: it.itemId,
+        name: it.isBase ? catName : `${catName} ${it.variantLabel}`,
+        image: it.image,
+        released: it.released,
+      }))
+      .sort((a, b) => (a.id.endsWith('_normal') ? -1 : b.id.endsWith('_normal') ? 1 : 0));
+
+    return { id: cat.id,
