@@ -5,11 +5,12 @@ const path = require('path');
 const { chromium } = require('playwright');
 
 const OUT_DIR = path.join(__dirname, '..', 'data');
-const SPRITES_URL = 'https://fortnite.gg/sprites';
+const BASE_URL = 'https://fortnite.gg/sprites';
 
+// הגדרת הפרמטר ב-URL עבור כל עונה
 const SEASONS = [
-  { filterLabel: 'C7 S4', outFile: 'season-current.json', seasonName: 'Chapter 7 Season 4' },
-  { filterLabel: 'C7 S3', outFile: 'season-previous.json', seasonName: 'Chapter 7 Season 3' },
+  { param: 'c7s4', outFile: 'season-current.json', seasonName: 'Chapter 7 Season 4' },
+  { param: 'c7s3', outFile: 'season-previous.json', seasonName: 'Chapter 7 Season 3' },
 ];
 
 const VARIANT_TOKENS = [
@@ -65,7 +66,13 @@ async function forceLoadAllImages(page) {
 
 async function extractEntries(page) {
   return page.evaluate(() => {
-    const anchors = Array.from(document.querySelectorAll('a[href*="/sprites/"]'));
+    // מביא רק קישורים שאינם מוסתרים ב-CSS (display: none וכדומה)
+    const anchors = Array.from(document.querySelectorAll('a[href*="/sprites/"]')).filter((a) => {
+      const style = window.getComputedStyle(a);
+      const parentStyle = window.getComputedStyle(a.parentElement);
+      return style.display !== 'none' && style.visibility !== 'hidden' && parentStyle.display !== 'none';
+    });
+
     const bySlug = {};
 
     for (const a of anchors) {
@@ -95,25 +102,6 @@ async function extractEntries(page) {
 
     return Object.values(bySlug);
   });
-}
-
-async function selectSeasonFilter(page, label) {
-  const targetOption = page.getByText(label, { exact: true });
-
-  if (!(await targetOption.first().isVisible().catch(() => false))) {
-    const filterMenuButton = page.locator('.fn-filter, .dropdown, button:has-text("Season"), div:has-text("Season")');
-    if (await filterMenuButton.first().isVisible().catch(() => false)) {
-      await filterMenuButton.first().click();
-      await page.waitForTimeout(300);
-    }
-  }
-
-  await Promise.all([
-    page.waitForLoadState('networkidle').catch(() => {}),
-    targetOption.first().click(),
-  ]);
-
-  await page.waitForTimeout(1000);
 }
 
 function buildCategories(rawEntries) {
@@ -170,15 +158,14 @@ async function scrapeSeason(browser, season) {
   });
 
   try {
-    console.log(`Opening ${SPRITES_URL} for ${season.seasonName}...`);
-    await page.goto(SPRITES_URL, { waitUntil: 'networkidle', timeout: 60000 });
+    const targetUrl = `${BASE_URL}?season=${season.param}`;
+    console.log(`Opening ${targetUrl} for ${season.seasonName}...`);
+    await page.goto(targetUrl, { waitUntil: 'networkidle', timeout: 60000 });
 
-    console.log(`Selecting season filter: ${season.filterLabel}`);
-    await selectSeasonFilter(page, season.filterLabel);
     await forceLoadAllImages(page);
 
     const rawEntries = await extractEntries(page);
-    console.log(`  -> ${rawEntries.length} entries for ${season.filterLabel}`);
+    console.log(`  -> ${rawEntries.length} entries for ${season.seasonName}`);
     return rawEntries;
   } finally {
     await page.close();
@@ -194,7 +181,7 @@ async function main() {
 
     if (rawEntries.length === 0) {
       console.error(
-        `No entries found for "${season.filterLabel}" — skipping this file so it isn't ` +
+        `No entries found for "${season.seasonName}" — skipping this file so it isn't ` +
           `overwritten with empty data.`
       );
       continue;
