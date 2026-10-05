@@ -158,4 +158,65 @@ function buildCategories(rawEntries) {
       }))
       .sort((a, b) => (a.id.endsWith('_normal') ? -1 : b.id.endsWith('_normal') ? 1 : 0));
 
-    return { id: cat.id,
+    return { id: cat.id, name: catName, image: cat.baseImage, items };
+  });
+}
+
+async function scrapeSeason(browser, season) {
+  const page = await browser.newPage({
+    userAgent:
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
+      '(KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+  });
+
+  try {
+    console.log(`Opening ${SPRITES_URL} for ${season.seasonName}...`);
+    await page.goto(SPRITES_URL, { waitUntil: 'networkidle', timeout: 60000 });
+
+    console.log(`Selecting season filter: ${season.filterLabel}`);
+    await selectSeasonFilter(page, season.filterLabel);
+    await forceLoadAllImages(page);
+
+    const rawEntries = await extractEntries(page);
+    console.log(`  -> ${rawEntries.length} entries for ${season.filterLabel}`);
+    return rawEntries;
+  } finally {
+    await page.close();
+  }
+}
+
+async function main() {
+  const browser = await chromium.launch();
+  fs.mkdirSync(OUT_DIR, { recursive: true });
+
+  for (const season of SEASONS) {
+    const rawEntries = await scrapeSeason(browser, season);
+
+    if (rawEntries.length === 0) {
+      console.error(
+        `No entries found for "${season.filterLabel}" — skipping this file so it isn't ` +
+          `overwritten with empty data.`
+      );
+      continue;
+    }
+
+    const categories = buildCategories(rawEntries);
+    const output = {
+      version: 'auto-' + new Date().toISOString().slice(0, 10),
+      updatedAt: new Date().toISOString(),
+      season: season.seasonName,
+      categories,
+    };
+
+    const outPath = path.join(OUT_DIR, season.outFile);
+    fs.writeFileSync(outPath, JSON.stringify(output, null, 2), 'utf-8');
+    console.log(`Wrote ${categories.length} categories to ${outPath}`);
+  }
+
+  await browser.close();
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
