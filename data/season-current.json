@@ -1,6 +1,6 @@
 {
   "version": "auto-2026-10-05",
-  "updatedAt": "2026-10-05T13:34:05.413Z",
+  "updatedAt": "2026-10-05T19:25:18.700Z",
   "season": "Chapter 7 Season 4",
   "categories": [
     {
@@ -1462,6 +1462,12 @@
           "released": true
         },
         {
+          "id": "crash_bandicoot_bountyhunter",
+          "name": "Crash Bandicoot Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_BountyHunter_L.webp",
+          "released": true
+        },
+        {
           "id": "crash_bandicoot_tricktreat",
           "name": "Crash Bandicoot Trick or Treat",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_TrickTreat_L.webp",
@@ -1521,19 +1527,6 @@
           "id": "batman_cube",
           "name": "Batman Cube",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_FossilMeal_Cube_L.webp",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "body_slam",
-      "name": "Body Slam",
-      "image": "",
-      "items": [
-        {
-          "id": "body_slam_bountyhunter",
-          "name": "Body Slam Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_BountyHunter_L.webp",
           "released": true
         }
       ]
