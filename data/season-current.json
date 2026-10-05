@@ -1,755 +1,54 @@
 {
   "version": "auto-2026-10-05",
-  "updatedAt": "2026-10-05T19:31:23.345Z",
+  "updatedAt": "2026-10-05T19:35:23.256Z",
   "season": "Chapter 7 Season 4",
   "categories": [
     {
-      "id": "water",
-      "name": "Water",
-      "image": "",
-      "items": [
-        {
-          "id": "water_normal",
-          "name": "Water",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "water_gummy",
-          "name": "Water Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "water_galaxy",
-          "name": "Water Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "water_gold",
-          "name": "Water Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "water_holofoil",
-          "name": "Water Holofoil",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "water_gem",
-          "name": "Water Gem",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "water_quack",
-          "name": "Water Quack",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "earth",
-      "name": "Earth",
-      "image": "",
-      "items": [
-        {
-          "id": "earth_normal",
-          "name": "Earth",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "earth_gummy",
-          "name": "Earth Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "earth_galaxy",
-          "name": "Earth Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "earth_gold",
-          "name": "Earth Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "earth_gem",
-          "name": "Earth Gem",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "earth_cube",
-          "name": "Earth Cube",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "earth_quack",
-          "name": "Earth Quack",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "fire",
-      "name": "Fire",
-      "image": "",
-      "items": [
-        {
-          "id": "fire_normal",
-          "name": "Fire",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "fire_gummy",
-          "name": "Fire Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "fire_galaxy",
-          "name": "Fire Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "fire_gold",
-          "name": "Fire Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "fire_holofoil",
-          "name": "Fire Holofoil",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "fire_cube",
-          "name": "Fire Cube",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "fire_quack",
-          "name": "Fire Quack",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "duck",
-      "name": "Duck",
-      "image": "",
-      "items": [
-        {
-          "id": "duck_normal",
-          "name": "Duck",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "duck_gummy",
-          "name": "Duck Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "duck_galaxy",
-          "name": "Duck Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "duck_gold",
-          "name": "Duck Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "duck_gem",
-          "name": "Duck Gem",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "ghost",
-      "name": "Ghost",
-      "image": "",
-      "items": [
-        {
-          "id": "ghost_normal",
-          "name": "Ghost",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "ghost_gummy",
-          "name": "Ghost Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "ghost_galaxy",
-          "name": "Ghost Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "ghost_gold",
-          "name": "Ghost Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "ghost_holofoil",
-          "name": "Ghost Holofoil",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "dream",
-      "name": "Dream",
-      "image": "",
-      "items": [
-        {
-          "id": "dream_normal",
-          "name": "Dream",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "dream_gummy",
-          "name": "Dream Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "dream_galaxy",
-          "name": "Dream Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "dream_gold",
-          "name": "Dream Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "dream_cube",
-          "name": "Dream Cube",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "punk",
-      "name": "Punk",
-      "image": "",
-      "items": [
-        {
-          "id": "punk_normal",
-          "name": "Punk",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "punk_gummy",
-          "name": "Punk Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "punk_galaxy",
-          "name": "Punk Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "punk_gold",
-          "name": "Punk Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "punk_cube",
-          "name": "Punk Cube",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "king",
-      "name": "King",
-      "image": "",
-      "items": [
-        {
-          "id": "king_normal",
-          "name": "King",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "king_gummy",
-          "name": "King Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "king_galaxy",
-          "name": "King Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "king_gold",
-          "name": "King Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "king_holofoil",
-          "name": "King Holofoil",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "zero_point",
-      "name": "Zero Point",
-      "image": "",
-      "items": [
-        {
-          "id": "zero_point_normal",
-          "name": "Zero Point",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "zero_point_gummy",
-          "name": "Zero Point Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "zero_point_galaxy",
-          "name": "Zero Point Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "zero_point_gold",
-          "name": "Zero Point Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "zero_point_gem",
-          "name": "Zero Point Gem",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "zero_point_holofoil",
-          "name": "Zero Point Holofoil",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "zero_point_cube",
-          "name": "Zero Point Cube",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "zero_point_quack",
-          "name": "Zero Point Quack",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "demon",
-      "name": "Demon",
-      "image": "",
-      "items": [
-        {
-          "id": "demon_normal",
-          "name": "Demon",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "demon_gummy",
-          "name": "Demon Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "demon_galaxy",
-          "name": "Demon Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "demon_gold",
-          "name": "Demon Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "demon_gem",
-          "name": "Demon Gem",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "air",
-      "name": "Air",
-      "image": "",
-      "items": [
-        {
-          "id": "air_normal",
-          "name": "Air",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "air_gold",
-          "name": "Air Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "air_gummy",
-          "name": "Air Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "air_galaxy",
-          "name": "Air Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "air_holofoil",
-          "name": "Air Holofoil",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "boss",
-      "name": "Boss",
-      "image": "",
-      "items": [
-        {
-          "id": "boss_normal",
-          "name": "Boss",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "boss_gold",
-          "name": "Boss Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "boss_gummy",
-          "name": "Boss Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "boss_galaxy",
-          "name": "Boss Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "boss_cube",
-          "name": "Boss Cube",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "seven",
-      "name": "Seven",
-      "image": "",
-      "items": [
-        {
-          "id": "seven_normal",
-          "name": "Seven",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "seven_gummy",
-          "name": "Seven Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "seven_galaxy",
-          "name": "Seven Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "seven_gold",
-          "name": "Seven Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "seven_holofoil",
-          "name": "Seven Holofoil",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "fishy",
-      "name": "Fishy",
-      "image": "",
-      "items": [
-        {
-          "id": "fishy_normal",
-          "name": "Fishy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "fishy_gummy",
-          "name": "Fishy Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "fishy_galaxy",
-          "name": "Fishy Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "fishy_gold",
-          "name": "Fishy Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "fishy_cube",
-          "name": "Fishy Cube",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "striker",
-      "name": "Striker",
-      "image": "",
-      "items": [
-        {
-          "id": "striker_normal",
-          "name": "Striker",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "striker_gummy",
-          "name": "Striker Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "striker_galaxy",
-          "name": "Striker Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "striker_gold",
-          "name": "Striker Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "striker_holofoil",
-          "name": "Striker Holofoil",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "aura",
-      "name": "Aura",
-      "image": "",
-      "items": [
-        {
-          "id": "aura_normal",
-          "name": "Aura",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "aura_gummy",
-          "name": "Aura Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "aura_galaxy",
-          "name": "Aura Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "aura_gem",
-          "name": "Aura Gem",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "aura_gold",
-          "name": "Aura Gold",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "grim",
-      "name": "Grim",
-      "image": "",
-      "items": [
-        {
-          "id": "grim_normal",
-          "name": "Grim",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "grim_gummy",
-          "name": "Grim Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "grim_galaxy",
-          "name": "Grim Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "grim_gold",
-          "name": "Grim Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "grim_gem",
-          "name": "Grim Gem",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "grim_holofoil",
-          "name": "Grim Holofoil",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "grim_cube",
-          "name": "Grim Cube",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
       "id": "overshield",
       "name": "Overshield",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Overshield_L.webp",
+      "image": "",
       "items": [
         {
           "id": "overshield_normal",
           "name": "Overshield",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Overshield_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "overshield_cheatmaster",
           "name": "Overshield Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Overshield_Cheatmaster_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "overshield_gold",
           "name": "Overshield Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Overshield_Gold_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "overshield_hacker",
           "name": "Overshield Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Overshield_Hacker_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "overshield_bountyhunter",
           "name": "Overshield Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Overshield_BountyHunter_L.webp",
-          "released": true
-        },
-        {
-          "id": "overshield_tricktreat",
-          "name": "Overshield Trick or Treat",
           "image": "",
-          "released": false
+          "released": true
         }
       ]
     },
     {
       "id": "mega_man",
       "name": "Mega Man",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ImprovedSlide_L.webp",
+      "image": "",
       "items": [
         {
           "id": "mega_man_normal",
           "name": "Mega Man",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ImprovedSlide_L.webp",
+          "image": "",
           "released": true
         }
       ]
@@ -757,49 +56,43 @@
     {
       "id": "x_ray",
       "name": "X-Ray",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_L.webp",
+      "image": "",
       "items": [
         {
           "id": "x_ray_normal",
           "name": "X-Ray",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "x_ray_gold",
           "name": "X-Ray Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_Gold_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "x_ray_hacker",
           "name": "X-Ray Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_Hacker_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "x_ray_bountyhunter",
           "name": "X-Ray Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_BountyHunter_L.webp",
-          "released": true
-        },
-        {
-          "id": "x_ray_tricktreat",
-          "name": "X-Ray Trick or Treat",
           "image": "",
-          "released": false
+          "released": true
         }
       ]
     },
     {
       "id": "cheatmaster_x_ray",
       "name": "Cheatmaster X-Ray",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_Cheatmaster_L.webp",
+      "image": "",
       "items": [
         {
           "id": "cheatmaster_x_ray_normal",
           "name": "Cheatmaster X-Ray",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_Cheatmaster_L.webp",
+          "image": "",
           "released": true
         }
       ]
@@ -807,49 +100,43 @@
     {
       "id": "onigiri",
       "name": "Onigiri",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_L.webp",
+      "image": "",
       "items": [
         {
           "id": "onigiri_normal",
           "name": "Onigiri",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "onigiri_gold",
           "name": "Onigiri Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_Gold_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "onigiri_hacker",
           "name": "Onigiri Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_Hacker_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "onigiri_bountyhunter",
           "name": "Onigiri Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_BountyHunter_L.webp",
-          "released": true
-        },
-        {
-          "id": "onigiri_tricktreat",
-          "name": "Onigiri Trick or Treat",
           "image": "",
-          "released": false
+          "released": true
         }
       ]
     },
     {
       "id": "cheatmaster_onigiri",
       "name": "Cheatmaster Onigiri",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_Cheatmaster_L.webp",
+      "image": "",
       "items": [
         {
           "id": "cheatmaster_onigiri_normal",
           "name": "Cheatmaster Onigiri",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_Cheatmaster_L.webp",
+          "image": "",
           "released": true
         }
       ]
@@ -888,12 +175,6 @@
           "name": "Jackrabbit Cheat Master",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_JazzJackrabbit_Cheatmaster_L.webp",
           "released": true
-        },
-        {
-          "id": "jackrabbit_tricktreat",
-          "name": "Jackrabbit Trick or Treat",
-          "image": "",
-          "released": false
         }
       ]
     },
@@ -931,12 +212,6 @@
           "name": "Tails Bounty Hunter",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFleaMonkey_BountyHunter_L.webp",
           "released": true
-        },
-        {
-          "id": "tails_tricktreat",
-          "name": "Tails Trick or Treat",
-          "image": "",
-          "released": false
         }
       ]
     },
@@ -974,12 +249,6 @@
           "name": "Shadow Bounty Hunter",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ReloadOverTime_BountyHunter_L.webp",
           "released": true
-        },
-        {
-          "id": "shadow_tricktreat",
-          "name": "Shadow Trick or Treat",
-          "image": "",
-          "released": false
         }
       ]
     },
@@ -993,12 +262,6 @@
           "name": "Bushranger Loot Hacker",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BushRanger_Hacker_L.webp",
           "released": true
-        },
-        {
-          "id": "bushranger_tricktreat",
-          "name": "Bushranger Trick or Treat",
-          "image": "",
-          "released": false
         }
       ]
     },
@@ -1016,13 +279,13 @@
         {
           "id": "killswitch_hacker",
           "name": "Killswitch Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Killswitch_Hacker_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "killswitch_cheatmaster",
           "name": "Killswitch Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Killswitch_Cheatmaster_L.webp",
+          "image": "",
           "released": true
         },
         {
@@ -1034,14 +297,8 @@
         {
           "id": "killswitch_bountyhunter",
           "name": "Killswitch Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Killswitch_BountyHunter_L.webp",
-          "released": true
-        },
-        {
-          "id": "killswitch_tricktreat",
-          "name": "Killswitch Trick or Treat",
           "image": "",
-          "released": false
+          "released": true
         }
       ]
     },
@@ -1079,55 +336,43 @@
           "name": "Adventure Bounty Hunter",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Dwarf_BountyHunter_L.webp",
           "released": true
-        },
-        {
-          "id": "adventure_tricktreat",
-          "name": "Adventure Trick or Treat",
-          "image": "",
-          "released": false
         }
       ]
     },
     {
       "id": "klombo",
       "name": "Klombo",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Klombo_L.webp",
+      "image": "",
       "items": [
         {
           "id": "klombo_normal",
           "name": "Klombo",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Klombo_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "klombo_hacker",
           "name": "Klombo Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Klombo_Hacker_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "klombo_cheatmaster",
           "name": "Klombo Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Klombo_Cheatmaster_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "klombo_gold",
           "name": "Klombo Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Klombo_Gold_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "klombo_bountyhunter",
           "name": "Klombo Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Klombo_BountyHunter_L.webp",
-          "released": true
-        },
-        {
-          "id": "klombo_tricktreat",
-          "name": "Klombo Trick or Treat",
           "image": "",
-          "released": false
+          "released": true
         }
       ]
     },
@@ -1165,12 +410,6 @@
           "name": "Jonesy Bounty Hunter",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Jonesy_BountyHunter_L.webp",
           "released": true
-        },
-        {
-          "id": "jonesy_tricktreat",
-          "name": "Jonesy Trick or Treat",
-          "image": "",
-          "released": false
         }
       ]
     },
@@ -1208,12 +447,6 @@
           "name": "Sonic Bounty Hunter",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_BountyHunter_L.webp",
           "released": true
-        },
-        {
-          "id": "sonic_tricktreat",
-          "name": "Sonic Trick or Treat",
-          "image": "",
-          "released": false
         }
       ]
     },
@@ -1294,24 +527,18 @@
           "name": "8-Bit Bounty Hunter",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_8BitBlaster_BountyHunter_L.webp",
           "released": true
-        },
-        {
-          "id": "8_bit_tricktreat",
-          "name": "8-Bit Trick or Treat",
-          "image": "",
-          "released": false
         }
       ]
     },
     {
       "id": "storm_scout",
       "name": "Storm Scout",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_StormScout_L.webp",
+      "image": "",
       "items": [
         {
           "id": "storm_scout_normal",
           "name": "Storm Scout",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_StormScout_L.webp",
+          "image": "",
           "released": true
         },
         {
@@ -1323,209 +550,129 @@
         {
           "id": "storm_scout_cheatmaster",
           "name": "Storm Scout Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_StormScout_Cheatmaster_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "storm_scout_gold",
           "name": "Storm Scout Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_StormScout_Gold_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "storm_scout_bountyhunter",
           "name": "Storm Scout Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_StormScout_BountyHunter_L.webp",
-          "released": true
-        },
-        {
-          "id": "storm_scout_tricktreat",
-          "name": "Storm Scout Trick or Treat",
           "image": "",
-          "released": false
+          "released": true
         }
       ]
     },
     {
       "id": "blinky",
       "name": "Blinky",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_GhostDamage_L.webp",
+      "image": "",
       "items": [
         {
           "id": "blinky_normal",
           "name": "Blinky",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_GhostDamage_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "blinky_cheatmaster",
           "name": "Blinky Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_GhostDamage_Cheatmaster_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "blinky_gold",
           "name": "Blinky Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_GhostDamage_Gold_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "blinky_hacker",
           "name": "Blinky Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_GhostDamage_Hacker_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "blinky_bountyhunter",
           "name": "Blinky Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_GhostDamage_BountyHunter_L.webp",
-          "released": true
-        },
-        {
-          "id": "blinky_tricktreat",
-          "name": "Blinky Trick or Treat",
           "image": "",
-          "released": false
+          "released": true
         }
       ]
     },
     {
       "id": "birthday",
       "name": "Birthday",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Birthday_L.webp",
+      "image": "",
       "items": [
         {
           "id": "birthday_normal",
           "name": "Birthday",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Birthday_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "birthday_gold",
           "name": "Birthday Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Birthday_Gold_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "birthday_cheatmaster",
           "name": "Birthday Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Birthday_Cheatmaster_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "birthday_hacker",
           "name": "Birthday Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Birthday_Hacker_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "birthday_bountyhunter",
           "name": "Birthday Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Birthday_BountyHunter_L.webp",
-          "released": true
-        },
-        {
-          "id": "birthday_tricktreat",
-          "name": "Birthday Trick or Treat",
           "image": "",
-          "released": false
+          "released": true
         }
       ]
     },
     {
       "id": "crash_bandicoot",
       "name": "Crash Bandicoot",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_L.webp",
+      "image": "",
       "items": [
         {
           "id": "crash_bandicoot_normal",
           "name": "Crash Bandicoot",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "crash_bandicoot_cheatmaster",
           "name": "Crash Bandicoot Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_Cheatmaster_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "crash_bandicoot_gold",
           "name": "Crash Bandicoot Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_Gold_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "crash_bandicoot_hacker",
           "name": "Crash Bandicoot Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_Hacker_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "crash_bandicoot_bountyhunter",
           "name": "Crash Bandicoot Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_BountyHunter_L.webp",
-          "released": true
-        },
-        {
-          "id": "crash_bandicoot_tricktreat",
-          "name": "Crash Bandicoot Trick or Treat",
-          "image": "",
-          "released": false
-        }
-      ]
-    },
-    {
-      "id": "john_wick",
-      "name": "John Wick",
-      "image": "",
-      "items": [
-        {
-          "id": "john_wick_normal",
-          "name": "John Wick",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "batman",
-      "name": "Batman",
-      "image": "",
-      "items": [
-        {
-          "id": "batman_normal",
-          "name": "Batman",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "batman_gold",
-          "name": "Batman Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "batman_gummy",
-          "name": "Batman Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "batman_galaxy",
-          "name": "Batman Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "batman_holofoil",
-          "name": "Batman Holofoil",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "batman_cube",
-          "name": "Batman Cube",
           "image": "",
           "released": true
         }
@@ -1534,154 +681,35 @@
     {
       "id": "pond",
       "name": "Pond",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerA_L.webp",
+      "image": "",
       "items": [
         {
           "id": "pond_normal",
           "name": "Pond",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerA_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "pond_cheatmaster",
           "name": "Pond Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerA_Cheatmaster_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "pond_gold",
           "name": "Pond Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerA_Gold_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "pond_hacker",
           "name": "Pond Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerA_Hacker_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "pond_bountyhunter",
           "name": "Pond Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerA_BountyHunter_L.webp",
-          "released": true
-        },
-        {
-          "id": "pond_tricktreat",
-          "name": "Pond Trick or Treat",
-          "image": "",
-          "released": false
-        }
-      ]
-    },
-    {
-      "id": "pollo",
-      "name": "Pollo",
-      "image": "",
-      "items": [
-        {
-          "id": "pollo_normal",
-          "name": "Pollo",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "vini_jr",
-      "name": "Vini Jr.",
-      "image": "",
-      "items": [
-        {
-          "id": "vini_jr_normal",
-          "name": "Vini Jr.",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "ironmouse",
-      "name": "Ironmouse",
-      "image": "",
-      "items": [
-        {
-          "id": "ironmouse_normal",
-          "name": "Ironmouse",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "llama",
-      "name": "Llama",
-      "image": "",
-      "items": [
-        {
-          "id": "llama_normal",
-          "name": "Llama",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "llama_gold",
-          "name": "Llama Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "llama_gummy",
-          "name": "Llama Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "llama_galaxy",
-          "name": "Llama Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "llama_gem",
-          "name": "Llama Gem",
-          "image": "",
-          "released": true
-        }
-      ]
-    },
-    {
-      "id": "peeky_peely",
-      "name": "Peeky Peely",
-      "image": "",
-      "items": [
-        {
-          "id": "peeky_peely_normal",
-          "name": "Peeky Peely",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "peeky_peely_gold",
-          "name": "Peeky Peely Gold",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "peeky_peely_gummy",
-          "name": "Peeky Peely Gummy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "peeky_peely_galaxy",
-          "name": "Peeky Peely Galaxy",
-          "image": "",
-          "released": true
-        },
-        {
-          "id": "peeky_peely_holofoil",
-          "name": "Peeky Peely Holofoil",
           "image": "",
           "released": true
         }
@@ -1721,67 +749,61 @@
     {
       "id": "morgana",
       "name": "Morgana",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreaseHeals_L.webp",
+      "image": "",
       "items": [
         {
           "id": "morgana_normal",
           "name": "Morgana",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreaseHeals_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "morgana_cheatmaster",
           "name": "Morgana Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreaseHeals_Cheatmaster_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "morgana_gold",
           "name": "Morgana Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreaseHeals_Gold_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "morgana_hacker",
           "name": "Morgana Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreaseHeals_Hacker_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "morgana_bountyhunter",
           "name": "Morgana Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreaseHeals_BountyHunter_L.webp",
-          "released": true
-        },
-        {
-          "id": "morgana_tricktreat",
-          "name": "Morgana Trick or Treat",
           "image": "",
-          "released": false
+          "released": true
         }
       ]
     },
     {
       "id": "spooky_dash",
       "name": "Spooky Dash",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_PhaseDash_L.webp",
+      "image": "",
       "items": [
         {
           "id": "spooky_dash_normal",
           "name": "Spooky Dash",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_PhaseDash_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "spooky_dash_cheatmaster",
           "name": "Spooky Dash Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_PhaseDash_Cheatmaster_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "spooky_dash_gold",
           "name": "Spooky Dash Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_PhaseDash_Gold_L.webp",
+          "image": "",
           "released": true
         },
         {
@@ -1793,63 +815,51 @@
         {
           "id": "spooky_dash_bountyhunter",
           "name": "Spooky Dash Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_PhaseDash_BountyHunter_L.webp",
-          "released": true
-        },
-        {
-          "id": "spooky_dash_tricktreat",
-          "name": "Spooky Dash Trick or Treat",
           "image": "",
-          "released": false
+          "released": true
         }
       ]
     },
     {
       "id": "vampire",
       "name": "Vampire",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_L.webp",
+      "image": "",
       "items": [
         {
           "id": "vampire_normal",
           "name": "Vampire",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "vampire_gold",
           "name": "Vampire Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_Gold_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "vampire_hacker",
           "name": "Vampire Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_Hacker_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "vampire_bountyhunter",
           "name": "Vampire Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_BountyHunter_L.webp",
-          "released": true
-        },
-        {
-          "id": "vampire_tricktreat",
-          "name": "Vampire Trick or Treat",
           "image": "",
-          "released": false
+          "released": true
         }
       ]
     },
     {
       "id": "cheatmaster_vampire",
       "name": "Cheatmaster Vampire",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_Cheatmaster_L.webp",
+      "image": "",
       "items": [
         {
           "id": "cheatmaster_vampire_normal",
           "name": "Cheatmaster Vampire",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_Cheatmaster_L.webp",
+          "image": "",
           "released": true
         }
       ]
@@ -1857,49 +867,43 @@
     {
       "id": "the_deer",
       "name": "The Deer",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_L.webp",
+      "image": "",
       "items": [
         {
           "id": "the_deer_normal",
           "name": "The Deer",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "the_deer_gold",
           "name": "The Deer Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_Gold_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "the_deer_hacker",
           "name": "The Deer Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_Hacker_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "the_deer_bountyhunter",
           "name": "The Deer Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_BountyHunter_L.webp",
-          "released": true
-        },
-        {
-          "id": "the_deer_tricktreat",
-          "name": "The Deer Trick or Treat",
           "image": "",
-          "released": false
+          "released": true
         }
       ]
     },
     {
       "id": "cheatmaster_the_deer",
       "name": "Cheatmaster The Deer",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_Cheatmaster_L.webp",
+      "image": "",
       "items": [
         {
           "id": "cheatmaster_the_deer_normal",
           "name": "Cheatmaster The Deer",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_Cheatmaster_L.webp",
+          "image": "",
           "released": true
         }
       ]
@@ -1907,43 +911,37 @@
     {
       "id": "dumpster_dive",
       "name": "Dumpster Dive",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerD_L.webp",
+      "image": "",
       "items": [
         {
           "id": "dumpster_dive_normal",
           "name": "Dumpster Dive",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerD_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "dumpster_dive_cheatmaster",
           "name": "Dumpster Dive Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerD_Cheatmaster_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "dumpster_dive_gold",
           "name": "Dumpster Dive Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerD_Gold_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "dumpster_dive_hacker",
           "name": "Dumpster Dive Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerD_Hacker_L.webp",
+          "image": "",
           "released": true
         },
         {
           "id": "dumpster_dive_bountyhunter",
           "name": "Dumpster Dive Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerD_BountyHunter_L.webp",
-          "released": true
-        },
-        {
-          "id": "dumpster_dive_tricktreat",
-          "name": "Dumpster Dive Trick or Treat",
           "image": "",
-          "released": false
+          "released": true
         }
       ]
     }
