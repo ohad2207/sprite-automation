@@ -1,36 +1,30 @@
 // scripts/update-sprites.js
 //
-// Scrapes https://fortnite.gg/sprites and rebuilds data/sprites.json in the
-// same {categories:[{id,name,image,items:[{id,name,image}]}]} shape used by
-// the Fortnite Sprite Tracker app.
+// Scrapes https://fortnite.gg/sprites TWICE — once per season filter ("C7 S4"
+// and "C7 S3", confirmed real filter labels on the live page) — and writes
+// two separate files, each already shaped like one season's sprites.json in
+// the Fortnite Sprite Tracker app:
 //
-// WHY PLAYWRIGHT (a real headless browser) INSTEAD OF A PLAIN fetch():
-// fortnite.gg/sprites is a JS-rendered page. A lot of its sprite images are
-// lazy-loaded — the raw HTML for items below the fold doesn't carry a real
-// <img src>, only a placeholder, until JS fills it in as you scroll. A plain
-// HTTP fetch would only ever see the placeholders. Playwright actually runs
-// the page like a browser, so we can force every image to resolve before
-// reading the DOM.
+//   data/season-current.json   <- "C7 S4" (the active/current season)
+//   data/season-previous.json  <- "C7 S3" (the prior season)
 //
-// WHAT'S RELIABLE vs. GUESSED ABOUT THE PAGE:
-// - Every sprite links to a URL shaped like /sprites/<numericId>-<slug>-sprite
-//   (e.g. /sprites/184-gold-jonesy-sprite). This is confirmed and very stable
-//   — the numeric ID and slug both encode the variant, which we parse below.
-// - Image files are confirmed to live under /img/x/sprites/icons/ as .webp.
-// - We do NOT rely on fortnite.gg's CSS class names anywhere (those weren't
-//   verified and could change at any time) — only on the URL/slug patterns
-//   above, which are far less likely to shift silently.
+// This replaces the earlier version, which scraped the page's default "All
+// Seasons" view and mixed both seasons into one undifferentiated list.
 //
-// KNOWN RISK: fortnite.gg may rate-limit or block requests from GitHub
-// Actions' shared IP ranges even though this works from a normal browser.
-// If runs start failing, see the README's "If scraping gets blocked" section.
+// See the previous version's comments (kept below) for why Playwright is
+// used instead of a plain fetch, and what the scraper relies on vs. doesn't.
 
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
 
-const DATA_PATH = path.join(__dirname, '..', 'data', 'sprites.json');
+const OUT_DIR = path.join(__dirname, '..', 'data');
 const SPRITES_URL = 'https://fortnite.gg/sprites';
+
+const SEASONS = [
+  { filterLabel: 'C7 S4', outFile: 'season-current.json', seasonName: 'Chapter 7 Season 4' },
+  { filterLabel: 'C7 S3', outFile: 'season-previous.json', seasonName: 'Chapter 7 Season 3' },
+];
 
 // Longest-first so e.g. "trick-or-treat" is checked before any shorter
 // token that might accidentally be a substring of it.
@@ -55,8 +49,6 @@ function slugify(text) {
     .replace(/^_+|_+$/g, '');
 }
 
-// Splits a URL slug like "gold-jonesy" or "jonesy" into { variant, baseSlug }.
-// The slug has already had the trailing "-sprite" removed by the caller.
 function parseSlug(slug) {
   for (const variant of VARIANT_TOKENS) {
     if (slug.startsWith(variant.slugToken + '-')) {
@@ -66,20 +58,8 @@ function parseSlug(slug) {
   return { variant: null, baseSlug: slug };
 }
 
-async function scrapeSpritePage() {
-  const browser = await chromium.launch();
-  const page = await browser.newPage({
-    userAgent:
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
-      '(KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
-  });
-
-  console.log('Opening', SPRITES_URL);
-  await page.goto(SPRITES_URL, { waitUntil: 'networkidle', timeout: 60000 });
-
-  // Give any initial lazy-load library a moment, then force every image to
-  // resolve immediately instead of waiting for real scroll/intersection.
-  await page.waitForTimeout(1500);
+async function forceLoadAllImages(page) {
+  await page.waitForTimeout(1000);
   await page.evaluate(() => {
     document.querySelectorAll('img').forEach((img) => {
       img.loading = 'eager';
@@ -87,10 +67,6 @@ async function scrapeSpritePage() {
       if (lazySrc && !img.src) img.src = lazySrc;
     });
   });
-
-  // Belt-and-suspenders: also physically scroll through the page in case
-  // some images only resolve on a real intersection event rather than just
-  // having their attributes flipped above.
   await page.evaluate(async () => {
     const step = window.innerHeight;
     const scrollHeight = document.body.scrollHeight;
@@ -100,9 +76,11 @@ async function scrapeSpritePage() {
     }
     window.scrollTo(0, 0);
   });
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(800);
+}
 
-  const rawEntries = await page.evaluate(() => {
+async function extractEntries(page) {
+  return page.evaluate(() => {
     const anchors = Array.from(document.querySelectorAll('a[href*="/sprites/"]'));
     const bySlug = {};
 
@@ -125,8 +103,6 @@ async function scrapeSpritePage() {
       const text = a.textContent.trim();
       if (text && !entry.name) entry.name = text;
 
-      // "Unreleased" shows up as plain text near the entry instead of the
-      // Owned/Mastered buttons — check the anchor's own container for it.
       const container = a.closest('div, li, article') || a.parentElement;
       if (container && /Unreleased/i.test(container.textContent)) {
         entry.released = false;
@@ -135,13 +111,20 @@ async function scrapeSpritePage() {
 
     return Object.values(bySlug);
   });
+}
 
-  await browser.close();
-  return rawEntries;
+// Clicks the season filter control that exactly matches `label` (e.g. "C7 S4").
+// Uses a text-match locator rather than a guessed CSS selector/class name,
+// since the underlying markup (button? pill? dropdown option?) isn't known —
+// matching by visible text is far more resilient to a layout change.
+async function selectSeasonFilter(page, label) {
+  const locator = page.getByText(label, { exact: true });
+  await locator.first().click();
+  await page.waitForTimeout(1200); // let the filtered list re-render
 }
 
 function buildCategories(rawEntries) {
-  const categories = {}; // baseSlug -> { id, baseName, baseImage, items: [] }
+  const categories = {};
   const order = [];
 
   for (const entry of rawEntries) {
@@ -154,8 +137,6 @@ function buildCategories(rawEntries) {
     const cat = categories[baseSlug];
 
     if (!variant) {
-      // This IS the base/"Normal" variant — its scraped name is the
-      // category's real display name (e.g. "Jonesy", "8-Bit", "X-Ray").
       cat.baseName = entry.name;
       cat.baseImage = entry.image || cat.baseImage;
     }
@@ -166,21 +147,14 @@ function buildCategories(rawEntries) {
       variantLabel: variant ? variant.label : null,
       image: entry.image || '',
       released: entry.released,
-      scrapedName: entry.name, // fallback only, used if baseName never shows up
     });
   }
 
   return order.map((baseSlug) => {
     const cat = categories[baseSlug];
-    // Fallback if the base/"Normal" variant wasn't found at all (e.g. it's
-    // the one that's unreleased and missing from the scrape): title-case
-    // the slug instead of leaving the category nameless.
     const catName =
       cat.baseName ||
-      baseSlug
-        .split('-')
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(' ');
+      baseSlug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
     const items = cat.items
       .map((it) => ({
@@ -195,28 +169,54 @@ function buildCategories(rawEntries) {
   });
 }
 
-async function main() {
-  const rawEntries = await scrapeSpritePage();
-  console.log(`Scraped ${rawEntries.length} sprite entries`);
+async function scrapeSeason(page, filterLabel) {
+  console.log(`Selecting season filter: ${filterLabel}`);
+  await selectSeasonFilter(page, filterLabel);
+  await forceLoadAllImages(page);
+  const rawEntries = await extractEntries(page);
+  console.log(`  -> ${rawEntries.length} entries for ${filterLabel}`);
+  return rawEntries;
+}
 
-  if (rawEntries.length === 0) {
-    throw new Error(
-      'Scrape returned 0 entries — fortnite.gg likely blocked or changed structure. ' +
-      'Not overwriting sprites.json with empty data.'
-    );
+async function main() {
+  const browser = await chromium.launch();
+  const page = await browser.newPage({
+    userAgent:
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
+      '(KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+  });
+
+  console.log('Opening', SPRITES_URL);
+  await page.goto(SPRITES_URL, { waitUntil: 'networkidle', timeout: 60000 });
+  await forceLoadAllImages(page); // let the default "All Seasons" view settle first
+
+  fs.mkdirSync(OUT_DIR, { recursive: true });
+
+  for (const season of SEASONS) {
+    const rawEntries = await scrapeSeason(page, season.filterLabel);
+
+    if (rawEntries.length === 0) {
+      console.error(
+        `No entries found for "${season.filterLabel}" — skipping this file so it isn't ` +
+        `overwritten with empty data. (Page structure or filter label may have changed.)`
+      );
+      continue;
+    }
+
+    const categories = buildCategories(rawEntries);
+    const output = {
+      version: 'auto-' + new Date().toISOString().slice(0, 10),
+      updatedAt: new Date().toISOString(),
+      season: season.seasonName,
+      categories,
+    };
+
+    const outPath = path.join(OUT_DIR, season.outFile);
+    fs.writeFileSync(outPath, JSON.stringify(output, null, 2), 'utf-8');
+    console.log(`Wrote ${categories.length} categories to ${outPath}`);
   }
 
-  const categories = buildCategories(rawEntries);
-
-  const output = {
-    version: 'auto-' + new Date().toISOString().slice(0, 10),
-    updatedAt: new Date().toISOString(),
-    categories,
-  };
-
-  fs.mkdirSync(path.dirname(DATA_PATH), { recursive: true });
-  fs.writeFileSync(DATA_PATH, JSON.stringify(output, null, 2), 'utf-8');
-  console.log(`Wrote ${categories.length} categories to`, DATA_PATH);
+  await browser.close();
 }
 
 main().catch((err) => {
