@@ -1,26 +1,30 @@
 // scripts/update-sprites.js
 //
-// Scrapes https://fortnite.gg/sprites TWICE — once per season filter ("C7 S4"
-// and "C7 S3", confirmed real filter labels on the live page) — and writes
-// two separate files, each already shaped like one season's sprites.json in
-// the Fortnite Sprite Tracker app:
+// Scrapes https://fortnite.gg/sprites ONCE and splits the results into two
+// files by where each sprite physically sits on the page, relative to the
+// real "Chapter 7 Season 4" / "Chapter 7 Season 3" section headers:
 //
-//   data/season-current.json   <- "C7 S4" (the active/current season)
-//   data/season-previous.json  <- "C7 S3" (the prior season)
+//   data/season-current.json   <- sprites positioned under the Season 4 header
+//   data/season-previous.json  <- sprites positioned under the Season 3 header
 //
-// IMPORTANT: season separation relies ONLY on actually clicking the site's
-// own season filter control (selectSeasonFilter, matched by visible text —
-// not by a guessed CSS class) and then extracting whatever the filtered page
-// shows. An earlier version of this file also tried to double-check each
-// item's season by walking up to a guessed container class and pattern-
-// matching its text, falling back to a getBoundingClientRect() visibility
-// check. That heuristic caused two real bugs: (1) missing images, because
-// elements can legitimately report a zero-size bounding rect for a moment
-// while still loading, getting them wrongly skipped as "wrong season", and
-// (2) sprites appearing in both season files inconsistently, because the
-// heuristic's season guess didn't reliably agree with the real filter state
-// between the two scrape passes. Don't reintroduce that kind of per-item
-// guessing — trust the site's own filter click and nothing else.
+// WHY THIS APPROACH (history, so nobody re-breaks this later):
+// v1 clicked the site's "C7 S4" / "C7 S3" filter buttons and scraped twice,
+// trusting the filter to narrow the DOM. In practice both passes returned
+// the same full mixed list — the filter buttons apparently just scroll to
+// or highlight a section rather than removing anything from the page, so
+// clicking them didn't actually separate the two seasons at all.
+// v2 tried to fix that by walking up from each sprite to the nearest
+// ancestor matching a guessed CSS class, and falling back to a
+// getBoundingClientRect() zero-size check when the guess didn't match. That
+// introduced two real bugs: (1) legitimate sprites getting skipped (missing
+// images) because an element can report a zero-size rect for a moment while
+// still loading, and (2) sprites landing in the wrong file inconsistently,
+// because the class-name guess rarely matched fortnite.gg's real markup.
+// v3 (this version) does neither: it loads the page once, locates the real
+// season header text directly (not a guessed class), reads its actual Y
+// position, and buckets every sprite by comparing ITS OWN Y position to the
+// header positions — order-agnostic (works whichever season's header comes
+// first on the page) and never guesses at hidden/visible state.
 
 const fs = require('fs');
 const path = require('path');
@@ -29,9 +33,9 @@ const { chromium } = require('playwright');
 const OUT_DIR = path.join(__dirname, '..', 'data');
 const SPRITES_URL = 'https://fortnite.gg/sprites';
 
-const SEASONS = [
-  { filterLabel: 'C7 S4', outFile: 'season-current.json', seasonName: 'Chapter 7 Season 4' },
-  { filterLabel: 'C7 S3', outFile: 'season-previous.json', seasonName: 'Chapter 7 Season 3' },
+const SEASON_DEFS = [
+  { key: 'current', outFile: 'season-current.json', seasonName: 'Chapter 7 Season 4', headerPattern: 'chapter\\s*7\\s*season\\s*4|(^|\\s)c7\\s*s4(\\s|$)' },
+  { key: 'previous', outFile: 'season-previous.json', seasonName: 'Chapter 7 Season 3', headerPattern: 'chapter\\s*7\\s*season\\s*3|(^|\\s)c7\\s*s3(\\s|$)' },
 ];
 
 // Longest-first so e.g. "trick-or-treat" is checked before any shorter
@@ -51,10 +55,7 @@ const VARIANT_TOKENS = [
 ];
 
 function slugify(text) {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '_')
-    .replace(/^_+|_+$/g, '');
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
 }
 
 function parseSlug(slug) {
@@ -66,10 +67,8 @@ function parseSlug(slug) {
   return { variant: null, baseSlug: slug };
 }
 
-// Generous timing on purpose: this is what reliably gets images loaded.
-// A previous attempt shortened these (500ms/100ms) to save CI time and it
-// left roughly half the images unresolved. Don't shorten this again without
-// checking the output image count stays complete.
+// Generous on purpose — a shortened version of this previously left ~half
+// the images unresolved. Don't shorten without re-checking image coverage.
 async function forceLoadAllImages(page) {
   await page.waitForTimeout(1000);
   await page.evaluate(() => {
@@ -91,30 +90,52 @@ async function forceLoadAllImages(page) {
   await page.waitForTimeout(800);
 }
 
-// Clicks the season filter control that exactly matches `label` (e.g. "C7 S4").
-// Text-match locator, not a guessed CSS selector — more resilient to a
-// layout change, and this is the SINGLE source of truth for which season
-// is active. Nothing downstream should second-guess it.
-async function selectSeasonFilter(page, label) {
-  const locator = page.getByText(label, { exact: true });
-  await locator.first().click();
-  await page.waitForTimeout(1500); // let the filtered list actually re-render
-}
+// Single evaluate() call that returns BOTH every sprite anchor (with its
+// real page position) AND the real position of each season header, found by
+// matching an element's OWN direct text (not its descendants' text, so we
+// don't match a big wrapper that merely contains the words somewhere deep
+// inside it) against the header patterns.
+async function extractWithPositions(page, seasonDefs) {
+  return page.evaluate((defs) => {
+    function topOf(el) {
+      const r = el.getBoundingClientRect();
+      return r.top + window.scrollY;
+    }
+    function ownText(el) {
+      return Array.from(el.childNodes)
+        .filter((n) => n.nodeType === Node.TEXT_NODE)
+        .map((n) => n.textContent.trim())
+        .join(' ')
+        .trim();
+    }
 
-async function extractEntries(page) {
-  return page.evaluate(() => {
+    const headerTop = {};
+    const candidates = Array.from(document.querySelectorAll('h1,h2,h3,h4,h5,h6,div,span,p,button,a'));
+    for (const el of candidates) {
+      const text = ownText(el);
+      if (!text || text.length > 40) continue;
+      for (const def of defs) {
+        if (def.key in headerTop) continue; // keep only the first (topmost) occurrence
+        if (new RegExp(def.headerPattern, 'i').test(text)) {
+          headerTop[def.key] = topOf(el);
+        }
+      }
+    }
+
     const anchors = Array.from(document.querySelectorAll('a[href*="/sprites/"]'));
     const bySlug = {};
-
     for (const a of anchors) {
       const match = a.getAttribute('href').match(/\/sprites\/(\d+)-([a-z0-9-]+)-sprite/i);
       if (!match) continue;
       const [, numericId, slug] = match;
 
       if (!bySlug[numericId]) {
-        bySlug[numericId] = { numericId, slug: slug.toLowerCase(), name: '', image: '', released: true };
+        bySlug[numericId] = {
+          numericId, slug: slug.toLowerCase(), name: '', image: '', released: true, top: topOf(a),
+        };
       }
       const entry = bySlug[numericId];
+      entry.top = Math.min(entry.top, topOf(a)); // the two paired anchors (image+text) may differ slightly
 
       const img = a.querySelector('img');
       if (img) {
@@ -131,8 +152,30 @@ async function extractEntries(page) {
       }
     }
 
-    return Object.values(bySlug);
-  });
+    return { entries: Object.values(bySlug), headerTop };
+  }, seasonDefs.map((d) => ({ key: d.key, headerPattern: d.headerPattern })));
+}
+
+// Buckets each entry into whichever season's header sits closest ABOVE it
+// on the page — order-agnostic: works whether Season 4 or Season 3 appears
+// first in the document.
+function assignSeasons(entries, headerTop, seasonDefs) {
+  const boundaries = seasonDefs
+    .filter((d) => d.key in headerTop)
+    .map((d) => ({ key: d.key, top: headerTop[d.key] }))
+    .sort((a, b) => a.top - b.top);
+
+  const bucket = {};
+  seasonDefs.forEach((d) => (bucket[d.key] = []));
+
+  for (const entry of entries) {
+    let assigned = null;
+    for (const b of boundaries) {
+      if (entry.top >= b.top) assigned = b.key;
+    }
+    if (assigned) bucket[assigned].push(entry);
+  }
+  return bucket;
 }
 
 function buildCategories(rawEntries) {
@@ -165,8 +208,7 @@ function buildCategories(rawEntries) {
   return order.map((baseSlug) => {
     const cat = categories[baseSlug];
     const catName =
-      cat.baseName ||
-      baseSlug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      cat.baseName || baseSlug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 
     const items = cat.items
       .map((it) => ({
@@ -181,40 +223,43 @@ function buildCategories(rawEntries) {
   });
 }
 
-// A fresh page per season (full reload + fresh filter click) rather than
-// reusing one page and re-clicking a different filter on it — this avoids
-// any stale-state carrying over between the two scrapes.
-async function scrapeSeason(browser, season) {
+async function main() {
+  const browser = await chromium.launch();
   const page = await browser.newPage({
     userAgent:
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
       '(KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
   });
 
-  try {
-    console.log(`Opening ${SPRITES_URL} for ${season.seasonName}...`);
-    await page.goto(SPRITES_URL, { waitUntil: 'networkidle', timeout: 60000 });
+  console.log('Opening', SPRITES_URL);
+  await page.goto(SPRITES_URL, { waitUntil: 'networkidle', timeout: 60000 });
+  await forceLoadAllImages(page);
 
-    await selectSeasonFilter(page, season.filterLabel);
-    await forceLoadAllImages(page);
+  const { entries, headerTop } = await extractWithPositions(page, SEASON_DEFS);
+  await browser.close();
 
-    const rawEntries = await extractEntries(page);
-    console.log(`  -> ${rawEntries.length} entries for ${season.seasonName}`);
-    return rawEntries;
-  } finally {
-    await page.close();
+  console.log(`Found ${entries.length} total sprite entries.`);
+  console.log('Header positions found:', headerTop);
+
+  const missingHeaders = SEASON_DEFS.filter((d) => !(d.key in headerTop));
+  if (missingHeaders.length > 0) {
+    console.error(
+      'Could not find a page position for: ' +
+      missingHeaders.map((d) => d.seasonName).join(', ') +
+      ' — the header text/pattern may need updating. Not writing any files this run.'
+    );
+    process.exit(1);
   }
-}
 
-async function main() {
-  const browser = await chromium.launch();
+  const buckets = assignSeasons(entries, headerTop, SEASON_DEFS);
   fs.mkdirSync(OUT_DIR, { recursive: true });
 
-  for (const season of SEASONS) {
-    const rawEntries = await scrapeSeason(browser, season);
+  for (const season of SEASON_DEFS) {
+    const rawEntries = buckets[season.key];
+    console.log(`${season.seasonName}: ${rawEntries.length} entries`);
 
     if (rawEntries.length === 0) {
-      console.error(`No entries found for "${season.seasonName}" — skipping this file so it isn't overwritten with empty data.`);
+      console.error(`No entries assigned to "${season.seasonName}" — skipping this file so it isn't overwritten with empty data.`);
       continue;
     }
 
@@ -230,8 +275,6 @@ async function main() {
     fs.writeFileSync(outPath, JSON.stringify(output, null, 2), 'utf-8');
     console.log(`Wrote ${categories.length} categories to ${outPath}`);
   }
-
-  await browser.close();
 }
 
 main().catch((err) => {
