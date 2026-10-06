@@ -1,30 +1,42 @@
 // scripts/update-sprites.js
 //
 // Scrapes https://fortnite.gg/sprites ONCE and splits the results into two
-// files by where each sprite physically sits on the page, relative to the
-// real "Chapter 7 Season 4" / "Chapter 7 Season 3" section headers:
+// files based on a CONFIRMED list of which base sprites belong to which
+// season (verified directly against the live page, not guessed):
 //
-//   data/season-current.json   <- sprites positioned under the Season 4 header
-//   data/season-previous.json  <- sprites positioned under the Season 3 header
+//   data/season-current.json   <- the 12 "Override" / Season 4 base sprites
+//   data/season-previous.json  <- the 25 Season 3 base sprites
 //
-// WHY THIS APPROACH (history, so nobody re-breaks this later):
-// v1 clicked the site's "C7 S4" / "C7 S3" filter buttons and scraped twice,
-// trusting the filter to narrow the DOM. In practice both passes returned
-// the same full mixed list — the filter buttons apparently just scroll to
-// or highlight a section rather than removing anything from the page, so
-// clicking them didn't actually separate the two seasons at all.
-// v2 tried to fix that by walking up from each sprite to the nearest
-// ancestor matching a guessed CSS class, and falling back to a
-// getBoundingClientRect() zero-size check when the guess didn't match. That
-// introduced two real bugs: (1) legitimate sprites getting skipped (missing
-// images) because an element can report a zero-size rect for a moment while
-// still loading, and (2) sprites landing in the wrong file inconsistently,
-// because the class-name guess rarely matched fortnite.gg's real markup.
-// v3 (this version) does neither: it loads the page once, locates the real
-// season header text directly (not a guessed class), reads its actual Y
-// position, and buckets every sprite by comparing ITS OWN Y position to the
-// header positions — order-agnostic (works whichever season's header comes
-// first on the page) and never guesses at hidden/visible state.
+// HISTORY (so nobody re-breaks this; three earlier approaches failed):
+// v1 clicked the site's "C7 S4" / "C7 S3" filter buttons, trusting them to
+//    narrow the page. They don't actually remove anything from the DOM —
+//    both passes returned the same full mixed list.
+// v2 tried walking up from each sprite to a guessed CSS class to figure out
+//    its section. The guess rarely matched, causing both missing images
+//    (an unrelated zero-size check wrongly skipped loading items) and
+//    sprites landing in the wrong/both files inconsistently.
+// v3 tried finding literal "Chapter 7 Season 4" header text on the page and
+//    bucketing sprites by position relative to it. Turns out that text does
+//    NOT appear in the list body at all — "C7 S4"/"C7 S3" exist ONLY once
+//    each, as two small filter buttons sitting right next to each other
+//    near the top of the page. Since nearly every sprite's position is
+//    below both buttons, this put almost everything in one bucket.
+// v4 (this version) uses a verified, hardcoded list of which base sprites
+//    belong to each season instead of trying to detect it from the page at
+//    all. This is simple and reliable BECAUSE the roster for a released
+//    season doesn't change — if Epic adds sprites to the CURRENT season
+//    later, update CURRENT_SEASON_SLUGS below; a new season replaces this
+//    file's two lists entirely.
+//
+// Also fixed here: fortnite.gg itself is inconsistent about Bush's slug —
+// most of its variants use "bush" (167-bush-sprite) but two use "bushranger"
+// (105-loot-hacker-bushranger-sprite, 240-trick-or-treat-bushranger-sprite).
+// SLUG_ALIASES normalizes that before grouping into categories.
+//
+// And: this page lazy-loads content as you scroll (239 sprites total), so
+// the true scroll height grows while scrolling. forceLoadAllImages() now
+// re-measures scrollHeight on every iteration instead of once up front —
+// measuring it only once was why roughly half the images came back empty.
 
 const fs = require('fs');
 const path = require('path');
@@ -33,10 +45,30 @@ const { chromium } = require('playwright');
 const OUT_DIR = path.join(__dirname, '..', 'data');
 const SPRITES_URL = 'https://fortnite.gg/sprites';
 
-const SEASON_DEFS = [
-  { key: 'current', outFile: 'season-current.json', seasonName: 'Chapter 7 Season 4', headerPattern: 'chapter\\s*7\\s*season\\s*4|(^|\\s)c7\\s*s4(\\s|$)' },
-  { key: 'previous', outFile: 'season-previous.json', seasonName: 'Chapter 7 Season 3', headerPattern: 'chapter\\s*7\\s*season\\s*3|(^|\\s)c7\\s*s3(\\s|$)' },
+// Verified against the live page on 2026-10-05. If Epic changes the season
+// roster, update these two lists (and seasonName) — nothing else needs to
+// change.
+const CURRENT_SEASON_SLUGS = [
+  'jonesy', 'adventure', 'bush', 'sonic', 'tails', 'shadow',
+  '8-bit', 'jackrabbit', 'crown', 'killswitch', 'klombo', 'storm-scout',
 ];
+const PREVIOUS_SEASON_SLUGS = [
+  'water', 'earth', 'fire', 'duck', 'ghost', 'dream', 'demon', 'punk',
+  'king', 'aura', 'striker', 'fishy', 'air', 'seven', 'boss', 'grim',
+  'peeky-peely', 'llama', 'batman', 'zero-point', 'burnt-peanut',
+  'vini-jr', 'pollo', 'john-wick', 'ironmouse',
+];
+const SEASON_DEFS = [
+  { key: 'current', outFile: 'season-current.json', seasonName: 'Chapter 7 Season 4', slugs: CURRENT_SEASON_SLUGS },
+  { key: 'previous', outFile: 'season-previous.json', seasonName: 'Chapter 7 Season 3', slugs: PREVIOUS_SEASON_SLUGS },
+];
+
+// Confirmed real-world slug inconsistencies on fortnite.gg — map the
+// inconsistent spelling to the canonical one used everywhere else for that
+// sprite's other variants.
+const SLUG_ALIASES = {
+  bushranger: 'bush',
+};
 
 // Longest-first so e.g. "trick-or-treat" is checked before any shorter
 // token that might accidentally be a substring of it.
@@ -58,84 +90,69 @@ function slugify(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
 }
 
-function parseSlug(slug) {
+function parseSlug(rawSlug) {
   for (const variant of VARIANT_TOKENS) {
-    if (slug.startsWith(variant.slugToken + '-')) {
-      return { variant, baseSlug: slug.slice(variant.slugToken.length + 1) };
+    if (rawSlug.startsWith(variant.slugToken + '-')) {
+      const base = rawSlug.slice(variant.slugToken.length + 1);
+      return { variant, baseSlug: SLUG_ALIASES[base] || base };
     }
   }
-  return { variant: null, baseSlug: slug };
+  return { variant: null, baseSlug: SLUG_ALIASES[rawSlug] || rawSlug };
 }
 
-// Generous on purpose — a shortened version of this previously left ~half
-// the images unresolved. Don't shorten without re-checking image coverage.
+// Scrolls to the bottom repeatedly, re-measuring scrollHeight each time,
+// since this page loads more content in as you scroll (239 sprites total —
+// measuring the height only once undercounts how far there is to go).
 async function forceLoadAllImages(page) {
   await page.waitForTimeout(1000);
+
+  let previousHeight = 0;
+  for (let pass = 0; pass < 15; pass++) {
+    await page.evaluate(() => {
+      document.querySelectorAll('img').forEach((img) => {
+        img.loading = 'eager';
+        const lazySrc = img.getAttribute('data-src') || img.getAttribute('data-lazy-src');
+        if (lazySrc && !img.src) img.src = lazySrc;
+      });
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+    await page.waitForTimeout(500);
+
+    const currentHeight = await page.evaluate(() => document.body.scrollHeight);
+    if (currentHeight === previousHeight) break; // stopped growing, we're done
+    previousHeight = currentHeight;
+  }
+
+  // One more eager-load pass now that the full page has loaded in, then
+  // scroll back to the top before extracting.
   await page.evaluate(() => {
     document.querySelectorAll('img').forEach((img) => {
       img.loading = 'eager';
       const lazySrc = img.getAttribute('data-src') || img.getAttribute('data-lazy-src');
       if (lazySrc && !img.src) img.src = lazySrc;
     });
-  });
-  await page.evaluate(async () => {
-    const step = window.innerHeight;
-    const scrollHeight = document.body.scrollHeight;
-    for (let y = 0; y < scrollHeight; y += step) {
-      window.scrollTo(0, y);
-      await new Promise((r) => setTimeout(r, 120));
-    }
     window.scrollTo(0, 0);
   });
-  await page.waitForTimeout(800);
+  await page.waitForTimeout(1000);
 }
 
-// Single evaluate() call that returns BOTH every sprite anchor (with its
-// real page position) AND the real position of each season header, found by
-// matching an element's OWN direct text (not its descendants' text, so we
-// don't match a big wrapper that merely contains the words somewhere deep
-// inside it) against the header patterns.
-async function extractWithPositions(page, seasonDefs) {
-  return page.evaluate((defs) => {
-    function topOf(el) {
-      const r = el.getBoundingClientRect();
-      return r.top + window.scrollY;
-    }
-    function ownText(el) {
-      return Array.from(el.childNodes)
-        .filter((n) => n.nodeType === Node.TEXT_NODE)
-        .map((n) => n.textContent.trim())
-        .join(' ')
-        .trim();
-    }
-
-    const headerTop = {};
-    const candidates = Array.from(document.querySelectorAll('h1,h2,h3,h4,h5,h6,div,span,p,button,a'));
-    for (const el of candidates) {
-      const text = ownText(el);
-      if (!text || text.length > 40) continue;
-      for (const def of defs) {
-        if (def.key in headerTop) continue; // keep only the first (topmost) occurrence
-        if (new RegExp(def.headerPattern, 'i').test(text)) {
-          headerTop[def.key] = topOf(el);
-        }
-      }
-    }
-
+async function extractEntries(page) {
+  return page.evaluate(() => {
     const anchors = Array.from(document.querySelectorAll('a[href*="/sprites/"]'));
     const bySlug = {};
+
     for (const a of anchors) {
-      const match = a.getAttribute('href').match(/\/sprites\/(\d+)-([a-z0-9-]+)-sprite/i);
+      // Burnt Peanut's href has no "-sprite" suffix (…/41-burnt-peanut)
+      // unlike every other entry — the pattern below accepts that one
+      // irregular case too.
+      const match = a.getAttribute('href').match(/\/sprites\/(\d+)-([a-z0-9-]+?)(?:-sprite)?$/i);
       if (!match) continue;
       const [, numericId, slug] = match;
 
       if (!bySlug[numericId]) {
-        bySlug[numericId] = {
-          numericId, slug: slug.toLowerCase(), name: '', image: '', released: true, top: topOf(a),
-        };
+        bySlug[numericId] = { numericId, slug: slug.toLowerCase(), name: '', image: '', released: true };
       }
       const entry = bySlug[numericId];
-      entry.top = Math.min(entry.top, topOf(a)); // the two paired anchors (image+text) may differ slightly
 
       const img = a.querySelector('img');
       if (img) {
@@ -152,30 +169,8 @@ async function extractWithPositions(page, seasonDefs) {
       }
     }
 
-    return { entries: Object.values(bySlug), headerTop };
-  }, seasonDefs.map((d) => ({ key: d.key, headerPattern: d.headerPattern })));
-}
-
-// Buckets each entry into whichever season's header sits closest ABOVE it
-// on the page — order-agnostic: works whether Season 4 or Season 3 appears
-// first in the document.
-function assignSeasons(entries, headerTop, seasonDefs) {
-  const boundaries = seasonDefs
-    .filter((d) => d.key in headerTop)
-    .map((d) => ({ key: d.key, top: headerTop[d.key] }))
-    .sort((a, b) => a.top - b.top);
-
-  const bucket = {};
-  seasonDefs.forEach((d) => (bucket[d.key] = []));
-
-  for (const entry of entries) {
-    let assigned = null;
-    for (const b of boundaries) {
-      if (entry.top >= b.top) assigned = b.key;
-    }
-    if (assigned) bucket[assigned].push(entry);
-  }
-  return bucket;
+    return Object.values(bySlug);
+  });
 }
 
 function buildCategories(rawEntries) {
@@ -219,7 +214,7 @@ function buildCategories(rawEntries) {
       }))
       .sort((a, b) => (a.id.endsWith('_normal') ? -1 : b.id.endsWith('_normal') ? 1 : 0));
 
-    return { id: cat.id, name: catName, image: cat.baseImage, items };
+    return { baseSlug, id: cat.id, name: catName, image: cat.baseImage, items };
   });
 }
 
@@ -235,45 +230,46 @@ async function main() {
   await page.goto(SPRITES_URL, { waitUntil: 'networkidle', timeout: 60000 });
   await forceLoadAllImages(page);
 
-  const { entries, headerTop } = await extractWithPositions(page, SEASON_DEFS);
+  const rawEntries = await extractEntries(page);
   await browser.close();
+  console.log(`Found ${rawEntries.length} total sprite entries on the page.`);
 
-  console.log(`Found ${entries.length} total sprite entries.`);
-  console.log('Header positions found:', headerTop);
+  const allCategories = buildCategories(rawEntries);
 
-  const missingHeaders = SEASON_DEFS.filter((d) => !(d.key in headerTop));
-  if (missingHeaders.length > 0) {
-    console.error(
-      'Could not find a page position for: ' +
-      missingHeaders.map((d) => d.seasonName).join(', ') +
-      ' — the header text/pattern may need updating. Not writing any files this run.'
-    );
-    process.exit(1);
-  }
+  const slugToSeasonKey = {};
+  SEASON_DEFS.forEach((def) => def.slugs.forEach((s) => (slugToSeasonKey[s] = def.key)));
 
-  const buckets = assignSeasons(entries, headerTop, SEASON_DEFS);
+  const unmatched = [];
   fs.mkdirSync(OUT_DIR, { recursive: true });
 
   for (const season of SEASON_DEFS) {
-    const rawEntries = buckets[season.key];
-    console.log(`${season.seasonName}: ${rawEntries.length} entries`);
+    const categories = allCategories.filter((cat) => slugToSeasonKey[cat.baseSlug] === season.key);
 
-    if (rawEntries.length === 0) {
-      console.error(`No entries assigned to "${season.seasonName}" — skipping this file so it isn't overwritten with empty data.`);
+    if (categories.length === 0) {
+      console.error(`No categories matched "${season.seasonName}" — skipping this file so it isn't overwritten with empty data.`);
       continue;
     }
 
-    const categories = buildCategories(rawEntries);
     const output = {
       version: 'auto-' + new Date().toISOString().slice(0, 10),
       updatedAt: new Date().toISOString(),
       season: season.seasonName,
-      categories,
+      categories: categories.map(({ id, name, image, items }) => ({ id, name, image, items })),
     };
 
     const outPath = path.join(OUT_DIR, season.outFile);
     fs.writeFileSync(outPath, JSON.stringify(output, null, 2), 'utf-8');
     console.log(`Wrote ${categories.length} categories to ${outPath}`);
+  }
+
+  for (const cat of allCategories) {
+    if (!(cat.baseSlug in slugToSeasonKey)) unmatched.push(cat.baseSlug);
+  }
+  if (unmatched.length > 0) {
+    console.log(
+      `\nNote: ${unmatched.length} base sprite(s) on the page don't belong to either known ` +
+      `season list, so they weren't included in either file: ${unmatched.join(', ')}`
+    );
   }
 }
 
