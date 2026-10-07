@@ -2,25 +2,22 @@ name: Update Sprites
 
 on:
   schedule:
-    # Runs once a day at 06:00 UTC. GitHub's cron times are ALWAYS UTC —
-    # adjust for your local timezone (Israel is UTC+2 or UTC+3 with DST).
     - cron: '0 6 * * *'
-  # Lets you trigger it manually from the Actions tab, no waiting for the clock.
-  workflow_dispatch: {}
+  workflow_dispatch:
 
-# Gives the automatic GITHUB_TOKEN permission to push commits back into
-# this same repo. Also double-check: Settings > Actions > General >
-# Workflow permissions > "Read and write permissions" must be enabled,
-# this setting alone isn't always enough on its own.
 permissions:
   contents: write
+
+concurrency:
+  group: sprite-data-update
+  cancel-in-progress: false
 
 jobs:
   update-sprites:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Node.js
@@ -28,27 +25,20 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Install Playwright's browser
-        run: npx playwright install --with-deps chromium
-
-      - name: Run the sprite-update script
+      - name: Update sprite season data
         run: node scripts/update-sprites.js
-        # If the script needs secrets (an API key, etc.), pass them here as
-        # env vars pulled from repo Settings > Secrets and variables > Actions:
-        # env:
-        #   SOME_API_KEY: ${{ secrets.SOME_API_KEY }}
 
-      - name: Commit and push if either season file changed
+      - name: Commit and push changes
         run: |
           git config user.name "sprite-automation-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/season-current.json data/season-previous.json
+
+          git add data/*.json
+
           if git diff --cached --quiet; then
             echo "No changes to commit."
-          else
-            git commit -m "chore: auto-update season sprite data [skip ci]"
-            git push
+            exit 0
           fi
+
+          git commit -m "chore: auto-update sprite data [skip ci]"
+          git push
