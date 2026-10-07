@@ -1,395 +1,435 @@
 const fs = require('fs');
 const path = require('path');
-const { chromium } = require('playwright');
 
-const OUT_DIR = path.join(__dirname, '..', 'data');
-const SPRITES_URL = 'https://fortnite.gg/sprites';
+const DATA_DIR = path.join(__dirname, '..', 'data');
+const SPRITES_API_URL = 'https://prod.fn-api.cc/v1/sprites';
+const REQUEST_TIMEOUT_MS = 30_000;
 
-const PREVIOUS_SEASON_SLUGS = [
-  'water',
-  'earth',
-  'fire',
-  'duck',
-  'ghost',
-  'dream',
-  'demon',
-  'punk',
-  'king',
-  'aura',
-  'striker',
-  'fishy',
-  'air',
-  'seven',
-  'boss',
-  'grim',
-  'peeky-peely',
-  'llama',
-  'batman',
-  'zero-point',
-  'burnt-peanut',
-  'vini-jr',
-  'pollo',
-  'john-wick',
-  'ironmouse',
-];
+const VARIANT_ALIASES = {
+  a: { id: 'normal', label: null },
+  base: { id: 'normal', label: null },
+  default: { id: 'normal', label: null },
+  normal: { id: 'normal', label: null },
 
-const PREVIOUS_SEASON_NAME = 'Chapter 7 Season 3';
-const CURRENT_SEASON_NAME = 'Chapter 7 Season 4';
+  candy: { id: 'gummy', label: 'Gummy' },
+  gummy: { id: 'gummy', label: 'Gummy' },
+  gold: { id: 'gold', label: 'Gold' },
+  galaxy: { id: 'galaxy', label: 'Galaxy' },
+  gem: { id: 'gem', label: 'Gem' },
+  holofoil: { id: 'holofoil', label: 'Holofoil' },
+  cube: { id: 'cube', label: 'Cube' },
+  quack: { id: 'quack', label: 'Quack' },
 
-const SLUG_ALIASES = {
-  bushranger: 'bush',
+  cheatmaster: { id: 'cheatmaster', label: 'Cheat Master' },
+  cheat_master: { id: 'cheatmaster', label: 'Cheat Master' },
+
+  loothacker: { id: 'hacker', label: 'Loot Hacker' },
+  loot_hacker: { id: 'hacker', label: 'Loot Hacker' },
+  hacker: { id: 'hacker', label: 'Loot Hacker' },
+
+  bountyhunter: { id: 'bountyhunter', label: 'Bounty Hunter' },
+  bounty_hunter: { id: 'bountyhunter', label: 'Bounty Hunter' },
+
+  trickortreat: { id: 'tricktreat', label: 'Trick or Treat' },
+  trick_or_treat: { id: 'tricktreat', label: 'Trick or Treat' },
 };
 
-const VARIANT_TOKENS = [
-  { slugToken: 'trick-or-treat', id: 'tricktreat', label: 'Trick or Treat' },
-  { slugToken: 'bounty-hunter', id: 'bountyhunter', label: 'Bounty Hunter' },
-  { slugToken: 'loot-hacker', id: 'hacker', label: 'Loot Hacker' },
-  { slugToken: 'cheat-master', id: 'cheatmaster', label: 'Cheat Master' },
-
-  // Fortnite.gg uses this spelling for some sprites:
-  // cheatmaster-x-ray, cheatmaster-onigiri, etc.
-  { slugToken: 'cheatmaster', id: 'cheatmaster', label: 'Cheat Master' },
-
-  { slugToken: 'holofoil', id: 'holofoil', label: 'Holofoil' },
-  { slugToken: 'galaxy', id: 'galaxy', label: 'Galaxy' },
-  { slugToken: 'gummy', id: 'gummy', label: 'Gummy' },
-  { slugToken: 'quack', id: 'quack', label: 'Quack' },
-  { slugToken: 'cube', id: 'cube', label: 'Cube' },
-  { slugToken: 'gem', id: 'gem', label: 'Gem' },
-  { slugToken: 'gold', id: 'gold', label: 'Gold' },
-];
-
-function slugify(text) {
-  return text
+function slugify(value) {
+  return String(value || '')
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_+|_+$/g, '');
 }
 
-// מנרמל slug של קטגוריה לפני בדיקת העונה.
-// כך גם zero-point-sprite וגם zero-point מזוהים כאותו ספרייט.
-function canonicalSeasonSlug(slug) {
-  return slug
-    .toLowerCase()
-    .replace(/-sprite$/, '')
+function humanize(value) {
+  return String(value || '')
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/\b\w/g, (character) => character.toUpperCase());
+}
+
+function stripSpriteSuffix(name) {
+  return String(name || '')
+    .replace(/\s+sprite$/i, '')
     .trim();
 }
 
-const PREVIOUS_SEASON_SET = new Set(
-  PREVIOUS_SEASON_SLUGS.map(canonicalSeasonSlug),
-);
+function parseSeason(rawSeason) {
+  const match = String(rawSeason || '')
+    .replace(/\s+/g, '')
+    .toUpperCase()
+    .match(/^CH(\d+)S(\d+)$/);
 
-function isPreviousSeasonCategory(category) {
-  return PREVIOUS_SEASON_SET.has(
-    canonicalSeasonSlug(category.baseSlug),
-  );
-}
-
-function parseSlug(rawSlug) {
-  for (const variant of VARIANT_TOKENS) {
-    if (rawSlug.startsWith(`${variant.slugToken}-`)) {
-      const base = rawSlug.slice(variant.slugToken.length + 1);
-
-      return {
-        variant,
-        baseSlug: SLUG_ALIASES[base] || base,
-      };
-    }
+  if (!match) {
+    return null;
   }
 
+  const [, chapter, season] = match;
+
   return {
-    variant: null,
-    baseSlug: SLUG_ALIASES[rawSlug] || rawSlug,
+    id: `c${chapter}s${season}`,
+    filename: `c${chapter}s${season}.json`,
+    displayName: `Chapter ${chapter} Season ${season}`,
   };
 }
 
-async function forceLoadAllImages(page) {
-  await page.waitForTimeout(1000);
-
-  let previousHeight = 0;
-
-  for (let pass = 0; pass < 15; pass++) {
-    await page.evaluate(() => {
-      document.querySelectorAll('img').forEach((img) => {
-        img.loading = 'eager';
-
-        const lazySrc =
-          img.getAttribute('data-src') ||
-          img.getAttribute('data-lazy-src');
-
-        if (lazySrc && !img.src) {
-          img.src = lazySrc;
-        }
-      });
-
-      window.scrollTo(0, document.body.scrollHeight);
-    });
-
-    await page.waitForTimeout(500);
-
-    const currentHeight = await page.evaluate(
-      () => document.body.scrollHeight,
-    );
-
-    if (currentHeight === previousHeight) {
-      break;
-    }
-
-    previousHeight = currentHeight;
-  }
-
-  await page.evaluate(() => {
-    document.querySelectorAll('img').forEach((img) => {
-      img.loading = 'eager';
-
-      const lazySrc =
-        img.getAttribute('data-src') ||
-        img.getAttribute('data-lazy-src');
-
-      if (lazySrc && !img.src) {
-        img.src = lazySrc;
-      }
-    });
-
-    window.scrollTo(0, 0);
-  });
-
-  await page.waitForTimeout(1000);
+function getImage(record) {
+  return record?.images?.largeIcon || record?.images?.icon || '';
 }
 
-async function extractEntries(page) {
-  return page.evaluate(() => {
-    const anchors = Array.from(
-      document.querySelectorAll('a[href*="/sprites/"]'),
-    );
+function getVariantInfo(rawVariant) {
+  const key = slugify(rawVariant);
 
-    const byNumericId = {};
-
-    for (const anchor of anchors) {
-      const href = anchor.getAttribute('href') || '';
-
-      // תומך גם ב-Burnt Peanut, שהקישור שלו אינו מסתיים ב-sprite.
-      const match = href.match(
-        /\/sprites\/(\d+)-([a-z0-9-]+?)(?:-sprite)?$/i,
-      );
-
-      if (!match) {
-        continue;
-      }
-
-      const [, numericId, slug] = match;
-
-      if (!byNumericId[numericId]) {
-        byNumericId[numericId] = {
-          numericId,
-          slug: slug.toLowerCase(),
-          name: '',
-          image: '',
-          released: true,
-        };
-      }
-
-      const entry = byNumericId[numericId];
-      const image = anchor.querySelector('img');
-
-      if (image) {
-        const src =
-          image.currentSrc ||
-          image.src ||
-          image.getAttribute('data-src') ||
-          '';
-
-        if (src.includes('/sprites/icons/')) {
-          entry.image = src;
-        }
-      }
-
-      const text = anchor.textContent.trim();
-
-      if (text && !entry.name) {
-        entry.name = text;
-      }
-
-      const container =
-        anchor.closest('div, li, article') || anchor.parentElement;
-
-      if (container && /Unreleased/i.test(container.textContent)) {
-        entry.released = false;
-      }
-    }
-
-    return Object.values(byNumericId);
-  });
-}
-
-function buildCategories(rawEntries) {
-  const categories = {};
-  const order = [];
-
-  for (const entry of rawEntries) {
-    const { variant, baseSlug } = parseSlug(entry.slug);
-
-    if (!categories[baseSlug]) {
-      categories[baseSlug] = {
-        id: slugify(baseSlug),
-        baseName: null,
-        baseImage: '',
-        items: [],
-      };
-
-      order.push(baseSlug);
-    }
-
-    const category = categories[baseSlug];
-
-    if (!variant) {
-      category.baseName = entry.name;
-      category.baseImage = entry.image || category.baseImage;
-    }
-
-    category.items.push({
-      itemId: `${slugify(baseSlug)}_${
-        variant ? variant.id : 'normal'
-      }`,
-      isBase: !variant,
-      variantLabel: variant ? variant.label : null,
-      image: entry.image || '',
-      released: entry.released,
-    });
+  if (VARIANT_ALIASES[key]) {
+    return VARIANT_ALIASES[key];
   }
 
-  return order.map((baseSlug) => {
-    const category = categories[baseSlug];
+  return {
+    id: key || 'normal',
+    label: key ? humanize(rawVariant) : null,
+  };
+}
 
-    const categoryName =
-      category.baseName ||
-      baseSlug
-        .split('-')
-        .map(
-          (word) =>
-            word.charAt(0).toUpperCase() + word.slice(1),
-        )
-        .join(' ');
+function loadJson(filePath) {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  } catch (error) {
+    throw new Error(
+      `Cannot read valid JSON from ${filePath}: ${error.message}`,
+    );
+  }
+}
 
-    const items = category.items
-      .map((item) => ({
-        id: item.itemId,
-        name: item.isBase
-          ? categoryName
-          : `${categoryName} ${item.variantLabel}`,
-        image: item.image,
-        released: item.released,
-      }))
-      .sort((a, b) => {
-        if (a.id.endsWith('_normal')) return -1;
-        if (b.id.endsWith('_normal')) return 1;
-        return 0;
-      });
+function getExistingSeasonData(seasonInfo) {
+  const filePath = path.join(DATA_DIR, seasonInfo.filename);
 
+  if (!fs.existsSync(filePath)) {
     return {
-      baseSlug,
-      id: category.id,
-      name: categoryName,
-      image: category.baseImage,
-      items,
+      filePath,
+      exists: false,
+      data: {
+        version: '',
+        season: seasonInfo.displayName,
+        categories: [],
+      },
     };
-  });
+  }
+
+  const data = loadJson(filePath);
+
+  if (!Array.isArray(data.categories)) {
+    throw new Error(
+      `${seasonInfo.filename} has no valid "categories" array. No files were changed.`,
+    );
+  }
+
+  return {
+    filePath,
+    exists: true,
+    data,
+  };
 }
 
-async function main() {
-  const browser = await chromium.launch();
+function buildIncomingCategory(family, seasonInfo) {
+  const categoryName = stripSpriteSuffix(family.name);
 
-  const page = await browser.newPage({
-    userAgent:
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' +
-      'AppleWebKit/537.36 (KHTML, like Gecko) ' +
-      'Chrome/128.0.0.0 Safari/537.36',
-  });
+  if (!categoryName) {
+    throw new Error(
+      `A sprite family in ${seasonInfo.id} has no usable name.`,
+    );
+  }
 
-  console.log('Opening', SPRITES_URL);
+  const categoryId = slugify(categoryName);
 
-  await page.goto(SPRITES_URL, {
-    waitUntil: 'networkidle',
-    timeout: 60000,
-  });
+  if (!categoryId) {
+    throw new Error(
+      `Could not create a stable ID for "${categoryName}".`,
+    );
+  }
 
-  await forceLoadAllImages(page);
+  const rawVariants =
+    Array.isArray(family.variants) && family.variants.length > 0
+      ? family.variants
+      : [family];
 
-  const rawEntries = await extractEntries(page);
+  const itemIds = new Set();
+  const items = [];
 
-  await browser.close();
+  for (const variant of rawVariants) {
+    const variantInfo = getVariantInfo(variant.variant);
+    const itemId = `${categoryId}_${variantInfo.id}`;
 
-  console.log(
-    `Found ${rawEntries.length} total sprite entries on the page.`,
-  );
-
-  const allCategories = buildCategories(rawEntries);
-
-  const previousCategories = allCategories.filter(
-    isPreviousSeasonCategory,
-  );
-
-  const currentCategories = allCategories.filter(
-    (category) => !isPreviousSeasonCategory(category),
-  );
-
-  fs.mkdirSync(OUT_DIR, { recursive: true });
-
-  const files = [
-    {
-      outFile: 'season-previous.json',
-      seasonName: PREVIOUS_SEASON_NAME,
-      categories: previousCategories,
-    },
-    {
-      outFile: 'season-current.json',
-      seasonName: CURRENT_SEASON_NAME,
-      categories: currentCategories,
-    },
-  ];
-
-  for (const file of files) {
-    if (file.categories.length === 0) {
-      console.error(
-        `No categories matched "${file.seasonName}" — skipping file.`,
+    if (itemIds.has(itemId)) {
+      throw new Error(
+        `Duplicate source ID "${itemId}" in season ${seasonInfo.id}. No files were changed.`,
       );
+    }
+
+    itemIds.add(itemId);
+
+    items.push({
+      id: itemId,
+      name: variantInfo.label
+        ? `${categoryName} ${variantInfo.label}`
+        : categoryName,
+      image: getImage(variant) || getImage(family),
+    });
+  }
+
+  items.sort((left, right) => {
+    if (left.id.endsWith('_normal')) return -1;
+    if (right.id.endsWith('_normal')) return 1;
+    return left.name.localeCompare(right.name);
+  });
+
+  return {
+    id: categoryId,
+    name: categoryName,
+    image: getImage(family) || items[0]?.image || '',
+    items,
+  };
+}
+
+function mergeCategory(existingCategory, incomingCategory) {
+  const existingItems = Array.isArray(existingCategory?.items)
+    ? existingCategory.items
+    : [];
+
+  const existingItemsById = new Map(
+    existingItems.map((item) => [item.id, item]),
+  );
+
+  const mergedItems = [...existingItems];
+  let changed = false;
+
+  for (const incomingItem of incomingCategory.items) {
+    const existingItem = existingItemsById.get(incomingItem.id);
+
+    if (!existingItem) {
+      mergedItems.push(incomingItem);
+      changed = true;
       continue;
     }
 
-    const output = {
-      version: `auto-${new Date().toISOString().slice(0, 10)}`,
-      updatedAt: new Date().toISOString(),
-      season: file.seasonName,
-      categories: file.categories.map(
-        ({ id, name, image, items }) => ({
-          id,
-          name,
-          image,
-          items,
-        }),
-      ),
+    const mergedItem = {
+      ...existingItem,
+      id: incomingItem.id,
+      name: incomingItem.name,
+      image: incomingItem.image || existingItem.image || '',
     };
 
-    const outputPath = path.join(OUT_DIR, file.outFile);
+    if (JSON.stringify(mergedItem) !== JSON.stringify(existingItem)) {
+      const index = mergedItems.findIndex(
+        (item) => item.id === incomingItem.id,
+      );
 
+      mergedItems[index] = mergedItem;
+      changed = true;
+    }
+  }
+
+  mergedItems.sort((left, right) => {
+    if (left.id.endsWith('_normal')) return -1;
+    if (right.id.endsWith('_normal')) return 1;
+    return left.name.localeCompare(right.name);
+  });
+
+  const mergedCategory = {
+    ...existingCategory,
+    id: incomingCategory.id,
+    name: incomingCategory.name,
+    image: incomingCategory.image || existingCategory.image || '',
+    items: mergedItems,
+  };
+
+  if (
+    JSON.stringify(mergedCategory) !== JSON.stringify(existingCategory)
+  ) {
+    changed = true;
+  }
+
+  return { category: mergedCategory, changed };
+}
+
+function mergeSeason(existingData, seasonInfo, incomingCategories) {
+  const existingCategories = Array.isArray(existingData.categories)
+    ? existingData.categories
+    : [];
+
+  const categoriesById = new Map(
+    existingCategories.map((category) => [category.id, category]),
+  );
+
+  const mergedCategories = [...existingCategories];
+  let changed = false;
+
+  for (const incomingCategory of incomingCategories) {
+    const existingCategory = categoriesById.get(incomingCategory.id);
+
+    if (!existingCategory) {
+      mergedCategories.push(incomingCategory);
+      changed = true;
+      continue;
+    }
+
+    const result = mergeCategory(existingCategory, incomingCategory);
+
+    if (result.changed) {
+      const index = mergedCategories.findIndex(
+        (category) => category.id === incomingCategory.id,
+      );
+
+      mergedCategories[index] = result.category;
+      changed = true;
+    }
+  }
+
+  if (!existingData.season) {
+    changed = true;
+  }
+
+  if (!changed) {
+    return {
+      changed: false,
+      data: existingData,
+    };
+  }
+
+  return {
+    changed: true,
+    data: {
+      ...existingData,
+      version: `auto-${new Date().toISOString().slice(0, 10)}`,
+      updatedAt: new Date().toISOString(),
+      season: existingData.season || seasonInfo.displayName,
+      categories: mergedCategories,
+    },
+  };
+}
+
+async function fetchSpriteCatalog() {
+  const controller = new AbortController();
+  const timeout = setTimeout(
+    () => controller.abort(),
+    REQUEST_TIMEOUT_MS,
+  );
+
+  try {
+    const response = await fetch(SPRITES_API_URL, {
+      headers: {
+        Accept: 'application/json',
+      },
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Sprite API returned HTTP ${response.status}.`,
+      );
+    }
+
+    let payload;
+
+    try {
+      payload = await response.json();
+    } catch {
+      throw new Error('Sprite API returned invalid JSON.');
+    }
+
+    if (
+      payload?.status !== 200 ||
+      !Array.isArray(payload?.data) ||
+      payload.data.length === 0
+    ) {
+      throw new Error(
+        'Sprite API response is empty or has an unexpected shape.',
+      );
+    }
+
+    return payload.data;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function main() {
+  console.log(`Fetching sprite data from ${SPRITES_API_URL}`);
+
+  // שום קובץ לא נכתב לפני שה־API הוחזר ונבדק במלואו.
+  const families = await fetchSpriteCatalog();
+  const bySeason = new Map();
+
+  for (const family of families) {
+    const seasonInfo = parseSeason(family.season);
+
+    if (!seasonInfo) {
+      throw new Error(
+        `Unknown season value "${family.season}" for "${family.name}". No files were changed.`,
+      );
+    }
+
+    if (!bySeason.has(seasonInfo.id)) {
+      bySeason.set(seasonInfo.id, {
+        seasonInfo,
+        categories: [],
+      });
+    }
+
+    bySeason
+      .get(seasonInfo.id)
+      .categories.push(buildIncomingCategory(family, seasonInfo));
+  }
+
+  if (bySeason.size === 0) {
+    throw new Error('No valid seasons found. No files were changed.');
+  }
+
+  const pendingWrites = [];
+
+  for (const { seasonInfo, categories } of bySeason.values()) {
+    const existing = getExistingSeasonData(seasonInfo);
+    const merged = mergeSeason(
+      existing.data,
+      seasonInfo,
+      categories,
+    );
+
+    if (merged.changed || !existing.exists) {
+      pendingWrites.push({
+        filePath: existing.filePath,
+        data: merged.data,
+        categoryCount: categories.length,
+      });
+    }
+  }
+
+  if (pendingWrites.length === 0) {
+    console.log('No sprite changes found. No files were updated.');
+    return;
+  }
+
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+
+  for (const file of pendingWrites) {
     fs.writeFileSync(
-      outputPath,
-      JSON.stringify(output, null, 2),
-      'utf-8',
+      file.filePath,
+      `${JSON.stringify(file.data, null, 2)}\n`,
+      'utf8',
     );
 
     console.log(
-      `Wrote ${file.categories.length} categories to ${outputPath}`,
+      `Updated ${path.basename(file.filePath)} with ${file.categoryCount} source categories.`,
     );
   }
 
   console.log(
-    `Breakdown: ${previousCategories.length} previous-season categories, ` +
-      `${currentCategories.length} current-season categories.`,
+    `Finished: updated ${pendingWrites.length} season file(s).`,
   );
 }
 
 main().catch((error) => {
-  console.error(error);
+  console.error(`Sprite update failed: ${error.message}`);
   process.exit(1);
 });
