@@ -5,32 +5,51 @@ const { chromium } = require('playwright');
 const OUT_DIR = path.join(__dirname, '..', 'data');
 const SPRITES_URL = 'https://fortnite.gg/sprites';
 
-// רשימת הספרייטים של העונה הקודמת — קבועה, כדי שהעונה הנוכחית
-// תכלול אוטומטית כל ספרייט חדש שלא שייך לרשימה זו.
 const PREVIOUS_SEASON_SLUGS = [
-  'water', 'earth', 'fire', 'duck', 'ghost', 'dream', 'demon', 'punk',
-  'king', 'aura', 'striker', 'fishy', 'air', 'seven', 'boss', 'grim',
-  'peeky-peely', 'llama', 'batman', 'zero-point', 'burnt-peanut',
-  'vini-jr', 'pollo', 'john-wick', 'ironmouse',
+  'water',
+  'earth',
+  'fire',
+  'duck',
+  'ghost',
+  'dream',
+  'demon',
+  'punk',
+  'king',
+  'aura',
+  'striker',
+  'fishy',
+  'air',
+  'seven',
+  'boss',
+  'grim',
+  'peeky-peely',
+  'llama',
+  'batman',
+  'zero-point',
+  'burnt-peanut',
+  'vini-jr',
+  'pollo',
+  'john-wick',
+  'ironmouse',
 ];
 
 const PREVIOUS_SEASON_NAME = 'Chapter 7 Season 3';
 const CURRENT_SEASON_NAME = 'Chapter 7 Season 4';
 
-// תיקון לחוסר אחידות בשם Bush באתר.
 const SLUG_ALIASES = {
   bushranger: 'bush',
 };
 
-// חשוב: Fortnite.gg משתמש בשני איותים של Cheat Master:
-// cheat-master-X וגם cheatmaster-X.
-// שניהם מקבלים את אותו id ולכן נכנסים לאותה קטגוריה.
 const VARIANT_TOKENS = [
   { slugToken: 'trick-or-treat', id: 'tricktreat', label: 'Trick or Treat' },
   { slugToken: 'bounty-hunter', id: 'bountyhunter', label: 'Bounty Hunter' },
   { slugToken: 'loot-hacker', id: 'hacker', label: 'Loot Hacker' },
   { slugToken: 'cheat-master', id: 'cheatmaster', label: 'Cheat Master' },
+
+  // Fortnite.gg uses this spelling for some sprites:
+  // cheatmaster-x-ray, cheatmaster-onigiri, etc.
   { slugToken: 'cheatmaster', id: 'cheatmaster', label: 'Cheat Master' },
+
   { slugToken: 'holofoil', id: 'holofoil', label: 'Holofoil' },
   { slugToken: 'galaxy', id: 'galaxy', label: 'Galaxy' },
   { slugToken: 'gummy', id: 'gummy', label: 'Gummy' },
@@ -45,6 +64,25 @@ function slugify(text) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_+|_+$/g, '');
+}
+
+// מנרמל slug של קטגוריה לפני בדיקת העונה.
+// כך גם zero-point-sprite וגם zero-point מזוהים כאותו ספרייט.
+function canonicalSeasonSlug(slug) {
+  return slug
+    .toLowerCase()
+    .replace(/-sprite$/, '')
+    .trim();
+}
+
+const PREVIOUS_SEASON_SET = new Set(
+  PREVIOUS_SEASON_SLUGS.map(canonicalSeasonSlug),
+);
+
+function isPreviousSeasonCategory(category) {
+  return PREVIOUS_SEASON_SET.has(
+    canonicalSeasonSlug(category.baseSlug),
+  );
 }
 
 function parseSlug(rawSlug) {
@@ -125,12 +163,15 @@ async function extractEntries(page) {
       document.querySelectorAll('a[href*="/sprites/"]'),
     );
 
-    const bySlug = {};
+    const byNumericId = {};
 
-    for (const a of anchors) {
-      const match = a
-        .getAttribute('href')
-        ?.match(/\/sprites\/(\d+)-([a-z0-9-]+?)(?:-sprite)?$/i);
+    for (const anchor of anchors) {
+      const href = anchor.getAttribute('href') || '';
+
+      // תומך גם ב-Burnt Peanut, שהקישור שלו אינו מסתיים ב-sprite.
+      const match = href.match(
+        /\/sprites\/(\d+)-([a-z0-9-]+?)(?:-sprite)?$/i,
+      );
 
       if (!match) {
         continue;
@@ -138,8 +179,8 @@ async function extractEntries(page) {
 
       const [, numericId, slug] = match;
 
-      if (!bySlug[numericId]) {
-        bySlug[numericId] = {
+      if (!byNumericId[numericId]) {
+        byNumericId[numericId] = {
           numericId,
           slug: slug.toLowerCase(),
           name: '',
@@ -148,35 +189,36 @@ async function extractEntries(page) {
         };
       }
 
-      const entry = bySlug[numericId];
-      const img = a.querySelector('img');
+      const entry = byNumericId[numericId];
+      const image = anchor.querySelector('img');
 
-      if (img) {
+      if (image) {
         const src =
-          img.currentSrc ||
-          img.src ||
-          img.getAttribute('data-src') ||
+          image.currentSrc ||
+          image.src ||
+          image.getAttribute('data-src') ||
           '';
 
-        if (src && src.includes('/sprites/icons/')) {
+        if (src.includes('/sprites/icons/')) {
           entry.image = src;
         }
       }
 
-      const text = a.textContent.trim();
+      const text = anchor.textContent.trim();
 
       if (text && !entry.name) {
         entry.name = text;
       }
 
-      const container = a.closest('div, li, article') || a.parentElement;
+      const container =
+        anchor.closest('div, li, article') || anchor.parentElement;
 
       if (container && /Unreleased/i.test(container.textContent)) {
         entry.released = false;
       }
     }
 
-    return Object.values(bySlug);
+    return Object.values(byNumericId);
   });
 }
 
@@ -198,15 +240,17 @@ function buildCategories(rawEntries) {
       order.push(baseSlug);
     }
 
-    const cat = categories[baseSlug];
+    const category = categories[baseSlug];
 
     if (!variant) {
-      cat.baseName = entry.name;
-      cat.baseImage = entry.image || cat.baseImage;
+      category.baseName = entry.name;
+      category.baseImage = entry.image || category.baseImage;
     }
 
-    cat.items.push({
-      itemId: `${slugify(baseSlug)}_${variant ? variant.id : 'normal'}`,
+    category.items.push({
+      itemId: `${slugify(baseSlug)}_${
+        variant ? variant.id : 'normal'
+      }`,
       isBase: !variant,
       variantLabel: variant ? variant.label : null,
       image: entry.image || '',
@@ -215,21 +259,24 @@ function buildCategories(rawEntries) {
   }
 
   return order.map((baseSlug) => {
-    const cat = categories[baseSlug];
+    const category = categories[baseSlug];
 
-    const catName =
-      cat.baseName ||
+    const categoryName =
+      category.baseName ||
       baseSlug
         .split('-')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .map(
+          (word) =>
+            word.charAt(0).toUpperCase() + word.slice(1),
+        )
         .join(' ');
 
-    const items = cat.items
+    const items = category.items
       .map((item) => ({
         id: item.itemId,
         name: item.isBase
-          ? catName
-          : `${catName} ${item.variantLabel}`,
+          ? categoryName
+          : `${categoryName} ${item.variantLabel}`,
         image: item.image,
         released: item.released,
       }))
@@ -241,9 +288,9 @@ function buildCategories(rawEntries) {
 
     return {
       baseSlug,
-      id: cat.id,
-      name: catName,
-      image: cat.baseImage,
+      id: category.id,
+      name: categoryName,
+      image: category.baseImage,
       items,
     };
   });
@@ -272,17 +319,18 @@ async function main() {
 
   await browser.close();
 
-  console.log(`Found ${rawEntries.length} total sprite entries on the page.`);
+  console.log(
+    `Found ${rawEntries.length} total sprite entries on the page.`,
+  );
 
   const allCategories = buildCategories(rawEntries);
-  const previousSet = new Set(PREVIOUS_SEASON_SLUGS);
 
-  const previousCategories = allCategories.filter((cat) =>
-    previousSet.has(cat.baseSlug),
+  const previousCategories = allCategories.filter(
+    isPreviousSeasonCategory,
   );
 
   const currentCategories = allCategories.filter(
-    (cat) => !previousSet.has(cat.baseSlug),
+    (category) => !isPreviousSeasonCategory(category),
   );
 
   fs.mkdirSync(OUT_DIR, { recursive: true });
@@ -303,7 +351,7 @@ async function main() {
   for (const file of files) {
     if (file.categories.length === 0) {
       console.error(
-        `No categories matched "${file.seasonName}" — skipping this file.`,
+        `No categories matched "${file.seasonName}" — skipping file.`,
       );
       continue;
     }
@@ -312,30 +360,32 @@ async function main() {
       version: `auto-${new Date().toISOString().slice(0, 10)}`,
       updatedAt: new Date().toISOString(),
       season: file.seasonName,
-      categories: file.categories.map(({ id, name, image, items }) => ({
-        id,
-        name,
-        image,
-        items,
-      })),
+      categories: file.categories.map(
+        ({ id, name, image, items }) => ({
+          id,
+          name,
+          image,
+          items,
+        }),
+      ),
     };
 
-    const outPath = path.join(OUT_DIR, file.outFile);
+    const outputPath = path.join(OUT_DIR, file.outFile);
 
     fs.writeFileSync(
-      outPath,
+      outputPath,
       JSON.stringify(output, null, 2),
       'utf-8',
     );
 
     console.log(
-      `Wrote ${file.categories.length} categories to ${outPath}`,
+      `Wrote ${file.categories.length} categories to ${outputPath}`,
     );
   }
 
   console.log(
     `Breakdown: ${previousCategories.length} previous-season categories, ` +
-    `${currentCategories.length} current-season categories.`,
+      `${currentCategories.length} current-season categories.`,
   );
 }
 
