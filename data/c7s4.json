@@ -1,35 +1,17 @@
 {
   "version": "auto-2026-10-07",
-  "updatedAt": "2026-10-07T15:57:26.449Z",
+  "updatedAt": "2026-10-07T20:01:53.946Z",
   "season": "Chapter 7 Season 4",
   "categories": [
     {
       "id": "overshield",
       "name": "Overshield",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Overshield_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/overshieldsprite/largeicon.png",
       "items": [
         {
           "id": "overshield_normal",
           "name": "Overshield",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Overshield_L.webp",
-          "released": true
-        },
-        {
-          "id": "overshield_cheatmaster",
-          "name": "Overshield Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Overshield_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "overshield_gold",
-          "name": "Overshield Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Overshield_Gold_L.webp",
-          "released": true
-        },
-        {
-          "id": "overshield_hacker",
-          "name": "Overshield Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Overshield_Hacker_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -39,9 +21,32 @@
           "released": true
         },
         {
+          "id": "overshield_cheatmaster",
+          "name": "Overshield Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "overshield_gold",
+          "name": "Overshield Gold",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "overshield_hacker",
+          "name": "Overshield Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "overshield_reaper",
+          "name": "Overshield Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "overshield_tricktreat",
-          "name": "Overshield Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Overshield_TrickTreat_L.webp",
+          "name": "Overshield Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -49,12 +54,12 @@
     {
       "id": "mega_man",
       "name": "Mega Man",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ImprovedSlide_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/improvedslide/largeicon.png",
       "items": [
         {
           "id": "mega_man_normal",
           "name": "Mega Man",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ImprovedSlide_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/improvedslide_variant_a/largeicon.png",
           "released": true
         }
       ]
@@ -62,30 +67,12 @@
     {
       "id": "x_ray",
       "name": "X-Ray",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/winnerbsprite/largeicon.png",
       "items": [
         {
           "id": "x_ray_normal",
           "name": "X-Ray",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_L.webp",
-          "released": true
-        },
-        {
-          "id": "x_ray_cheatmaster",
-          "name": "X-Ray Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "x_ray_gold",
-          "name": "X-Ray Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_Gold_L.webp",
-          "released": true
-        },
-        {
-          "id": "x_ray_hacker",
-          "name": "X-Ray Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_Hacker_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -95,9 +82,32 @@
           "released": true
         },
         {
+          "id": "x_ray_cheatmaster",
+          "name": "X-Ray Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "x_ray_gold",
+          "name": "X-Ray Gold",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "x_ray_hacker",
+          "name": "X-Ray Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "x_ray_reaper",
+          "name": "X-Ray Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "x_ray_tricktreat",
-          "name": "X-Ray Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_TrickTreat_L.webp",
+          "name": "X-Ray Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -105,30 +115,12 @@
     {
       "id": "onigiri",
       "name": "Onigiri",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/winnercsprite/largeicon.png",
       "items": [
         {
           "id": "onigiri_normal",
           "name": "Onigiri",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_L.webp",
-          "released": true
-        },
-        {
-          "id": "onigiri_cheatmaster",
-          "name": "Onigiri Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "onigiri_gold",
-          "name": "Onigiri Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_Gold_L.webp",
-          "released": true
-        },
-        {
-          "id": "onigiri_hacker",
-          "name": "Onigiri Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_Hacker_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -138,9 +130,32 @@
           "released": true
         },
         {
+          "id": "onigiri_cheatmaster",
+          "name": "Onigiri Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "onigiri_gold",
+          "name": "Onigiri Gold",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "onigiri_hacker",
+          "name": "Onigiri Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "onigiri_reaper",
+          "name": "Onigiri Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "onigiri_tricktreat",
-          "name": "Onigiri Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_TrickTreat_L.webp",
+          "name": "Onigiri Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -148,18 +163,12 @@
     {
       "id": "jackrabbit",
       "name": "Jackrabbit",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_JazzJackrabbit_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite/largeicon.png",
       "items": [
         {
           "id": "jackrabbit_normal",
           "name": "Jackrabbit",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_JazzJackrabbit_L.webp",
-          "released": true
-        },
-        {
-          "id": "jackrabbit_hacker",
-          "name": "Jackrabbit Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_DoubleJump_Hacker_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -169,21 +178,32 @@
           "released": true
         },
         {
-          "id": "jackrabbit_gold",
-          "name": "Jackrabbit Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_JazzJackrabbit_Gold_L.webp",
+          "id": "jackrabbit_cheatmaster",
+          "name": "Jackrabbit Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_cheatmaster/largeicon.png",
           "released": true
         },
         {
-          "id": "jackrabbit_cheatmaster",
-          "name": "Jackrabbit Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_JazzJackrabbit_Cheatmaster_L.webp",
+          "id": "jackrabbit_gold",
+          "name": "Jackrabbit Gold",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_gold/largeicon.png",
           "released": true
+        },
+        {
+          "id": "jackrabbit_hacker",
+          "name": "Jackrabbit Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "jackrabbit_reaper",
+          "name": "Jackrabbit Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_reaper/largeicon.png"
         },
         {
           "id": "jackrabbit_tricktreat",
-          "name": "Jackrabbit Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_DoubleJump_TrickTreat_L.webp",
+          "name": "Jackrabbit Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -191,30 +211,12 @@
     {
       "id": "tails",
       "name": "Tails",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Monkey_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite/largeicon.png",
       "items": [
         {
           "id": "tails_normal",
           "name": "Tails",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Monkey_L.webp",
-          "released": true
-        },
-        {
-          "id": "tails_hacker",
-          "name": "Tails Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Monkey_Hacker_L.webp",
-          "released": true
-        },
-        {
-          "id": "tails_cheatmaster",
-          "name": "Tails Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Monkey_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "tails_gold",
-          "name": "Tails Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Monkey_Gold_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -224,9 +226,32 @@
           "released": true
         },
         {
+          "id": "tails_cheatmaster",
+          "name": "Tails Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "tails_gold",
+          "name": "Tails Gold",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "tails_hacker",
+          "name": "Tails Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "tails_reaper",
+          "name": "Tails Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "tails_tricktreat",
-          "name": "Tails Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFleaMonkey_TrickTreat_L.webp",
+          "name": "Tails Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -234,30 +259,12 @@
     {
       "id": "shadow",
       "name": "Shadow",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Scribe_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite/largeicon.png",
       "items": [
         {
           "id": "shadow_normal",
           "name": "Shadow",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Scribe_L.webp",
-          "released": true
-        },
-        {
-          "id": "shadow_hacker",
-          "name": "Shadow Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ReloadOverTime_Hacker_L.webp",
-          "released": true
-        },
-        {
-          "id": "shadow_cheatmaster",
-          "name": "Shadow Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Scribe_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "shadow_gold",
-          "name": "Shadow Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Scribe_Gold_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -267,9 +274,32 @@
           "released": true
         },
         {
+          "id": "shadow_cheatmaster",
+          "name": "Shadow Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "shadow_gold",
+          "name": "Shadow Gold",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "shadow_hacker",
+          "name": "Shadow Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "shadow_reaper",
+          "name": "Shadow Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "shadow_tricktreat",
-          "name": "Shadow Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ReloadOverTime_TrickTreat_L.webp",
+          "name": "Shadow Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -277,30 +307,12 @@
     {
       "id": "bush",
       "name": "Bush",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BushRanger_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/bushrangersprite/largeicon.png",
       "items": [
         {
           "id": "bush_normal",
           "name": "Bush",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BushRanger_L.webp",
-          "released": true
-        },
-        {
-          "id": "bush_hacker",
-          "name": "Bush Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BushRanger_Hacker_L.webp",
-          "released": true
-        },
-        {
-          "id": "bush_cheatmaster",
-          "name": "Bush Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BushRanger_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "bush_gold",
-          "name": "Bush Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BushRanger_Gold_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -310,9 +322,32 @@
           "released": true
         },
         {
+          "id": "bush_cheatmaster",
+          "name": "Bush Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "bush_gold",
+          "name": "Bush Gold",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "bush_hacker",
+          "name": "Bush Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "bush_reaper",
+          "name": "Bush Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "bush_tricktreat",
-          "name": "Bush Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BushRanger_TrickTreat_L.webp",
+          "name": "Bush Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -320,30 +355,12 @@
     {
       "id": "killswitch",
       "name": "Killswitch",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Killswitch_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/killswitchsprite/largeicon.png",
       "items": [
         {
           "id": "killswitch_normal",
           "name": "Killswitch",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Killswitch_L.webp",
-          "released": true
-        },
-        {
-          "id": "killswitch_hacker",
-          "name": "Killswitch Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Killswitch_Hacker_L.webp",
-          "released": true
-        },
-        {
-          "id": "killswitch_cheatmaster",
-          "name": "Killswitch Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Killswitch_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "killswitch_gold",
-          "name": "Killswitch Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Killswitch_Gold_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -353,9 +370,32 @@
           "released": true
         },
         {
+          "id": "killswitch_cheatmaster",
+          "name": "Killswitch Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "killswitch_gold",
+          "name": "Killswitch Gold",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "killswitch_hacker",
+          "name": "Killswitch Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "killswitch_reaper",
+          "name": "Killswitch Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "killswitch_tricktreat",
-          "name": "Killswitch Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Killswitch_TrickTreat_L.webp",
+          "name": "Killswitch Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -363,30 +403,12 @@
     {
       "id": "adventure",
       "name": "Adventure",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Dwarf_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/dwarfsprite/largeicon.png",
       "items": [
         {
           "id": "adventure_normal",
           "name": "Adventure",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Dwarf_L.webp",
-          "released": true
-        },
-        {
-          "id": "adventure_hacker",
-          "name": "Adventure Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Dwarf_Hacker_L.webp",
-          "released": true
-        },
-        {
-          "id": "adventure_cheatmaster",
-          "name": "Adventure Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Dwarf_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "adventure_gold",
-          "name": "Adventure Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Dwarf_Gold_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -396,9 +418,32 @@
           "released": true
         },
         {
+          "id": "adventure_cheatmaster",
+          "name": "Adventure Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "adventure_gold",
+          "name": "Adventure Gold",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "adventure_hacker",
+          "name": "Adventure Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "adventure_reaper",
+          "name": "Adventure Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "adventure_tricktreat",
-          "name": "Adventure Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Dwarf_TrickTreat_L.webp",
+          "name": "Adventure Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -406,30 +451,12 @@
     {
       "id": "klombo",
       "name": "Klombo",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Klombo_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/klombosprite/largeicon.png",
       "items": [
         {
           "id": "klombo_normal",
           "name": "Klombo",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Klombo_L.webp",
-          "released": true
-        },
-        {
-          "id": "klombo_hacker",
-          "name": "Klombo Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Klombo_Hacker_L.webp",
-          "released": true
-        },
-        {
-          "id": "klombo_cheatmaster",
-          "name": "Klombo Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Klombo_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "klombo_gold",
-          "name": "Klombo Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Klombo_Gold_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -439,9 +466,32 @@
           "released": true
         },
         {
+          "id": "klombo_cheatmaster",
+          "name": "Klombo Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "klombo_gold",
+          "name": "Klombo Gold",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "klombo_hacker",
+          "name": "Klombo Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "klombo_reaper",
+          "name": "Klombo Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "klombo_tricktreat",
-          "name": "Klombo Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Klombo_TrickTreat_L.webp",
+          "name": "Klombo Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -449,30 +499,12 @@
     {
       "id": "jonesy",
       "name": "Jonesy",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Jonesy_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/jonesysprite/largeicon.png",
       "items": [
         {
           "id": "jonesy_normal",
           "name": "Jonesy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Jonesy_L.webp",
-          "released": true
-        },
-        {
-          "id": "jonesy_hacker",
-          "name": "Jonesy Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Jonesy_Hacker_L.webp",
-          "released": true
-        },
-        {
-          "id": "jonesy_cheatmaster",
-          "name": "Jonesy Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Jonesy_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "jonesy_gold",
-          "name": "Jonesy Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Jonesy_Gold_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -482,9 +514,32 @@
           "released": true
         },
         {
+          "id": "jonesy_cheatmaster",
+          "name": "Jonesy Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "jonesy_gold",
+          "name": "Jonesy Gold",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "jonesy_hacker",
+          "name": "Jonesy Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "jonesy_reaper",
+          "name": "Jonesy Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "jonesy_tricktreat",
-          "name": "Jonesy Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Jonesy_TrickTreat_L.webp",
+          "name": "Jonesy Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -492,30 +547,12 @@
     {
       "id": "sonic",
       "name": "Sonic",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Obsidian_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite/largeicon.png",
       "items": [
         {
           "id": "sonic_normal",
           "name": "Sonic",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Obsidian_L.webp",
-          "released": true
-        },
-        {
-          "id": "sonic_hacker",
-          "name": "Sonic Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Hacker_L.webp",
-          "released": true
-        },
-        {
-          "id": "sonic_cheatmaster",
-          "name": "Sonic Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Obsidian_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "sonic_gold",
-          "name": "Sonic Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Obsidian_Gold_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -525,9 +562,32 @@
           "released": true
         },
         {
+          "id": "sonic_cheatmaster",
+          "name": "Sonic Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "sonic_gold",
+          "name": "Sonic Gold",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "sonic_hacker",
+          "name": "Sonic Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "sonic_reaper",
+          "name": "Sonic Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "sonic_tricktreat",
-          "name": "Sonic Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_TrickTreat_L.webp",
+          "name": "Sonic Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -535,30 +595,12 @@
     {
       "id": "crown",
       "name": "Crown",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/crownsprite/largeicon.png",
       "items": [
         {
           "id": "crown_normal",
           "name": "Crown",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_L.webp",
-          "released": true
-        },
-        {
-          "id": "crown_hacker",
-          "name": "Crown Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_Hacker_L.webp",
-          "released": true
-        },
-        {
-          "id": "crown_cheatmaster",
-          "name": "Crown Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "crown_gold",
-          "name": "Crown Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_Gold_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -568,9 +610,32 @@
           "released": true
         },
         {
+          "id": "crown_cheatmaster",
+          "name": "Crown Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "crown_gold",
+          "name": "Crown Gold",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "crown_hacker",
+          "name": "Crown Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "crown_reaper",
+          "name": "Crown Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "crown_tricktreat",
-          "name": "Crown Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_TrickTreat_L.webp",
+          "name": "Crown Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_tricktreat/largeicon.png",
           "released": true
         }
       ]
@@ -578,30 +643,12 @@
     {
       "id": "8_bit",
       "name": "8-Bit",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_EightBitBlaster_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite/largeicon.png",
       "items": [
         {
           "id": "8_bit_normal",
           "name": "8-Bit",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_EightBitBlaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "8_bit_hacker",
-          "name": "8-Bit Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_EightBitBlaster_Hacker_L.webp",
-          "released": true
-        },
-        {
-          "id": "8_bit_cheatmaster",
-          "name": "8-Bit Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_EightBitBlaster_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "8_bit_gold",
-          "name": "8-Bit Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_EightBitBlaster_Gold_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -611,9 +658,32 @@
           "released": true
         },
         {
+          "id": "8_bit_cheatmaster",
+          "name": "8-Bit Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "8_bit_gold",
+          "name": "8-Bit Gold",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "8_bit_hacker",
+          "name": "8-Bit Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "8_bit_reaper",
+          "name": "8-Bit Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "8_bit_tricktreat",
-          "name": "8-Bit Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_8BitBlaster_TrickTreat_L.webp",
+          "name": "8-Bit Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -621,30 +691,12 @@
     {
       "id": "storm_scout",
       "name": "Storm Scout",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_StormScout_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite/largeicon.png",
       "items": [
         {
           "id": "storm_scout_normal",
           "name": "Storm Scout",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_StormScout_L.webp",
-          "released": true
-        },
-        {
-          "id": "storm_scout_hacker",
-          "name": "Storm Scout Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_StormScout_Hacker_L.webp",
-          "released": true
-        },
-        {
-          "id": "storm_scout_cheatmaster",
-          "name": "Storm Scout Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_StormScout_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "storm_scout_gold",
-          "name": "Storm Scout Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_StormScout_Gold_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -654,9 +706,32 @@
           "released": true
         },
         {
+          "id": "storm_scout_cheatmaster",
+          "name": "Storm Scout Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "storm_scout_gold",
+          "name": "Storm Scout Gold",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "storm_scout_hacker",
+          "name": "Storm Scout Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "storm_scout_reaper",
+          "name": "Storm Scout Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "storm_scout_tricktreat",
-          "name": "Storm Scout Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_StormScout_TrickTreat_L.webp",
+          "name": "Storm Scout Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -664,30 +739,12 @@
     {
       "id": "blinky",
       "name": "Blinky",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_GhostDamage_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/ghostdamage/largeicon.png",
       "items": [
         {
           "id": "blinky_normal",
           "name": "Blinky",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_GhostDamage_L.webp",
-          "released": true
-        },
-        {
-          "id": "blinky_cheatmaster",
-          "name": "Blinky Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_GhostDamage_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "blinky_gold",
-          "name": "Blinky Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_GhostDamage_Gold_L.webp",
-          "released": true
-        },
-        {
-          "id": "blinky_hacker",
-          "name": "Blinky Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_GhostDamage_Hacker_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -697,9 +754,32 @@
           "released": true
         },
         {
+          "id": "blinky_cheatmaster",
+          "name": "Blinky Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "blinky_gold",
+          "name": "Blinky Gold",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "blinky_hacker",
+          "name": "Blinky Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "blinky_reaper",
+          "name": "Blinky Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_reaper/largeicon.png"
+        },
+        {
           "id": "blinky_tricktreat",
-          "name": "Blinky Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_GhostDamage_TrickTreat_L.webp",
+          "name": "Blinky Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -707,30 +787,12 @@
     {
       "id": "birthday",
       "name": "Birthday",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Birthday_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/birthdaysprite/largeicon.png",
       "items": [
         {
           "id": "birthday_normal",
           "name": "Birthday",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Birthday_L.webp",
-          "released": true
-        },
-        {
-          "id": "birthday_gold",
-          "name": "Birthday Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Birthday_Gold_L.webp",
-          "released": true
-        },
-        {
-          "id": "birthday_cheatmaster",
-          "name": "Birthday Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Birthday_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "birthday_hacker",
-          "name": "Birthday Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Birthday_Hacker_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -740,9 +802,32 @@
           "released": true
         },
         {
+          "id": "birthday_cheatmaster",
+          "name": "Birthday Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "birthday_gold",
+          "name": "Birthday Gold",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "birthday_hacker",
+          "name": "Birthday Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "birthday_reaper",
+          "name": "Birthday Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "birthday_tricktreat",
-          "name": "Birthday Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Birthday_TrickTreat_L.webp",
+          "name": "Birthday Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -750,30 +835,12 @@
     {
       "id": "crash_bandicoot",
       "name": "Crash Bandicoot",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite/largeicon.png",
       "items": [
         {
           "id": "crash_bandicoot_normal",
           "name": "Crash Bandicoot",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_L.webp",
-          "released": true
-        },
-        {
-          "id": "crash_bandicoot_cheatmaster",
-          "name": "Crash Bandicoot Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "crash_bandicoot_gold",
-          "name": "Crash Bandicoot Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_Gold_L.webp",
-          "released": true
-        },
-        {
-          "id": "crash_bandicoot_hacker",
-          "name": "Crash Bandicoot Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_Hacker_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -783,9 +850,32 @@
           "released": true
         },
         {
+          "id": "crash_bandicoot_cheatmaster",
+          "name": "Crash Bandicoot Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "crash_bandicoot_gold",
+          "name": "Crash Bandicoot Gold",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "crash_bandicoot_hacker",
+          "name": "Crash Bandicoot Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "crash_bandicoot_reaper",
+          "name": "Crash Bandicoot Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "crash_bandicoot_tricktreat",
-          "name": "Crash Bandicoot Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_TrickTreat_L.webp",
+          "name": "Crash Bandicoot Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -793,30 +883,12 @@
     {
       "id": "pond",
       "name": "Pond",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerA_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/winnerasprite/largeicon.png",
       "items": [
         {
           "id": "pond_normal",
           "name": "Pond",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerA_L.webp",
-          "released": true
-        },
-        {
-          "id": "pond_cheatmaster",
-          "name": "Pond Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerA_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "pond_gold",
-          "name": "Pond Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerA_Gold_L.webp",
-          "released": true
-        },
-        {
-          "id": "pond_hacker",
-          "name": "Pond Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerA_Hacker_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -826,9 +898,32 @@
           "released": true
         },
         {
+          "id": "pond_cheatmaster",
+          "name": "Pond Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "pond_gold",
+          "name": "Pond Gold",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "pond_hacker",
+          "name": "Pond Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "pond_reaper",
+          "name": "Pond Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "pond_tricktreat",
-          "name": "Pond Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerA_TrickTreat_L.webp",
+          "name": "Pond Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -836,30 +931,12 @@
     {
       "id": "morgana",
       "name": "Morgana",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreaseHeals_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/increasehealssprite/largeicon.png",
       "items": [
         {
           "id": "morgana_normal",
           "name": "Morgana",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreaseHeals_L.webp",
-          "released": true
-        },
-        {
-          "id": "morgana_cheatmaster",
-          "name": "Morgana Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreaseHeals_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "morgana_gold",
-          "name": "Morgana Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreaseHeals_Gold_L.webp",
-          "released": true
-        },
-        {
-          "id": "morgana_hacker",
-          "name": "Morgana Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreaseHeals_Hacker_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -869,9 +946,32 @@
           "released": true
         },
         {
+          "id": "morgana_cheatmaster",
+          "name": "Morgana Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "morgana_gold",
+          "name": "Morgana Gold",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "morgana_hacker",
+          "name": "Morgana Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "morgana_reaper",
+          "name": "Morgana Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "morgana_tricktreat",
-          "name": "Morgana Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreaseHeals_TrickTreat_L.webp",
+          "name": "Morgana Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -879,30 +979,12 @@
     {
       "id": "spooky_dash",
       "name": "Spooky Dash",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_PhaseDash_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/phasedashsprite/largeicon.png",
       "items": [
         {
           "id": "spooky_dash_normal",
           "name": "Spooky Dash",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_PhaseDash_L.webp",
-          "released": true
-        },
-        {
-          "id": "spooky_dash_cheatmaster",
-          "name": "Spooky Dash Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_PhaseDash_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "spooky_dash_gold",
-          "name": "Spooky Dash Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_PhaseDash_Gold_L.webp",
-          "released": true
-        },
-        {
-          "id": "spooky_dash_hacker",
-          "name": "Spooky Dash Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_PhaseDash_Hacker_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -912,9 +994,32 @@
           "released": true
         },
         {
+          "id": "spooky_dash_cheatmaster",
+          "name": "Spooky Dash Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "spooky_dash_gold",
+          "name": "Spooky Dash Gold",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "spooky_dash_hacker",
+          "name": "Spooky Dash Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "spooky_dash_reaper",
+          "name": "Spooky Dash Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "spooky_dash_tricktreat",
-          "name": "Spooky Dash Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_PhaseDash_TrickTreat_L.webp",
+          "name": "Spooky Dash Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -922,30 +1027,12 @@
     {
       "id": "vampire",
       "name": "Vampire",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite/largeicon.png",
       "items": [
         {
           "id": "vampire_normal",
           "name": "Vampire",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_L.webp",
-          "released": true
-        },
-        {
-          "id": "vampire_cheatmaster",
-          "name": "Vampire Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "vampire_gold",
-          "name": "Vampire Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_Gold_L.webp",
-          "released": true
-        },
-        {
-          "id": "vampire_hacker",
-          "name": "Vampire Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_Hacker_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -955,9 +1042,32 @@
           "released": true
         },
         {
+          "id": "vampire_cheatmaster",
+          "name": "Vampire Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "vampire_gold",
+          "name": "Vampire Gold",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "vampire_hacker",
+          "name": "Vampire Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "vampire_reaper",
+          "name": "Vampire Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "vampire_tricktreat",
-          "name": "Vampire Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_TrickTreat_L.webp",
+          "name": "Vampire Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -965,30 +1075,12 @@
     {
       "id": "the_deer",
       "name": "The Deer",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite/largeicon.png",
       "items": [
         {
           "id": "the_deer_normal",
           "name": "The Deer",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_L.webp",
-          "released": true
-        },
-        {
-          "id": "the_deer_cheatmaster",
-          "name": "The Deer Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "the_deer_gold",
-          "name": "The Deer Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_Gold_L.webp",
-          "released": true
-        },
-        {
-          "id": "the_deer_hacker",
-          "name": "The Deer Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_Hacker_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -998,9 +1090,32 @@
           "released": true
         },
         {
+          "id": "the_deer_cheatmaster",
+          "name": "The Deer Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "the_deer_gold",
+          "name": "The Deer Gold",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "the_deer_hacker",
+          "name": "The Deer Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "the_deer_reaper",
+          "name": "The Deer Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "the_deer_tricktreat",
-          "name": "The Deer Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_TrickTreat_L.webp",
+          "name": "The Deer Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]
@@ -1008,30 +1123,12 @@
     {
       "id": "dumpster_dive",
       "name": "Dumpster Dive",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerD_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/winnerdsprite/largeicon.png",
       "items": [
         {
           "id": "dumpster_dive_normal",
           "name": "Dumpster Dive",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerD_L.webp",
-          "released": true
-        },
-        {
-          "id": "dumpster_dive_cheatmaster",
-          "name": "Dumpster Dive Cheat Master",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerD_Cheatmaster_L.webp",
-          "released": true
-        },
-        {
-          "id": "dumpster_dive_gold",
-          "name": "Dumpster Dive Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerD_Gold_L.webp",
-          "released": true
-        },
-        {
-          "id": "dumpster_dive_hacker",
-          "name": "Dumpster Dive Loot Hacker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerD_Hacker_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_a/largeicon.png",
           "released": true
         },
         {
@@ -1041,9 +1138,32 @@
           "released": true
         },
         {
+          "id": "dumpster_dive_cheatmaster",
+          "name": "Dumpster Dive Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "dumpster_dive_gold",
+          "name": "Dumpster Dive Gold",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "dumpster_dive_hacker",
+          "name": "Dumpster Dive Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "dumpster_dive_reaper",
+          "name": "Dumpster Dive Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_reaper/largeicon.png"
+        },
+        {
           "id": "dumpster_dive_tricktreat",
-          "name": "Dumpster Dive Trick or Treat",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerD_TrickTreat_L.webp",
+          "name": "Dumpster Dive Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_tricktreat/largeicon.png",
           "released": false
         }
       ]

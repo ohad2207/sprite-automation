@@ -1,53 +1,53 @@
 {
   "version": "auto-2026-10-07",
-  "updatedAt": "2026-10-07T15:57:26.449Z",
+  "updatedAt": "2026-10-07T20:01:53.945Z",
   "season": "Chapter 7 Season 3",
   "categories": [
     {
       "id": "water",
       "name": "Water",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Water_Unvault_Ch7S3_ui_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/water/largeicon.png",
       "items": [
         {
           "id": "water_normal",
           "name": "Water",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Water_Unvault_Ch7S3_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "water_gummy",
-          "name": "Water Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Water_Candy_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/water_variant_base/largeicon.png",
           "released": true
         },
         {
           "id": "water_galaxy",
           "name": "Water Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Water_Galaxy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "water_gold",
-          "name": "Water Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Water_Gold_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "water_holofoil",
-          "name": "Water Holofoil",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Water_Holofoil_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/water_variant_galaxy/largeicon.png",
           "released": true
         },
         {
           "id": "water_gem",
           "name": "Water Gem",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Water_Gem_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/water_variant_gem/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "water_gold",
+          "name": "Water Gold",
+          "image": "https://cdn.fn-api.cc/sprites/water_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "water_gummy",
+          "name": "Water Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/water_variant_candy/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "water_holofoil",
+          "name": "Water Holofoil",
+          "image": "https://cdn.fn-api.cc/sprites/water_variant_holofoil/largeicon.png",
           "released": true
         },
         {
           "id": "water_quack",
           "name": "Water Quack",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Water_Quack_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/water_variant_quack/largeicon.png",
           "released": true
         }
       ]
@@ -55,48 +55,48 @@
     {
       "id": "earth",
       "name": "Earth",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Earth_Ch7S3_UI_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/earthsprite/largeicon.png",
       "items": [
         {
           "id": "earth_normal",
           "name": "Earth",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Earth_Ch7S3_UI_L.webp",
-          "released": true
-        },
-        {
-          "id": "earth_gummy",
-          "name": "Earth Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Earth_Candy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "earth_galaxy",
-          "name": "Earth Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Earth_Galaxy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "earth_gold",
-          "name": "Earth Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Earth_Gold_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "earth_gem",
-          "name": "Earth Gem",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Earth_Gem_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/earthsprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "earth_cube",
           "name": "Earth Cube",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Earth_Cube_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/earthsprite_variant_cube/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "earth_galaxy",
+          "name": "Earth Galaxy",
+          "image": "https://cdn.fn-api.cc/sprites/earthsprite_variant_galaxy/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "earth_gem",
+          "name": "Earth Gem",
+          "image": "https://cdn.fn-api.cc/sprites/earthsprite_variant_gem/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "earth_gold",
+          "name": "Earth Gold",
+          "image": "https://cdn.fn-api.cc/sprites/earthsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "earth_gummy",
+          "name": "Earth Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/earthsprite_variant_candy/largeicon.png",
           "released": true
         },
         {
           "id": "earth_quack",
           "name": "Earth Quack",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Earth_Quack_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/earthsprite_variant_quack/largeicon.png",
           "released": true
         }
       ]
@@ -104,48 +104,48 @@
     {
       "id": "fire",
       "name": "Fire",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fire_Unvault_Ch7S3_ui_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/spitfire/largeicon.png",
       "items": [
         {
           "id": "fire_normal",
           "name": "Fire",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fire_Unvault_Ch7S3_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "fire_gummy",
-          "name": "Fire Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fire_Candy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "fire_galaxy",
-          "name": "Fire Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fire_Galaxy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "fire_gold",
-          "name": "Fire Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fire_Gold_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "fire_holofoil",
-          "name": "Fire Holofoil",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fire_Holofoil_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/spitfire_variation_a/largeicon.png",
           "released": true
         },
         {
           "id": "fire_cube",
           "name": "Fire Cube",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fire_Cube_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/spitfire_variation_cube/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "fire_galaxy",
+          "name": "Fire Galaxy",
+          "image": "https://cdn.fn-api.cc/sprites/spitfire_variation_galaxy/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "fire_gold",
+          "name": "Fire Gold",
+          "image": "https://cdn.fn-api.cc/sprites/spitfire_variation_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "fire_gummy",
+          "name": "Fire Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/spitfire_variation_candy/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "fire_holofoil",
+          "name": "Fire Holofoil",
+          "image": "https://cdn.fn-api.cc/sprites/spitfire_variation_holofoil/largeicon.png",
           "released": true
         },
         {
           "id": "fire_quack",
           "name": "Fire Quack",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fire_Quack_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/spitfire_variation_quack/largeicon.png",
           "released": true
         }
       ]
@@ -153,36 +153,36 @@
     {
       "id": "duck",
       "name": "Duck",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Duck_Default_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/ducksprite/largeicon.png",
       "items": [
         {
           "id": "duck_normal",
           "name": "Duck",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Duck_Default_L.webp",
-          "released": true
-        },
-        {
-          "id": "duck_gummy",
-          "name": "Duck Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Duck_Candy_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/ducksprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "duck_galaxy",
           "name": "Duck Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Duck_Galaxy_L.webp",
-          "released": true
-        },
-        {
-          "id": "duck_gold",
-          "name": "Duck Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Duck_Gold_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/ducksprite_variant_galaxy/largeicon.png",
           "released": true
         },
         {
           "id": "duck_gem",
           "name": "Duck Gem",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Duck_Gem_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/ducksprite_variant_gem/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "duck_gold",
+          "name": "Duck Gold",
+          "image": "https://cdn.fn-api.cc/sprites/ducksprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "duck_gummy",
+          "name": "Duck Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/ducksprite_variant_candy/largeicon.png",
           "released": true
         }
       ]
@@ -190,36 +190,36 @@
     {
       "id": "ghost",
       "name": "Ghost",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Ghost_Unvault_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/ghostsprite/largeicon.png",
       "items": [
         {
           "id": "ghost_normal",
           "name": "Ghost",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Ghost_Unvault_L.webp",
-          "released": true
-        },
-        {
-          "id": "ghost_gummy",
-          "name": "Ghost Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Ghost_Candy_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/ghostsprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "ghost_galaxy",
           "name": "Ghost Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Ghost_Galaxy_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/ghostsprite_variant_galaxy/largeicon.png",
           "released": true
         },
         {
           "id": "ghost_gold",
           "name": "Ghost Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Ghost_Gold_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/ghostsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "ghost_gummy",
+          "name": "Ghost Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/ghostsprite_variant_candy/largeicon.png",
           "released": true
         },
         {
           "id": "ghost_holofoil",
           "name": "Ghost Holofoil",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Ghost_Holo_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/ghostsprite_variant_holofoil/largeicon.png",
           "released": true
         }
       ]
@@ -227,36 +227,36 @@
     {
       "id": "dream",
       "name": "Dream",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Sleepy_ui_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/sleepysprite/largeicon.png",
       "items": [
         {
           "id": "dream_normal",
           "name": "Dream",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Sleepy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "dream_gummy",
-          "name": "Dream Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Sleepy_Candy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "dream_galaxy",
-          "name": "Dream Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Sleepy_Galaxy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "dream_gold",
-          "name": "Dream Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Sleepy_Gold_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/sleepysprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "dream_cube",
           "name": "Dream Cube",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Sleepy_Cube_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/sleepysprite_variant_cube/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "dream_galaxy",
+          "name": "Dream Galaxy",
+          "image": "https://cdn.fn-api.cc/sprites/sleepysprite_variant_galactic/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "dream_gold",
+          "name": "Dream Gold",
+          "image": "https://cdn.fn-api.cc/sprites/sleepysprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "dream_gummy",
+          "name": "Dream Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/sleepysprite_variant_candy/largeicon.png",
           "released": true
         }
       ]
@@ -264,36 +264,36 @@
     {
       "id": "punk",
       "name": "Punk",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Punk_ui_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/punksprite/largeicon.png",
       "items": [
         {
           "id": "punk_normal",
           "name": "Punk",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Punk_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "punk_gummy",
-          "name": "Punk Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Punk_Candy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "punk_galaxy",
-          "name": "Punk Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Punk_Galaxy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "punk_gold",
-          "name": "Punk Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Punk_Gold_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/punksprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "punk_cube",
           "name": "Punk Cube",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Punk_Cube_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/punksprite_variant_cube/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "punk_galaxy",
+          "name": "Punk Galaxy",
+          "image": "https://cdn.fn-api.cc/sprites/punksprite_variant_galaxy/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "punk_gold",
+          "name": "Punk Gold",
+          "image": "https://cdn.fn-api.cc/sprites/punksprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "punk_gummy",
+          "name": "Punk Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/punksprite_variant_candy/largeicon.png",
           "released": true
         }
       ]
@@ -301,36 +301,36 @@
     {
       "id": "king",
       "name": "King",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_King_ui_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/kingsprite/largeicon.png",
       "items": [
         {
           "id": "king_normal",
           "name": "King",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_King_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "king_gummy",
-          "name": "King Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_King_Candy_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/kingsprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "king_galaxy",
           "name": "King Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_King_Galaxy_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/kingsprite_variant_galaxy/largeicon.png",
           "released": true
         },
         {
           "id": "king_gold",
           "name": "King Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_King_Gold_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/kingsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "king_gummy",
+          "name": "King Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/kingsprite_variant_candy/largeicon.png",
           "released": true
         },
         {
           "id": "king_holofoil",
           "name": "King Holofoil",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_King_Holofoil_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/kingsprite_variant_holofoil/largeicon.png",
           "released": true
         }
       ]
@@ -338,54 +338,54 @@
     {
       "id": "zero_point",
       "name": "Zero Point",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_ui_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/zeropointsprite/largeicon.png",
       "items": [
         {
           "id": "zero_point_normal",
           "name": "Zero Point",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "zero_point_gummy",
-          "name": "Zero Point Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_Candy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "zero_point_galaxy",
-          "name": "Zero Point Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_Galaxy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "zero_point_gold",
-          "name": "Zero Point Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_Gold_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "zero_point_gem",
-          "name": "Zero Point Gem",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_Gem_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "zero_point_holofoil",
-          "name": "Zero Point Holofoil",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_Holofoil_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/zeropointsprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "zero_point_cube",
           "name": "Zero Point Cube",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_Cube_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/zeropointsprite_variant_cube/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "zero_point_galaxy",
+          "name": "Zero Point Galaxy",
+          "image": "https://cdn.fn-api.cc/sprites/zeropointsprite_variant_galaxy/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "zero_point_gem",
+          "name": "Zero Point Gem",
+          "image": "https://cdn.fn-api.cc/sprites/zeropointsprite_variant_gem/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "zero_point_gold",
+          "name": "Zero Point Gold",
+          "image": "https://cdn.fn-api.cc/sprites/zeropointsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "zero_point_gummy",
+          "name": "Zero Point Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/zeropointsprite_variant_candy/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "zero_point_holofoil",
+          "name": "Zero Point Holofoil",
+          "image": "https://cdn.fn-api.cc/sprites/zeropointsprite_variant_holofoil/largeicon.png",
           "released": true
         },
         {
           "id": "zero_point_quack",
           "name": "Zero Point Quack",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_Quack_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/zeropointsprite_variant_quack/largeicon.png",
           "released": true
         }
       ]
@@ -393,36 +393,36 @@
     {
       "id": "demon",
       "name": "Demon",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_RedDemon_Default_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/demonsprite/largeicon.png",
       "items": [
         {
           "id": "demon_normal",
           "name": "Demon",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_RedDemon_Default_L.webp",
-          "released": true
-        },
-        {
-          "id": "demon_gummy",
-          "name": "Demon Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_RedDemon_Candy_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/demonsprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "demon_galaxy",
           "name": "Demon Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_RedDemon_Galaxy_L.webp",
-          "released": true
-        },
-        {
-          "id": "demon_gold",
-          "name": "Demon Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_RedDemon_Gold_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/demonsprite_variant_galaxy/largeicon.png",
           "released": true
         },
         {
           "id": "demon_gem",
           "name": "Demon Gem",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_RedDemon_Gem_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/demonsprite_variant_gem/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "demon_gold",
+          "name": "Demon Gold",
+          "image": "https://cdn.fn-api.cc/sprites/demonsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "demon_gummy",
+          "name": "Demon Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/demonsprite_variant_candy/largeicon.png",
           "released": true
         }
       ]
@@ -430,12 +430,12 @@
     {
       "id": "burnt_peanut",
       "name": "Burnt Peanut",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BurntPeanut_ui_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/burntpeanut/largeicon.png",
       "items": [
         {
           "id": "burnt_peanut_normal",
           "name": "Burnt Peanut",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BurntPeanut_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/burntpeanut_variation_a/largeicon.png",
           "released": true
         }
       ]
@@ -443,36 +443,36 @@
     {
       "id": "air",
       "name": "Air",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Air_Default_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/airsprite/largeicon.png",
       "items": [
         {
           "id": "air_normal",
           "name": "Air",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Air_Default_L.webp",
-          "released": true
-        },
-        {
-          "id": "air_gold",
-          "name": "Air Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Air_Gold_L.webp",
-          "released": true
-        },
-        {
-          "id": "air_gummy",
-          "name": "Air Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Air_Candy_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/airsprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "air_galaxy",
           "name": "Air Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Air_Galaxy_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/airsprite_variant_galaxy/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "air_gold",
+          "name": "Air Gold",
+          "image": "https://cdn.fn-api.cc/sprites/airsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "air_gummy",
+          "name": "Air Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/airsprite_variant_candy/largeicon.png",
           "released": true
         },
         {
           "id": "air_holofoil",
           "name": "Air Holofoil",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Air_Holo_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/airsprite_variant_holofoil/largeicon.png",
           "released": true
         }
       ]
@@ -480,36 +480,36 @@
     {
       "id": "boss",
       "name": "Boss",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Boss_ui_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/bosssprite/largeicon.png",
       "items": [
         {
           "id": "boss_normal",
           "name": "Boss",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Boss_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "boss_gold",
-          "name": "Boss Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Boss_Gold_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "boss_gummy",
-          "name": "Boss Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Boss_Candy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "boss_galaxy",
-          "name": "Boss Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Boss_Galaxy_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/bosssprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "boss_cube",
           "name": "Boss Cube",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Boss_Cube_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/bosssprite_variant_cube/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "boss_galaxy",
+          "name": "Boss Galaxy",
+          "image": "https://cdn.fn-api.cc/sprites/bosssprite_variant_galaxy/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "boss_gold",
+          "name": "Boss Gold",
+          "image": "https://cdn.fn-api.cc/sprites/bosssprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "boss_gummy",
+          "name": "Boss Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/bosssprite_variant_candy/largeicon.png",
           "released": true
         }
       ]
@@ -517,36 +517,36 @@
     {
       "id": "seven",
       "name": "Seven",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Seven_ui_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/sevensprite/largeicon.png",
       "items": [
         {
           "id": "seven_normal",
           "name": "Seven",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Seven_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "seven_gummy",
-          "name": "Seven Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Seven_Candy_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/sevensprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "seven_galaxy",
           "name": "Seven Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Seven_Galaxy_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/sevensprite_variant_galaxy/largeicon.png",
           "released": true
         },
         {
           "id": "seven_gold",
           "name": "Seven Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Seven_Gold_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/sevensprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "seven_gummy",
+          "name": "Seven Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/sevensprite_variant_candy/largeicon.png",
           "released": true
         },
         {
           "id": "seven_holofoil",
           "name": "Seven Holofoil",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Seven_Holofoil_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/sevensprite_variant_holofoil/largeicon.png",
           "released": true
         }
       ]
@@ -554,36 +554,36 @@
     {
       "id": "fishy",
       "name": "Fishy",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fishy_ui_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/fishysprite/largeicon.png",
       "items": [
         {
           "id": "fishy_normal",
           "name": "Fishy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fishy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "fishy_gummy",
-          "name": "Fishy Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fishy_Candy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "fishy_galaxy",
-          "name": "Fishy Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fishy_Galaxy_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "fishy_gold",
-          "name": "Fishy Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fishy_Gold_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/fishysprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "fishy_cube",
           "name": "Fishy Cube",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fishy_Cube_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/fishysprite_variant_cube/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "fishy_galaxy",
+          "name": "Fishy Galaxy",
+          "image": "https://cdn.fn-api.cc/sprites/fishysprite_variant_galaxy/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "fishy_gold",
+          "name": "Fishy Gold",
+          "image": "https://cdn.fn-api.cc/sprites/fishysprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "fishy_gummy",
+          "name": "Fishy Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/fishysprite_variant_candy/largeicon.png",
           "released": true
         }
       ]
@@ -591,36 +591,36 @@
     {
       "id": "striker",
       "name": "Striker",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Soccer_ui_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/soccersprite/largeicon.png",
       "items": [
         {
           "id": "striker_normal",
           "name": "Striker",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Soccer_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "striker_gummy",
-          "name": "Striker Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Soccer_Candy_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/soccersprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "striker_galaxy",
           "name": "Striker Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Soccer_Galaxy_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/soccersprite_variant_galaxy/largeicon.png",
           "released": true
         },
         {
           "id": "striker_gold",
           "name": "Striker Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Soccer_Gold_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/soccersprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "striker_gummy",
+          "name": "Striker Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/soccersprite_variant_candy/largeicon.png",
           "released": true
         },
         {
           "id": "striker_holofoil",
           "name": "Striker Holofoil",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Soccer_Holofoil_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/soccersprite_variant_holofoil/largeicon.png",
           "released": true
         }
       ]
@@ -628,36 +628,36 @@
     {
       "id": "aura",
       "name": "Aura",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Drifter_ui_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/driftersprite/largeicon.png",
       "items": [
         {
           "id": "aura_normal",
           "name": "Aura",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Drifter_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "aura_gummy",
-          "name": "Aura Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Drifter_Candy_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/driftersprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "aura_galaxy",
           "name": "Aura Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Drifter_Galaxy_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/driftersprite_variant_galaxy/largeicon.png",
           "released": true
         },
         {
           "id": "aura_gem",
           "name": "Aura Gem",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Drifter_Gem_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/driftersprite_variant_gem/largeicon.png",
           "released": true
         },
         {
           "id": "aura_gold",
           "name": "Aura Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Drifter_Gold_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/driftersprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "aura_gummy",
+          "name": "Aura Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/driftersprite_variant_candy/largeicon.png",
           "released": true
         }
       ]
@@ -665,48 +665,48 @@
     {
       "id": "grim",
       "name": "Grim",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_GrimReaper_Default_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/grimsprite/largeicon.png",
       "items": [
         {
           "id": "grim_normal",
           "name": "Grim",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_GrimReaper_Default_L.webp",
-          "released": true
-        },
-        {
-          "id": "grim_gummy",
-          "name": "Grim Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_GrimReaper_Candy_L.webp",
-          "released": true
-        },
-        {
-          "id": "grim_galaxy",
-          "name": "Grim Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_GrimReaper_Galaxy_L.webp",
-          "released": true
-        },
-        {
-          "id": "grim_gold",
-          "name": "Grim Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_GrimReaper_Gold_L.webp",
-          "released": true
-        },
-        {
-          "id": "grim_gem",
-          "name": "Grim Gem",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_GrimReaper_Gem_L.webp",
-          "released": true
-        },
-        {
-          "id": "grim_holofoil",
-          "name": "Grim Holofoil",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_GrimReaper_Holofoil_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/grimsprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "grim_cube",
           "name": "Grim Cube",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_GrimReaper_Cube_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/grimsprite_variant_cube/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "grim_galaxy",
+          "name": "Grim Galaxy",
+          "image": "https://cdn.fn-api.cc/sprites/grimsprite_variant_galaxy/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "grim_gem",
+          "name": "Grim Gem",
+          "image": "https://cdn.fn-api.cc/sprites/grimsprite_variant_gem/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "grim_gold",
+          "name": "Grim Gold",
+          "image": "https://cdn.fn-api.cc/sprites/grimsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "grim_gummy",
+          "name": "Grim Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/grimsprite_variant_candy/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "grim_holofoil",
+          "name": "Grim Holofoil",
+          "image": "https://cdn.fn-api.cc/sprites/grimsprite_variant_holofoil/largeicon.png",
           "released": true
         }
       ]
@@ -714,12 +714,12 @@
     {
       "id": "john_wick",
       "name": "John Wick",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_Reload_FillerGrunt_icon_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/fillergruntsprite/largeicon.png",
       "items": [
         {
           "id": "john_wick_normal",
           "name": "John Wick",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_Reload_FillerGrunt_icon_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/fillergruntsprite_variant_a/largeicon.png",
           "released": true
         }
       ]
@@ -727,42 +727,42 @@
     {
       "id": "batman",
       "name": "Batman",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_FossilMeal_Default_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/fossilmealsprite/largeicon.png",
       "items": [
         {
           "id": "batman_normal",
           "name": "Batman",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_FossilMeal_Default_L.webp",
-          "released": true
-        },
-        {
-          "id": "batman_gold",
-          "name": "Batman Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_FossilMeal_Gold_L.webp",
-          "released": true
-        },
-        {
-          "id": "batman_gummy",
-          "name": "Batman Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_FossilMeal_Candy_L.webp",
-          "released": true
-        },
-        {
-          "id": "batman_galaxy",
-          "name": "Batman Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_FossilMeal_Galaxy_L.webp",
-          "released": true
-        },
-        {
-          "id": "batman_holofoil",
-          "name": "Batman Holofoil",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_FossilMeal_Holofoil_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/fossilmealsprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "batman_cube",
           "name": "Batman Cube",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_FossilMeal_Cube_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/fossilmealsprite_variant_cube/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "batman_galaxy",
+          "name": "Batman Galaxy",
+          "image": "https://cdn.fn-api.cc/sprites/fossilmealsprite_variant_galaxy/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "batman_gold",
+          "name": "Batman Gold",
+          "image": "https://cdn.fn-api.cc/sprites/fossilmealsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "batman_gummy",
+          "name": "Batman Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/fossilmealsprite_variant_candy/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "batman_holofoil",
+          "name": "Batman Holofoil",
+          "image": "https://cdn.fn-api.cc/sprites/fossilmealsprite_variant_holofoil/largeicon.png",
           "released": true
         }
       ]
@@ -770,12 +770,12 @@
     {
       "id": "pollo",
       "name": "Pollo",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_CompanyStargazer_Default_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/companystargazer/largeicon.png",
       "items": [
         {
           "id": "pollo_normal",
           "name": "Pollo",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_CompanyStargazer_Default_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/companystargazer_variant_a/largeicon.png",
           "released": true
         }
       ]
@@ -783,12 +783,12 @@
     {
       "id": "vini_jr",
       "name": "Vini Jr.",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_CokeParmesan_Default_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/cokeparmesansprite/largeicon.png",
       "items": [
         {
           "id": "vini_jr_normal",
           "name": "Vini Jr.",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_CokeParmesan_Default_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/cokeparmesansprite_variant_a/largeicon.png",
           "released": true
         }
       ]
@@ -796,12 +796,12 @@
     {
       "id": "ironmouse",
       "name": "Ironmouse",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_PedicureAntacid_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/pedicureantacidsprite/largeicon.png",
       "items": [
         {
           "id": "ironmouse_normal",
           "name": "Ironmouse",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_PedicureAntacid_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/pedicureantacidsprite_0/largeicon.png",
           "released": true
         }
       ]
@@ -809,36 +809,36 @@
     {
       "id": "llama",
       "name": "Llama",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Llama_ui_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/llamasprite/largeicon.png",
       "items": [
         {
           "id": "llama_normal",
           "name": "Llama",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Llama_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "llama_gold",
-          "name": "Llama Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Llama_Gold_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "llama_gummy",
-          "name": "Llama Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Llama_Candy_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/llamasprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "llama_galaxy",
           "name": "Llama Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Llama_Galaxy_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/llamasprite_variant_galaxy/largeicon.png",
           "released": true
         },
         {
           "id": "llama_gem",
           "name": "Llama Gem",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Llama_Gem_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/llamasprite_variant_gem/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "llama_gold",
+          "name": "Llama Gold",
+          "image": "https://cdn.fn-api.cc/sprites/llamasprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "llama_gummy",
+          "name": "Llama Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/llamasprite_variant_candy/largeicon.png",
           "released": true
         }
       ]
@@ -877,6 +877,38 @@
           "name": "Peeky Peely Holofoil",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Peely_Holofoil_ui_L.webp",
           "released": true
+        }
+      ]
+    },
+    {
+      "id": "peely",
+      "name": "Peely",
+      "image": "https://cdn.fn-api.cc/sprites/peelysprite/largeicon.png",
+      "items": [
+        {
+          "id": "peely_normal",
+          "name": "Peely",
+          "image": "https://cdn.fn-api.cc/sprites/peelysprite_variant_a/largeicon.png"
+        },
+        {
+          "id": "peely_galaxy",
+          "name": "Peely Galaxy",
+          "image": "https://cdn.fn-api.cc/sprites/peelysprite_variant_galaxy/largeicon.png"
+        },
+        {
+          "id": "peely_gold",
+          "name": "Peely Gold",
+          "image": "https://cdn.fn-api.cc/sprites/peelysprite_variant_gold/largeicon.png"
+        },
+        {
+          "id": "peely_gummy",
+          "name": "Peely Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/peelysprite_variant_candy/largeicon.png"
+        },
+        {
+          "id": "peely_holofoil",
+          "name": "Peely Holofoil",
+          "image": "https://cdn.fn-api.cc/sprites/peelysprite_variant_holofoil/largeicon.png"
         }
       ]
     }
