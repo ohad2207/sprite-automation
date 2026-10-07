@@ -1,0 +1,38 @@
+name: Verify Fortnite API access
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check required API endpoints
+        env:
+          FORTNITE_API_KEY: ${{ secrets.FORTNITE_API_KEY }}
+        run: |
+          set -euo pipefail
+
+          for endpoint in \
+            "/api/v2/sprites/all" \
+            "/api/v1/map/history"
+          do
+            status="$(
+              curl --silent --show-error \
+                --output /dev/null \
+                --write-out '%{http_code}' \
+                --header "x-api-key: ${FORTNITE_API_KEY}" \
+                "https://prod.api-fortnite.com${endpoint}"
+            )"
+
+            if [ "$status" != "200" ]; then
+              echo "גישה נכשלה עבור ${endpoint}: HTTP ${status}"
+              exit 1
+            fi
+
+            echo "גישה תקינה: ${endpoint}"
+          done
