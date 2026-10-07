@@ -1,13 +1,12 @@
 // scripts/update-sprites.js
 //
 // Scrapes https://fortnite.gg/sprites ONCE and splits the results into two
-// files based on a CONFIRMED list of which base sprites belong to which
-// season (verified directly against the live page, not guessed):
+// files:
 //
-//   data/season-current.json   <- the 12 "Override" / Season 4 base sprites
-//   data/season-previous.json  <- the 25 Season 3 base sprites
+//   data/season-previous.json  <- the 25 frozen Chapter 7 Season 3 sprites
+//   data/season-current.json   <- everything else (Chapter 7 Season 4)
 //
-// HISTORY (so nobody re-breaks this; three earlier approaches failed):
+// HISTORY (so nobody re-breaks this; several earlier approaches failed):
 // v1 clicked the site's "C7 S4" / "C7 S3" filter buttons, trusting them to
 //    narrow the page. They don't actually remove anything from the DOM —
 //    both passes returned the same full mixed list.
@@ -16,24 +15,27 @@
 //    (an unrelated zero-size check wrongly skipped loading items) and
 //    sprites landing in the wrong/both files inconsistently.
 // v3 tried finding literal "Chapter 7 Season 4" header text on the page and
-//    bucketing sprites by position relative to it. Turns out that text does
-//    NOT appear in the list body at all — "C7 S4"/"C7 S3" exist ONLY once
-//    each, as two small filter buttons sitting right next to each other
-//    near the top of the page. Since nearly every sprite's position is
-//    below both buttons, this put almost everything in one bucket.
-// v4 (this version) uses a verified, hardcoded list of which base sprites
-//    belong to each season instead of trying to detect it from the page at
-//    all. This is simple and reliable BECAUSE the roster for a released
-//    season doesn't change — if Epic adds sprites to the CURRENT season
-//    later, update CURRENT_SEASON_SLUGS below; a new season replaces this
-//    file's two lists entirely.
+//    bucketing sprites by position relative to it. That text doesn't exist
+//    in the list body at all — "C7 S4"/"C7 S3" exist ONLY once each, as two
+//    small filter buttons next to each other near the top of the page.
+//    Since nearly every sprite sits below both, this put almost everything
+//    in one bucket.
+// v4 hardcoded BOTH season rosters as fixed lists. This broke the moment
+//    Epic added more sprites to the current season mid-season (confirmed —
+//    community "Design-A-Sprite" contest winners were added after launch),
+//    since anything not on the fixed "current" list silently got excluded.
+// v5 (this version) only hardcodes the PREVIOUS season's roster — that
+//    season is over, so it's safe to freeze forever. The CURRENT season is
+//    defined as "every base sprite that ISN'T in the previous list", so new
+//    additions are picked up automatically on every run, no code change
+//    needed.
 //
 // Also fixed here: fortnite.gg itself is inconsistent about Bush's slug —
 // most of its variants use "bush" (167-bush-sprite) but two use "bushranger"
 // (105-loot-hacker-bushranger-sprite, 240-trick-or-treat-bushranger-sprite).
 // SLUG_ALIASES normalizes that before grouping into categories.
 //
-// And: this page lazy-loads content as you scroll (239 sprites total), so
+// And: this page lazy-loads content as you scroll (239+ sprites total), so
 // the true scroll height grows while scrolling. forceLoadAllImages() now
 // re-measures scrollHeight on every iteration instead of once up front —
 // measuring it only once was why roughly half the images came back empty.
@@ -45,27 +47,21 @@ const { chromium } = require('playwright');
 const OUT_DIR = path.join(__dirname, '..', 'data');
 const SPRITES_URL = 'https://fortnite.gg/sprites';
 
-// Verified against the live page on 2026-10-05. If Epic changes the season
-// roster, update these two lists (and seasonName) — nothing else needs to
-// change.
-const CURRENT_SEASON_SLUGS = [
-  'jonesy', 'adventure', 'bush', 'sonic', 'tails', 'shadow',
-  '8-bit', 'jackrabbit', 'crown', 'killswitch', 'klombo', 'storm-scout',
-];
+// Frozen — Season 3 is over, Epic will never add to it. Verified against
+// the live page on 2026-10-05 (25 sprites, matches independent research
+// done earlier in the same project too).
 const PREVIOUS_SEASON_SLUGS = [
   'water', 'earth', 'fire', 'duck', 'ghost', 'dream', 'demon', 'punk',
   'king', 'aura', 'striker', 'fishy', 'air', 'seven', 'boss', 'grim',
   'peeky-peely', 'llama', 'batman', 'zero-point', 'burnt-peanut',
   'vini-jr', 'pollo', 'john-wick', 'ironmouse',
 ];
-const SEASON_DEFS = [
-  { key: 'current', outFile: 'season-current.json', seasonName: 'Chapter 7 Season 4', slugs: CURRENT_SEASON_SLUGS },
-  { key: 'previous', outFile: 'season-previous.json', seasonName: 'Chapter 7 Season 3', slugs: PREVIOUS_SEASON_SLUGS },
-];
+const PREVIOUS_SEASON_NAME = 'Chapter 7 Season 3';
+const CURRENT_SEASON_NAME = 'Chapter 7 Season 4';
 
 // Confirmed real-world slug inconsistencies on fortnite.gg — map the
-// inconsistent spelling to the canonical one used everywhere else for that
-// sprite's other variants.
+// inconsistent spelling to the canonical one used by that sprite's other
+// variants.
 const SLUG_ALIASES = {
   bushranger: 'bush',
 };
@@ -101,8 +97,8 @@ function parseSlug(rawSlug) {
 }
 
 // Scrolls to the bottom repeatedly, re-measuring scrollHeight each time,
-// since this page loads more content in as you scroll (239 sprites total —
-// measuring the height only once undercounts how far there is to go).
+// since this page loads more content in as you scroll — measuring the
+// height only once undercounts how far there is to go.
 async function forceLoadAllImages(page) {
   await page.waitForTimeout(1000);
 
@@ -123,8 +119,6 @@ async function forceLoadAllImages(page) {
     previousHeight = currentHeight;
   }
 
-  // One more eager-load pass now that the full page has loaded in, then
-  // scroll back to the top before extracting.
   await page.evaluate(() => {
     document.querySelectorAll('img').forEach((img) => {
       img.loading = 'eager';
@@ -143,8 +137,8 @@ async function extractEntries(page) {
 
     for (const a of anchors) {
       // Burnt Peanut's href has no "-sprite" suffix (…/41-burnt-peanut)
-      // unlike every other entry — the pattern below accepts that one
-      // irregular case too.
+      // unlike every other entry — this pattern accepts that irregular
+      // case too.
       const match = a.getAttribute('href').match(/\/sprites\/(\d+)-([a-z0-9-]+?)(?:-sprite)?$/i);
       if (!match) continue;
       const [, numericId, slug] = match;
@@ -235,42 +229,40 @@ async function main() {
   console.log(`Found ${rawEntries.length} total sprite entries on the page.`);
 
   const allCategories = buildCategories(rawEntries);
+  const previousSet = new Set(PREVIOUS_SEASON_SLUGS);
 
-  const slugToSeasonKey = {};
-  SEASON_DEFS.forEach((def) => def.slugs.forEach((s) => (slugToSeasonKey[s] = def.key)));
+  const previousCategories = allCategories.filter((cat) => previousSet.has(cat.baseSlug));
+  const currentCategories = allCategories.filter((cat) => !previousSet.has(cat.baseSlug));
 
-  const unmatched = [];
   fs.mkdirSync(OUT_DIR, { recursive: true });
 
-  for (const season of SEASON_DEFS) {
-    const categories = allCategories.filter((cat) => slugToSeasonKey[cat.baseSlug] === season.key);
+  const files = [
+    { outFile: 'season-previous.json', seasonName: PREVIOUS_SEASON_NAME, categories: previousCategories },
+    { outFile: 'season-current.json', seasonName: CURRENT_SEASON_NAME, categories: currentCategories },
+  ];
 
-    if (categories.length === 0) {
-      console.error(`No categories matched "${season.seasonName}" — skipping this file so it isn't overwritten with empty data.`);
+  for (const f of files) {
+    if (f.categories.length === 0) {
+      console.error(`No categories matched "${f.seasonName}" — skipping this file so it isn't overwritten with empty data.`);
       continue;
     }
 
     const output = {
       version: 'auto-' + new Date().toISOString().slice(0, 10),
       updatedAt: new Date().toISOString(),
-      season: season.seasonName,
-      categories: categories.map(({ id, name, image, items }) => ({ id, name, image, items })),
+      season: f.seasonName,
+      categories: f.categories.map(({ id, name, image, items }) => ({ id, name, image, items })),
     };
 
-    const outPath = path.join(OUT_DIR, season.outFile);
+    const outPath = path.join(OUT_DIR, f.outFile);
     fs.writeFileSync(outPath, JSON.stringify(output, null, 2), 'utf-8');
-    console.log(`Wrote ${categories.length} categories to ${outPath}`);
+    console.log(`Wrote ${f.categories.length} categories to ${outPath}`);
   }
 
-  for (const cat of allCategories) {
-    if (!(cat.baseSlug in slugToSeasonKey)) unmatched.push(cat.baseSlug);
-  }
-  if (unmatched.length > 0) {
-    console.log(
-      `\nNote: ${unmatched.length} base sprite(s) on the page don't belong to either known ` +
-      `season list, so they weren't included in either file: ${unmatched.join(', ')}`
-    );
-  }
+  console.log(
+    `\nBreakdown: ${previousCategories.length} categories matched the frozen previous-season list, ` +
+    `${currentCategories.length} categories went to current (everything else).`
+  );
 }
 
 main().catch((err) => {
