@@ -1,6 +1,6 @@
 {
   "version": "auto-2026-10-07",
-  "updatedAt": "2026-10-07T13:53:39.051Z",
+  "updatedAt": "2026-10-07T15:05:45.180Z",
   "season": "Chapter 7 Season 4",
   "categories": [
     {
@@ -71,6 +71,12 @@
           "released": true
         },
         {
+          "id": "x_ray_cheatmaster",
+          "name": "X-Ray Cheat Master",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_Cheatmaster_L.webp",
+          "released": true
+        },
+        {
           "id": "x_ray_gold",
           "name": "X-Ray Gold",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_Gold_L.webp",
@@ -97,19 +103,6 @@
       ]
     },
     {
-      "id": "cheatmaster_x_ray",
-      "name": "Cheatmaster X-Ray",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_Cheatmaster_L.webp",
-      "items": [
-        {
-          "id": "cheatmaster_x_ray_normal",
-          "name": "Cheatmaster X-Ray",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_Cheatmaster_L.webp",
-          "released": true
-        }
-      ]
-    },
-    {
       "id": "onigiri",
       "name": "Onigiri",
       "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_L.webp",
@@ -118,6 +111,12 @@
           "id": "onigiri_normal",
           "name": "Onigiri",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_L.webp",
+          "released": true
+        },
+        {
+          "id": "onigiri_cheatmaster",
+          "name": "Onigiri Cheat Master",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_Cheatmaster_L.webp",
           "released": true
         },
         {
@@ -143,19 +142,6 @@
           "name": "Onigiri Trick or Treat",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_TrickTreat_L.webp",
           "released": false
-        }
-      ]
-    },
-    {
-      "id": "cheatmaster_onigiri",
-      "name": "Cheatmaster Onigiri",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_Cheatmaster_L.webp",
-      "items": [
-        {
-          "id": "cheatmaster_onigiri_normal",
-          "name": "Cheatmaster Onigiri",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_Cheatmaster_L.webp",
-          "released": true
         }
       ]
     },
@@ -945,6 +931,12 @@
           "released": true
         },
         {
+          "id": "vampire_cheatmaster",
+          "name": "Vampire Cheat Master",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_Cheatmaster_L.webp",
+          "released": true
+        },
+        {
           "id": "vampire_gold",
           "name": "Vampire Gold",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_Gold_L.webp",
@@ -971,19 +963,6 @@
       ]
     },
     {
-      "id": "cheatmaster_vampire",
-      "name": "Cheatmaster Vampire",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_Cheatmaster_L.webp",
-      "items": [
-        {
-          "id": "cheatmaster_vampire_normal",
-          "name": "Cheatmaster Vampire",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_Cheatmaster_L.webp",
-          "released": true
-        }
-      ]
-    },
-    {
       "id": "the_deer",
       "name": "The Deer",
       "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_L.webp",
@@ -992,6 +971,12 @@
           "id": "the_deer_normal",
           "name": "The Deer",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_L.webp",
+          "released": true
+        },
+        {
+          "id": "the_deer_cheatmaster",
+          "name": "The Deer Cheat Master",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_Cheatmaster_L.webp",
           "released": true
         },
         {
@@ -1017,19 +1002,6 @@
           "name": "The Deer Trick or Treat",
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_TrickTreat_L.webp",
           "released": false
-        }
-      ]
-    },
-    {
-      "id": "cheatmaster_the_deer",
-      "name": "Cheatmaster The Deer",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_Cheatmaster_L.webp",
-      "items": [
-        {
-          "id": "cheatmaster_the_deer_normal",
-          "name": "Cheatmaster The Deer",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_Cheatmaster_L.webp",
-          "released": true
         }
       ]
     },
