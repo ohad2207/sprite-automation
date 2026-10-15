@@ -1,6 +1,6 @@
 {
   "version": "auto-2026-10-15",
-  "updatedAt": "2026-10-15T16:22:58.215Z",
+  "updatedAt": "2026-10-15T16:50:56.819Z",
   "season": "Chapter 7 Season 4",
   "categories": [
     {
@@ -37,6 +37,11 @@
           "name": "Overshield Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "overshield_reaper",
+          "name": "Overshield Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_reaper/largeicon.png"
         },
         {
           "id": "overshield_tricktreat",
