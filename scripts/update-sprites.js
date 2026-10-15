@@ -1,9 +1,14 @@
+
 const fs = require('fs');
 const path = require('path');
 
 const DATA_DIR = path.join(__dirname, '..', 'data');
 const SPRITES_API_URL = 'https://prod.fn-api.cc/v1/sprites';
 const REQUEST_TIMEOUT_MS = 30_000;
+const CURRENT_SEASON_FILENAME = 'season-current.json';
+
+// החרגה ממוקדת לפריט שגוי.
+const EXCLUDED_SPRITE_IDS = new Set(['overshield_reaper']);
 
 const VARIANT_ALIASES = {
   a: { id: 'normal', label: null },
@@ -62,9 +67,7 @@ function parseSeason(rawSeason) {
     .toUpperCase()
     .match(/^CH(\d+)S(\d+)$/);
 
-  if (!match) {
-    return null;
-  }
+  if (!match) return null;
 
   const [, chapter, season] = match;
 
@@ -125,11 +128,7 @@ function getExistingSeasonData(seasonInfo) {
     );
   }
 
-  return {
-    filePath,
-    exists: true,
-    data,
-  };
+  return { filePath, exists: true, data };
 }
 
 function buildIncomingCategory(family, seasonInfo) {
@@ -169,6 +168,9 @@ function buildIncomingCategory(family, seasonInfo) {
 
     itemIds.add(itemId);
 
+    // אל תכניס את הפריט המוחרג אפילו אם ה-API מחזיר אותו שוב.
+    if (EXCLUDED_SPRITE_IDS.has(itemId)) continue;
+
     items.push({
       id: itemId,
       name: variantInfo.label
@@ -201,10 +203,16 @@ function mergeCategory(existingCategory, incomingCategory) {
     existingItems.map((item) => [item.id, item]),
   );
 
-  const mergedItems = [...existingItems];
-  let changed = false;
+  // מסיר גם פריטים מוחרגים שכבר שמורים בקובץ.
+  const mergedItems = existingItems.filter(
+    (item) => !EXCLUDED_SPRITE_IDS.has(item.id),
+  );
+
+  let changed = mergedItems.length !== existingItems.length;
 
   for (const incomingItem of incomingCategory.items) {
+    if (EXCLUDED_SPRITE_IDS.has(incomingItem.id)) continue;
+
     const existingItem = existingItemsById.get(incomingItem.id);
 
     if (!existingItem) {
@@ -225,7 +233,7 @@ function mergeCategory(existingCategory, incomingCategory) {
         (item) => item.id === incomingItem.id,
       );
 
-      mergedItems[index] = mergedItem;
+      if (index !== -1) mergedItems[index] = mergedItem;
       changed = true;
     }
   }
@@ -262,8 +270,21 @@ function mergeSeason(existingData, seasonInfo, incomingCategories) {
     existingCategories.map((category) => [category.id, category]),
   );
 
-  const mergedCategories = [...existingCategories];
-  let changed = false;
+  // מסיר פריטים מוחרגים מכל הקטגוריות הקיימות, גם אם המקור כבר לא מחזיר אותן.
+  const mergedCategories = existingCategories.map((category) => {
+    const oldItems = Array.isArray(category.items) ? category.items : [];
+    const items = oldItems.filter(
+      (item) => !EXCLUDED_SPRITE_IDS.has(item.id),
+    );
+
+    return items.length === oldItems.length
+      ? category
+      : { ...category, items };
+  });
+
+  let changed = mergedCategories.some(
+    (category, index) => category !== existingCategories[index],
+  );
 
   for (const incomingCategory of incomingCategories) {
     const existingCategory = categoriesById.get(incomingCategory.id);
@@ -286,15 +307,10 @@ function mergeSeason(existingData, seasonInfo, incomingCategories) {
     }
   }
 
-  if (!existingData.season) {
-    changed = true;
-  }
+  if (!existingData.season) changed = true;
 
   if (!changed) {
-    return {
-      changed: false,
-      data: existingData,
-    };
+    return { changed: false, data: existingData };
   }
 
   return {
@@ -318,16 +334,12 @@ async function fetchSpriteCatalog() {
 
   try {
     const response = await fetch(SPRITES_API_URL, {
-      headers: {
-        Accept: 'application/json',
-      },
+      headers: { Accept: 'application/json' },
       signal: controller.signal,
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Sprite API returned HTTP ${response.status}.`,
-      );
+      throw new Error(`Sprite API returned HTTP ${response.status}.`);
     }
 
     let payload;
@@ -357,7 +369,7 @@ async function fetchSpriteCatalog() {
 async function main() {
   console.log(`Fetching sprite data from ${SPRITES_API_URL}`);
 
-  // שום קובץ לא נכתב לפני שה־API הוחזר ונבדק במלואו.
+  // לא כותבים קבצים לפני שה-API נבדק במלואו.
   const families = await fetchSpriteCatalog();
   const bySeason = new Map();
 
@@ -387,20 +399,58 @@ async function main() {
   }
 
   const pendingWrites = [];
+  const mergedSeasons = [];
 
   for (const { seasonInfo, categories } of bySeason.values()) {
     const existing = getExistingSeasonData(seasonInfo);
-    const merged = mergeSeason(
-      existing.data,
+    const merged = mergeSeason(existing.data, seasonInfo, categories);
+
+    mergedSeasons.push({
       seasonInfo,
-      categories,
-    );
+      data: merged.data,
+    });
 
     if (merged.changed || !existing.exists) {
       pendingWrites.push({
         filePath: existing.filePath,
         data: merged.data,
         categoryCount: categories.length,
+      });
+    }
+  }
+
+  // מזהה את העונה החדשה ביותר בלי לקבע מספר עונה בקוד.
+  mergedSeasons.sort((left, right) => {
+    const a = left.seasonInfo.id.match(/^c(\d+)s(\d+)$/);
+    const b = right.seasonInfo.id.match(/^c(\d+)s(\d+)$/);
+
+    return (
+      Number(b[1]) - Number(a[1]) ||
+      Number(b[2]) - Number(a[2])
+    );
+  });
+
+  const latestSeason = mergedSeasons[0];
+
+  if (latestSeason) {
+    const currentPath = path.join(DATA_DIR, CURRENT_SEASON_FILENAME);
+    let currentData = null;
+
+    if (fs.existsSync(currentPath)) {
+      currentData = loadJson(currentPath);
+    }
+
+    const latestJson = JSON.stringify(latestSeason.data, null, 2);
+    const currentJson = currentData
+      ? JSON.stringify(currentData, null, 2)
+      : null;
+
+    // יוצר season-current.json אם חסר, ומעדכן אותו כשהעונה משתנה.
+    if (currentJson !== latestJson) {
+      pendingWrites.push({
+        filePath: currentPath,
+        data: latestSeason.data,
+        categoryCount: latestSeason.data.categories.length,
       });
     }
   }
@@ -420,12 +470,12 @@ async function main() {
     );
 
     console.log(
-      `Updated ${path.basename(file.filePath)} with ${file.categoryCount} source categories.`,
+      `Updated ${path.basename(file.filePath)} with ${file.categoryCount} categories.`,
     );
   }
 
   console.log(
-    `Finished: updated ${pendingWrites.length} season file(s).`,
+    `Finished: updated ${pendingWrites.length} file(s).`,
   );
 }
 
