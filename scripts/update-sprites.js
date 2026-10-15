@@ -7,6 +7,9 @@ const SPRITES_API_URL = 'https://prod.fn-api.cc/v1/sprites';
 const REQUEST_TIMEOUT_MS = 30_000;
 const CURRENT_SEASON_FILENAME = 'season-current.json';
 
+// Known false-positive sprites that should never appear in the tracker.
+const EXCLUDED_SPRITE_IDS = new Set(['overshield_reaper']);
+
 const VARIANT_ALIASES = {
   a: { id: 'normal', label: null },
   base: { id: 'normal', label: null },
@@ -170,6 +173,12 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason) {
       );
     }
     seenIds.add(itemId);
+
+    // Explicitly excluded false-positive IDs must be removed from old data too.
+    if (EXCLUDED_SPRITE_IDS.has(itemId)) {
+      filteredItemIds.add(itemId);
+      continue;
+    }
 
     // Explicit release status applies to every season.
     const explicitlyUnreleased =
