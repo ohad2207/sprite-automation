@@ -1,478 +1,1266 @@
-const fs = require('fs');
-const path = require('path');
-
-const DATA_DIR = path.join(__dirname, '..', 'data');
-const SPRITES_API_URL = 'https://prod.fn-api.cc/v1/sprites';
-const REQUEST_TIMEOUT_MS = 30_000;
-const CURRENT_SEASON_FILENAME = 'season-current.json';
-
-const VARIANT_ALIASES = {
-  a: { id: 'normal', label: null },
-  base: { id: 'normal', label: null },
-  default: { id: 'normal', label: null },
-  normal: { id: 'normal', label: null },
-  candy: { id: 'gummy', label: 'Gummy' },
-  gummy: { id: 'gummy', label: 'Gummy' },
-  gold: { id: 'gold', label: 'Gold' },
-  galaxy: { id: 'galaxy', label: 'Galaxy' },
-  gem: { id: 'gem', label: 'Gem' },
-  holofoil: { id: 'holofoil', label: 'Holofoil' },
-  cube: { id: 'cube', label: 'Cube' },
-  quack: { id: 'quack', label: 'Quack' },
-  cheatmaster: { id: 'cheatmaster', label: 'Cheat Master' },
-  cheat_master: { id: 'cheatmaster', label: 'Cheat Master' },
-  loothacker: { id: 'hacker', label: 'Loot Hacker' },
-  loot_hacker: { id: 'hacker', label: 'Loot Hacker' },
-  hacker: { id: 'hacker', label: 'Loot Hacker' },
-  bountyhunter: { id: 'bountyhunter', label: 'Bounty Hunter' },
-  bounty_hunter: { id: 'bountyhunter', label: 'Bounty Hunter' },
-  trickortreat: { id: 'tricktreat', label: 'Trick or Treat' },
-  trick_or_treat: { id: 'tricktreat', label: 'Trick or Treat' },
-};
-
-function slugify(value) {
-  return String(value || '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '_')
-    .replace(/^_+|_+$/g, '');
-}
-
-function humanize(value) {
-  return String(value || '')
-    .replace(/([a-z])([A-Z])/g, '$1 $2')
-    .replace(/[_-]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .replace(/\b\w/g, c => c.toUpperCase());
-}
-
-function stripSpriteSuffix(name) {
-  return String(name || '').replace(/\s+sprite$/i, '').trim();
-}
-
-function parseSeason(rawSeason) {
-  const match = String(rawSeason || '')
-    .replace(/\s+/g, '')
-    .toUpperCase()
-    .match(/^CH(\d+)S(\d+)$/);
-
-  if (!match) return null;
-
-  const [, chapter, season] = match;
-
-  return {
-    id: `c${chapter}s${season}`,
-    filename: `c${chapter}s${season}.json`,
-    displayName: `Chapter ${chapter} Season ${season}`,
-    chapter: Number(chapter),
-    season: Number(season),
-  };
-}
-
-function compareSeasons(a, b) {
-  return a.chapter - b.chapter || a.season - b.season;
-}
-
-function getImage(record) {
-  return record?.images?.largeIcon || record?.images?.icon || '';
-}
-
-// מסנן רק פריטים שהמקור מסמן במפורש כלא משוחררים.
-// שדות חסרים אינם נחשבים להוכחה שהפריט לא יצא.
-function isExplicitlyUnreleased(record) {
-  if (!record || typeof record !== 'object') return false;
-
-  if (record.released === false || record.isReleased === false) {
-    return true;
-  }
-
-  const status = String(
-    record.releaseStatus || record.release_status || ''
-  ).toLowerCase();
-
-  return [
-    'unreleased',
-    'never_released',
-    'not_released',
-  ].includes(status);
-}
-
-function getVariantInfo(rawVariant) {
-  const key = slugify(rawVariant);
-
-  return VARIANT_ALIASES[key] || {
-    id: key || 'normal',
-    label: key ? humanize(rawVariant) : null,
-  };
-}
-
-function loadJson(filePath) {
-  try {
-    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
-  } catch (error) {
-    throw new Error(
-      `Cannot read valid JSON from ${filePath}: ${error.message}`
-    );
-  }
-}
-
-function getExistingSeasonData(seasonInfo) {
-  const filePath = path.join(DATA_DIR, seasonInfo.filename);
-
-  if (!fs.existsSync(filePath)) {
-    return {
-      filePath,
-      exists: false,
-      data: {
-        version: '',
-        season: seasonInfo.displayName,
-        categories: [],
-      },
-    };
-  }
-
-  const data = loadJson(filePath);
-
-  if (!Array.isArray(data.categories)) {
-    throw new Error(
-      `${seasonInfo.filename} has no valid categories array.`
-    );
-  }
-
-  return { filePath, exists: true, data };
-}
-
-function buildIncomingCategory(family, seasonInfo, isCurrentSeason) {
-  const categoryName = stripSpriteSuffix(family.name);
-  const categoryId = slugify(categoryName);
-
-  if (!categoryName || !categoryId) {
-    throw new Error(`Invalid sprite family in ${seasonInfo.id}.`);
-  }
-
-  const rawVariants =
-    Array.isArray(family.variants) && family.variants.length
-      ? family.variants
-      : [family];
-
-  const items = [];
-  const filteredItemIds = new Set();
-  const seenIds = new Set();
-
-  for (const variant of rawVariants) {
-    const variantInfo = getVariantInfo(variant.variant);
-    const itemId = `${categoryId}_${variantInfo.id}`;
-
-    if (seenIds.has(itemId)) {
-      throw new Error(
-        `Duplicate source ID "${itemId}" in ${seasonInfo.id}.`
-      );
-    }
-    seenIds.add(itemId);
-
-    // Explicit release status applies to every season.
-    const explicitlyUnreleased =
-      isExplicitlyUnreleased(family) ||
-      isExplicitlyUnreleased(variant);
-
-    // "enabled" is a live switch, not a historical release record.
-    // Use it only for the current season.
-    const disabledNow =
-      isCurrentSeason &&
-      (family.enabled === false || variant.enabled === false);
-
-    if (explicitlyUnreleased || disabledNow) {
-      filteredItemIds.add(itemId);
-      continue;
-    }
-
-    const item = {
-      id: itemId,
-      name: variantInfo.label
-        ? `${categoryName} ${variantInfo.label}`
-        : categoryName,
-      image: getImage(variant) || getImage(family),
-    };
-
-    if (typeof variant.released === 'boolean') {
-      item.released = variant.released;
-    } else if (typeof variant.isReleased === 'boolean') {
-      item.released = variant.isReleased;
-    }
-
-    items.push(item);
-  }
-
-  items.sort((a, b) => {
-    if (a.id.endsWith('_normal')) return -1;
-    if (b.id.endsWith('_normal')) return 1;
-    return a.name.localeCompare(b.name);
-  });
-
-  return {
-    category: {
-      id: categoryId,
-      name: categoryName,
-      image: getImage(family) || items[0]?.image || '',
-      items,
+{
+  "version": "auto-2026-10-15",
+  "updatedAt": "2026-10-15T16:22:58.215Z",
+  "season": "Chapter 7 Season 4",
+  "categories": [
+    {
+      "id": "overshield",
+      "name": "Overshield",
+      "image": "https://cdn.fn-api.cc/sprites/overshieldsprite/largeicon.png",
+      "items": [
+        {
+          "id": "overshield_normal",
+          "name": "Overshield",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "overshield_bountyhunter",
+          "name": "Overshield Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Overshield_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "overshield_cheatmaster",
+          "name": "Overshield Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "overshield_gold",
+          "name": "Overshield Gold",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "overshield_hacker",
+          "name": "Overshield Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "overshield_tricktreat",
+          "name": "Overshield Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
     },
-    filteredItemIds: [...filteredItemIds],
-  };
+    {
+      "id": "mega_man",
+      "name": "Mega Man",
+      "image": "https://cdn.fn-api.cc/sprites/improvedslide/largeicon.png",
+      "items": [
+        {
+          "id": "mega_man_normal",
+          "name": "Mega Man",
+          "image": "https://cdn.fn-api.cc/sprites/improvedslide_variant_a/largeicon.png",
+          "released": true
+        }
+      ]
+    },
+    {
+      "id": "x_ray",
+      "name": "X-Ray",
+      "image": "https://cdn.fn-api.cc/sprites/winnerbsprite/largeicon.png",
+      "items": [
+        {
+          "id": "x_ray_normal",
+          "name": "X-Ray",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "x_ray_bountyhunter",
+          "name": "X-Ray Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "x_ray_cheatmaster",
+          "name": "X-Ray Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "x_ray_gold",
+          "name": "X-Ray Gold",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "x_ray_hacker",
+          "name": "X-Ray Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "x_ray_reaper",
+          "name": "X-Ray Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "x_ray_tricktreat",
+          "name": "X-Ray Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "onigiri",
+      "name": "Onigiri",
+      "image": "https://cdn.fn-api.cc/sprites/winnercsprite/largeicon.png",
+      "items": [
+        {
+          "id": "onigiri_normal",
+          "name": "Onigiri",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "onigiri_bountyhunter",
+          "name": "Onigiri Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "onigiri_cheatmaster",
+          "name": "Onigiri Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "onigiri_gold",
+          "name": "Onigiri Gold",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "onigiri_hacker",
+          "name": "Onigiri Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "onigiri_reaper",
+          "name": "Onigiri Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "onigiri_tricktreat",
+          "name": "Onigiri Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "jackrabbit",
+      "name": "Jackrabbit",
+      "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite/largeicon.png",
+      "items": [
+        {
+          "id": "jackrabbit_normal",
+          "name": "Jackrabbit",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "jackrabbit_bountyhunter",
+          "name": "Jackrabbit Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_DoubleJump_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "jackrabbit_cheatmaster",
+          "name": "Jackrabbit Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "jackrabbit_gold",
+          "name": "Jackrabbit Gold",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "jackrabbit_hacker",
+          "name": "Jackrabbit Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "jackrabbit_reaper",
+          "name": "Jackrabbit Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "jackrabbit_tricktreat",
+          "name": "Jackrabbit Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "tails",
+      "name": "Tails",
+      "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite/largeicon.png",
+      "items": [
+        {
+          "id": "tails_normal",
+          "name": "Tails",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "tails_bountyhunter",
+          "name": "Tails Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFleaMonkey_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "tails_cheatmaster",
+          "name": "Tails Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "tails_gold",
+          "name": "Tails Gold",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "tails_hacker",
+          "name": "Tails Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "tails_reaper",
+          "name": "Tails Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "tails_tricktreat",
+          "name": "Tails Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "shadow",
+      "name": "Shadow",
+      "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite/largeicon.png",
+      "items": [
+        {
+          "id": "shadow_normal",
+          "name": "Shadow",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "shadow_bountyhunter",
+          "name": "Shadow Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ReloadOverTime_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "shadow_cheatmaster",
+          "name": "Shadow Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "shadow_gold",
+          "name": "Shadow Gold",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "shadow_hacker",
+          "name": "Shadow Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "shadow_reaper",
+          "name": "Shadow Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "shadow_tricktreat",
+          "name": "Shadow Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "bush",
+      "name": "Bush",
+      "image": "https://cdn.fn-api.cc/sprites/bushrangersprite/largeicon.png",
+      "items": [
+        {
+          "id": "bush_normal",
+          "name": "Bush",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "bush_bountyhunter",
+          "name": "Bush Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BushRanger_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "bush_cheatmaster",
+          "name": "Bush Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "bush_gold",
+          "name": "Bush Gold",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "bush_hacker",
+          "name": "Bush Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "bush_quack",
+          "name": "Bush Quack",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_quack/largeicon.png"
+        },
+        {
+          "id": "bush_reaper",
+          "name": "Bush Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "bush_tricktreat",
+          "name": "Bush Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "killswitch",
+      "name": "Killswitch",
+      "image": "https://cdn.fn-api.cc/sprites/killswitchsprite/largeicon.png",
+      "items": [
+        {
+          "id": "killswitch_normal",
+          "name": "Killswitch",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "killswitch_bountyhunter",
+          "name": "Killswitch Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Killswitch_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "killswitch_cheatmaster",
+          "name": "Killswitch Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "killswitch_gold",
+          "name": "Killswitch Gold",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "killswitch_hacker",
+          "name": "Killswitch Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "killswitch_reaper",
+          "name": "Killswitch Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "killswitch_tricktreat",
+          "name": "Killswitch Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "adventure",
+      "name": "Adventure",
+      "image": "https://cdn.fn-api.cc/sprites/dwarfsprite/largeicon.png",
+      "items": [
+        {
+          "id": "adventure_normal",
+          "name": "Adventure",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "adventure_bountyhunter",
+          "name": "Adventure Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Dwarf_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "adventure_cheatmaster",
+          "name": "Adventure Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "adventure_gold",
+          "name": "Adventure Gold",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "adventure_hacker",
+          "name": "Adventure Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "adventure_quack",
+          "name": "Adventure Quack",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_quack/largeicon.png"
+        },
+        {
+          "id": "adventure_reaper",
+          "name": "Adventure Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "adventure_tricktreat",
+          "name": "Adventure Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "klombo",
+      "name": "Klombo",
+      "image": "https://cdn.fn-api.cc/sprites/klombosprite/largeicon.png",
+      "items": [
+        {
+          "id": "klombo_normal",
+          "name": "Klombo",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "klombo_bountyhunter",
+          "name": "Klombo Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Klombo_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "klombo_cheatmaster",
+          "name": "Klombo Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "klombo_gold",
+          "name": "Klombo Gold",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "klombo_hacker",
+          "name": "Klombo Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "klombo_quack",
+          "name": "Klombo Quack",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_quack/largeicon.png"
+        },
+        {
+          "id": "klombo_reaper",
+          "name": "Klombo Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "klombo_tricktreat",
+          "name": "Klombo Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "jonesy",
+      "name": "Jonesy",
+      "image": "https://cdn.fn-api.cc/sprites/jonesysprite/largeicon.png",
+      "items": [
+        {
+          "id": "jonesy_normal",
+          "name": "Jonesy",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "jonesy_bountyhunter",
+          "name": "Jonesy Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Jonesy_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "jonesy_cheatmaster",
+          "name": "Jonesy Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "jonesy_gold",
+          "name": "Jonesy Gold",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "jonesy_hacker",
+          "name": "Jonesy Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "jonesy_quack",
+          "name": "Jonesy Quack",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_quack/largeicon.png"
+        },
+        {
+          "id": "jonesy_reaper",
+          "name": "Jonesy Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "jonesy_tricktreat",
+          "name": "Jonesy Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "sonic",
+      "name": "Sonic",
+      "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite/largeicon.png",
+      "items": [
+        {
+          "id": "sonic_normal",
+          "name": "Sonic",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "sonic_bountyhunter",
+          "name": "Sonic Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "sonic_cheatmaster",
+          "name": "Sonic Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "sonic_gold",
+          "name": "Sonic Gold",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "sonic_hacker",
+          "name": "Sonic Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "sonic_reaper",
+          "name": "Sonic Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "sonic_tricktreat",
+          "name": "Sonic Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "crown",
+      "name": "Crown",
+      "image": "https://cdn.fn-api.cc/sprites/crownsprite/largeicon.png",
+      "items": [
+        {
+          "id": "crown_normal",
+          "name": "Crown",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "crown_bountyhunter",
+          "name": "Crown Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "crown_cheatmaster",
+          "name": "Crown Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "crown_gold",
+          "name": "Crown Gold",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "crown_hacker",
+          "name": "Crown Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "crown_reaper",
+          "name": "Crown Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "crown_tricktreat",
+          "name": "Crown Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_tricktreat/largeicon.png",
+          "released": true
+        }
+      ]
+    },
+    {
+      "id": "8_bit",
+      "name": "8-Bit",
+      "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite/largeicon.png",
+      "items": [
+        {
+          "id": "8_bit_normal",
+          "name": "8-Bit",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "8_bit_bountyhunter",
+          "name": "8-Bit Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_8BitBlaster_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "8_bit_cheatmaster",
+          "name": "8-Bit Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "8_bit_gold",
+          "name": "8-Bit Gold",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "8_bit_hacker",
+          "name": "8-Bit Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "8_bit_reaper",
+          "name": "8-Bit Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "8_bit_tricktreat",
+          "name": "8-Bit Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "storm_scout",
+      "name": "Storm Scout",
+      "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite/largeicon.png",
+      "items": [
+        {
+          "id": "storm_scout_normal",
+          "name": "Storm Scout",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "storm_scout_bountyhunter",
+          "name": "Storm Scout Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_StormScout_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "storm_scout_cheatmaster",
+          "name": "Storm Scout Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "storm_scout_gold",
+          "name": "Storm Scout Gold",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "storm_scout_hacker",
+          "name": "Storm Scout Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "storm_scout_reaper",
+          "name": "Storm Scout Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "storm_scout_tricktreat",
+          "name": "Storm Scout Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "blinky",
+      "name": "Blinky",
+      "image": "https://cdn.fn-api.cc/sprites/ghostdamage/largeicon.png",
+      "items": [
+        {
+          "id": "blinky_normal",
+          "name": "Blinky",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "blinky_bountyhunter",
+          "name": "Blinky Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_GhostDamage_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "blinky_cheatmaster",
+          "name": "Blinky Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "blinky_gold",
+          "name": "Blinky Gold",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "blinky_hacker",
+          "name": "Blinky Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "blinky_reaper",
+          "name": "Blinky Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "blinky_tricktreat",
+          "name": "Blinky Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "birthday",
+      "name": "Birthday",
+      "image": "https://cdn.fn-api.cc/sprites/birthdaysprite/largeicon.png",
+      "items": [
+        {
+          "id": "birthday_normal",
+          "name": "Birthday",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "birthday_bountyhunter",
+          "name": "Birthday Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Birthday_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "birthday_cheatmaster",
+          "name": "Birthday Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "birthday_gold",
+          "name": "Birthday Gold",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "birthday_hacker",
+          "name": "Birthday Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "birthday_reaper",
+          "name": "Birthday Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "birthday_tricktreat",
+          "name": "Birthday Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "crash_bandicoot",
+      "name": "Crash Bandicoot",
+      "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite/largeicon.png",
+      "items": [
+        {
+          "id": "crash_bandicoot_normal",
+          "name": "Crash Bandicoot",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "crash_bandicoot_bountyhunter",
+          "name": "Crash Bandicoot Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "crash_bandicoot_cheatmaster",
+          "name": "Crash Bandicoot Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "crash_bandicoot_gold",
+          "name": "Crash Bandicoot Gold",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "crash_bandicoot_hacker",
+          "name": "Crash Bandicoot Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "crash_bandicoot_reaper",
+          "name": "Crash Bandicoot Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "crash_bandicoot_tricktreat",
+          "name": "Crash Bandicoot Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "pond",
+      "name": "Pond",
+      "image": "https://cdn.fn-api.cc/sprites/winnerasprite/largeicon.png",
+      "items": [
+        {
+          "id": "pond_normal",
+          "name": "Pond",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "pond_bountyhunter",
+          "name": "Pond Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerA_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "pond_cheatmaster",
+          "name": "Pond Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "pond_gold",
+          "name": "Pond Gold",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "pond_hacker",
+          "name": "Pond Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "pond_reaper",
+          "name": "Pond Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "pond_tricktreat",
+          "name": "Pond Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "morgana",
+      "name": "Morgana",
+      "image": "https://cdn.fn-api.cc/sprites/increasehealssprite/largeicon.png",
+      "items": [
+        {
+          "id": "morgana_normal",
+          "name": "Morgana",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "morgana_bountyhunter",
+          "name": "Morgana Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreaseHeals_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "morgana_cheatmaster",
+          "name": "Morgana Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "morgana_gold",
+          "name": "Morgana Gold",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "morgana_hacker",
+          "name": "Morgana Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "morgana_reaper",
+          "name": "Morgana Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "morgana_tricktreat",
+          "name": "Morgana Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "spooky_dash",
+      "name": "Spooky Dash",
+      "image": "https://cdn.fn-api.cc/sprites/phasedashsprite/largeicon.png",
+      "items": [
+        {
+          "id": "spooky_dash_normal",
+          "name": "Spooky Dash",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "spooky_dash_bountyhunter",
+          "name": "Spooky Dash Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_PhaseDash_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "spooky_dash_cheatmaster",
+          "name": "Spooky Dash Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "spooky_dash_gold",
+          "name": "Spooky Dash Gold",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "spooky_dash_hacker",
+          "name": "Spooky Dash Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "spooky_dash_quack",
+          "name": "Spooky Dash Quack",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_quack/largeicon.png"
+        },
+        {
+          "id": "spooky_dash_reaper",
+          "name": "Spooky Dash Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "spooky_dash_tricktreat",
+          "name": "Spooky Dash Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "vampire",
+      "name": "Vampire",
+      "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite/largeicon.png",
+      "items": [
+        {
+          "id": "vampire_normal",
+          "name": "Vampire",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "vampire_bountyhunter",
+          "name": "Vampire Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "vampire_cheatmaster",
+          "name": "Vampire Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "vampire_gold",
+          "name": "Vampire Gold",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "vampire_hacker",
+          "name": "Vampire Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "vampire_reaper",
+          "name": "Vampire Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "vampire_tricktreat",
+          "name": "Vampire Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "the_deer",
+      "name": "The Deer",
+      "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite/largeicon.png",
+      "items": [
+        {
+          "id": "the_deer_normal",
+          "name": "The Deer",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "the_deer_bountyhunter",
+          "name": "The Deer Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "the_deer_cheatmaster",
+          "name": "The Deer Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "the_deer_gold",
+          "name": "The Deer Gold",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "the_deer_hacker",
+          "name": "The Deer Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "the_deer_reaper",
+          "name": "The Deer Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "the_deer_tricktreat",
+          "name": "The Deer Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "dumpster_dive",
+      "name": "Dumpster Dive",
+      "image": "https://cdn.fn-api.cc/sprites/winnerdsprite/largeicon.png",
+      "items": [
+        {
+          "id": "dumpster_dive_normal",
+          "name": "Dumpster Dive",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_a/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "dumpster_dive_bountyhunter",
+          "name": "Dumpster Dive Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerD_BountyHunter_L.webp",
+          "released": true
+        },
+        {
+          "id": "dumpster_dive_cheatmaster",
+          "name": "Dumpster Dive Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_cheatmaster/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "dumpster_dive_gold",
+          "name": "Dumpster Dive Gold",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "dumpster_dive_hacker",
+          "name": "Dumpster Dive Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_loothacker/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "dumpster_dive_reaper",
+          "name": "Dumpster Dive Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "dumpster_dive_tricktreat",
+          "name": "Dumpster Dive Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_tricktreat/largeicon.png",
+          "released": false
+        }
+      ]
+    },
+    {
+      "id": "honey",
+      "name": "Honey",
+      "image": "https://cdn.fn-api.cc/sprites/winneresprite/largeicon.png",
+      "items": [
+        {
+          "id": "honey_normal",
+          "name": "Honey",
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_a/largeicon.png"
+        },
+        {
+          "id": "honey_cheatmaster",
+          "name": "Honey Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_cheatmaster/largeicon.png"
+        },
+        {
+          "id": "honey_gold",
+          "name": "Honey Gold",
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_gold/largeicon.png"
+        },
+        {
+          "id": "honey_hacker",
+          "name": "Honey Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_loothacker/largeicon.png"
+        },
+        {
+          "id": "honey_reaper",
+          "name": "Honey Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "honey_tricktreat",
+          "name": "Honey Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_tricktreat/largeicon.png"
+        }
+      ]
+    },
+    {
+      "id": "one_wish_willow",
+      "name": "One Wish Willow",
+      "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite/largeicon.png",
+      "items": [
+        {
+          "id": "one_wish_willow_normal",
+          "name": "One Wish Willow",
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_a/largeicon.png"
+        },
+        {
+          "id": "one_wish_willow_cheatmaster",
+          "name": "One Wish Willow Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_cheatmaster/largeicon.png"
+        },
+        {
+          "id": "one_wish_willow_gold",
+          "name": "One Wish Willow Gold",
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_gold/largeicon.png"
+        },
+        {
+          "id": "one_wish_willow_hacker",
+          "name": "One Wish Willow Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_loothacker/largeicon.png"
+        },
+        {
+          "id": "one_wish_willow_reaper",
+          "name": "One Wish Willow Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "one_wish_willow_tricktreat",
+          "name": "One Wish Willow Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_tricktreat/largeicon.png"
+        }
+      ]
+    }
+  ]
 }
-
-function mergeCategory(existingCategory, incomingEntry) {
-  const incomingCategory = incomingEntry.category;
-  const filteredIds = new Set(incomingEntry.filteredItemIds);
-  const existingItems = Array.isArray(existingCategory?.items)
-    ? existingCategory.items
-    : [];
-
-  // Remove filtered IDs and items already marked unreleased.
-  const mergedItems = existingItems.filter(item =>
-    !filteredIds.has(item.id) &&
-    !isExplicitlyUnreleased(item)
-  );
-
-  const existingItemsById = new Map(
-    existingItems.map(item => [item.id, item])
-  );
-
-  for (const incomingItem of incomingCategory.items) {
-    const oldItem = existingItemsById.get(incomingItem.id);
-
-    if (!oldItem) {
-      mergedItems.push(incomingItem);
-      continue;
-    }
-
-    const mergedItem = {
-      ...oldItem,
-      ...incomingItem,
-      image: incomingItem.image || oldItem.image || '',
-    };
-
-    const index = mergedItems.findIndex(
-      item => item.id === incomingItem.id
-    );
-
-    if (index === -1) {
-      mergedItems.push(mergedItem);
-    } else {
-      mergedItems[index] = mergedItem;
-    }
-  }
-
-  mergedItems.sort((a, b) => {
-    if (a.id.endsWith('_normal')) return -1;
-    if (b.id.endsWith('_normal')) return 1;
-    return a.name.localeCompare(b.name);
-  });
-
-  return {
-    ...existingCategory,
-    id: incomingCategory.id,
-    name: incomingCategory.name,
-    image: incomingCategory.image || existingCategory.image || '',
-    items: mergedItems,
-  };
-}
-
-function mergeSeason(existingData, seasonInfo, incomingEntries) {
-  const existingCategories = Array.isArray(existingData.categories)
-    ? existingData.categories
-    : [];
-
-  const incomingById = new Map(
-    incomingEntries.map(entry => [entry.category.id, entry])
-  );
-
-  const mergedCategories = existingCategories.map(existingCategory => {
-    const incomingEntry = incomingById.get(existingCategory.id);
-
-    if (incomingEntry) {
-      return mergeCategory(existingCategory, incomingEntry);
-    }
-
-    // Even categories not returned by the source lose explicit
-    // unreleased items, so stale entries cannot persist forever.
-    const oldItems = Array.isArray(existingCategory.items)
-      ? existingCategory.items
-      : [];
-
-    return {
-      ...existingCategory,
-      items: oldItems.filter(item => !isExplicitlyUnreleased(item)),
-    };
-  });
-
-  const mergedIds = new Set(mergedCategories.map(category => category.id));
-
-  for (const entry of incomingEntries) {
-    if (!mergedIds.has(entry.category.id)) {
-      mergedCategories.push({
-        ...entry.category,
-        items: entry.category.items.filter(
-          item => !isExplicitlyUnreleased(item)
-        ),
-      });
-      mergedIds.add(entry.category.id);
-    }
-  }
-
-  const data = {
-    ...existingData,
-    version: `auto-${new Date().toISOString().slice(0, 10)}`,
-    updatedAt: new Date().toISOString(),
-    season: existingData.season || seasonInfo.displayName,
-    categories: mergedCategories,
-  };
-
-  const changed = JSON.stringify(data) !== JSON.stringify(existingData);
-  return { changed, data };
-}
-
-async function fetchSpriteCatalog() {
-  const controller = new AbortController();
-  const timeout = setTimeout(
-    () => controller.abort(),
-    REQUEST_TIMEOUT_MS
-  );
-
-  try {
-    const response = await fetch(SPRITES_API_URL, {
-      headers: { Accept: 'application/json' },
-      signal: controller.signal,
-    });
-
-    if (!response.ok) {
-      throw new Error(`Sprite API returned HTTP ${response.status}.`);
-    }
-
-    const payload = await response.json();
-
-    if (
-      payload?.status !== 200 ||
-      !Array.isArray(payload?.data) ||
-      payload.data.length === 0
-    ) {
-      throw new Error('Sprite API returned empty or unexpected data.');
-    }
-
-    return payload.data;
-  } finally {
-    clearTimeout(timeout);
-  }
-}
-
-async function main() {
-  console.log(`Fetching sprites from ${SPRITES_API_URL}`);
-
-  const families = await fetchSpriteCatalog();
-  const parsed = families.map(family => ({
-    family,
-    seasonInfo: parseSeason(family.season),
-  }));
-
-  for (const entry of parsed) {
-    if (!entry.seasonInfo) {
-      throw new Error(
-        `Unknown season "${entry.family.season}". No files were changed.`
-      );
-    }
-  }
-
-  const seasonInfos = [
-    ...new Map(
-      parsed.map(entry => [entry.seasonInfo.id, entry.seasonInfo])
-    ).values(),
-  ].sort(compareSeasons);
-
-  if (!seasonInfos.length) {
-    throw new Error('No valid seasons found.');
-  }
-
-  const currentSeasonId = seasonInfos[seasonInfos.length - 1].id;
-  const bySeason = new Map();
-
-  for (const { family, seasonInfo } of parsed) {
-    if (!bySeason.has(seasonInfo.id)) {
-      bySeason.set(seasonInfo.id, {
-        seasonInfo,
-        entries: [],
-      });
-    }
-
-    const entry = buildIncomingCategory(
-      family,
-      seasonInfo,
-      seasonInfo.id === currentSeasonId
-    );
-
-    bySeason.get(seasonInfo.id).entries.push(entry);
-  }
-
-  const pendingWrites = [];
-  const mergedSeasons = [];
-
-  for (const { seasonInfo, entries } of bySeason.values()) {
-    const existing = getExistingSeasonData(seasonInfo);
-    const merged = mergeSeason(existing.data, seasonInfo, entries);
-
-    mergedSeasons.push({
-      seasonInfo,
-      data: merged.data,
-    });
-
-    if (merged.changed || !existing.exists) {
-      pendingWrites.push({
-        filePath: existing.filePath,
-        data: merged.data,
-      });
-    }
-  }
-
-  const latest = mergedSeasons.sort(
-    (a, b) => compareSeasons(a.seasonInfo, b.seasonInfo)
-  ).at(-1);
-
-  if (latest) {
-    const currentPath = path.join(DATA_DIR, CURRENT_SEASON_FILENAME);
-    const currentData = fs.existsSync(currentPath)
-      ? loadJson(currentPath)
-      : null;
-
-    if (
-      !currentData ||
-      JSON.stringify(currentData) !== JSON.stringify(latest.data)
-    ) {
-      pendingWrites.push({
-        filePath: currentPath,
-        data: latest.data,
-      });
-    }
-  }
-
-  if (!pendingWrites.length) {
-    console.log('No sprite changes found.');
-    return;
-  }
-
-  fs.mkdirSync(DATA_DIR, { recursive: true });
-
-  for (const file of pendingWrites) {
-    fs.writeFileSync(
-      file.filePath,
-      `${JSON.stringify(file.data, null, 2)}\n`,
-      'utf8'
-    );
-
-    console.log(`Updated ${path.basename(file.filePath)}.`);
-  }
-
-  console.log(`Finished: updated ${pendingWrites.length} file(s).`);
-}
-
-main().catch(error => {
-  console.error(`Sprite update failed: ${error.message}`);
-  process.exit(1);
-});
