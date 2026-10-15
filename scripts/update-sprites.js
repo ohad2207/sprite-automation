@@ -86,20 +86,7 @@ function getImage(record) {
 function isExplicitlyUnreleased(record) {
   if (!record || typeof record !== 'object') return false;
 
-  // Different sources may expose the same release state with different field names.
-  const falseFlags = [
-    record.released,
-    record.isReleased,
-    record.is_released,
-    record.neverReleased,
-    record.never_released,
-    record.unreleased,
-  ];
-
-  if (falseFlags.some(value => value === false || value === true && falseFlags.indexOf(value) === -1)) {
-    // Handled below using field names so a positive "unreleased" flag is not missed.
-  }
-
+  // Support common release flags used by sprite data sources.
   if (
     record.released === false ||
     record.isReleased === false ||
@@ -128,13 +115,11 @@ function isExplicitlyUnreleased(record) {
     return true;
   }
 
-  // If the source provides an explicit future release date, do not publish it yet.
+  // Exclude records with a clearly future release date, when the source provides one.
   const rawReleaseDate = record.releaseDate ?? record.release_date ?? record.releaseAt ?? record.release_at;
   if (rawReleaseDate) {
     const releaseTime = Date.parse(rawReleaseDate);
-    if (Number.isFinite(releaseTime) && releaseTime > Date.now()) {
-      return true;
-    }
+    if (Number.isFinite(releaseTime) && releaseTime > Date.now()) return true;
   }
 
   return false;
