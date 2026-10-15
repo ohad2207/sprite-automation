@@ -102,7 +102,7 @@ function isExplicitlyUnreleased(record) {
   const status = String(rawStatus)
     .toLowerCase()
     .trim()
-    .replace(/[\\s-]+/g, '_');
+    .replace(/[\s-]+/g, '_');
 
   if ([
     'unreleased',
