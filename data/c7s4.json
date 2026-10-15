@@ -39,11 +39,6 @@
           "released": true
         },
         {
-          "id": "overshield_reaper",
-          "name": "Overshield Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_reaper/largeicon.png"
-        },
-        {
           "id": "overshield_tricktreat",
           "name": "Overshield Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_tricktreat/largeicon.png",
