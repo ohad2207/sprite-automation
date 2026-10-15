@@ -1,6 +1,6 @@
 {
-  "version": "auto-2026-10-07",
-  "updatedAt": "2026-10-07T20:01:53.946Z",
+  "version": "auto-2026-10-15",
+  "updatedAt": "2026-10-15T13:32:17.999Z",
   "season": "Chapter 7 Season 4",
   "categories": [
     {
@@ -340,6 +340,11 @@
           "released": true
         },
         {
+          "id": "bush_quack",
+          "name": "Bush Quack",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_quack/largeicon.png"
+        },
+        {
           "id": "bush_reaper",
           "name": "Bush Reaper",
           "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_reaper/largeicon.png"
@@ -436,6 +441,11 @@
           "released": true
         },
         {
+          "id": "adventure_quack",
+          "name": "Adventure Quack",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_quack/largeicon.png"
+        },
+        {
           "id": "adventure_reaper",
           "name": "Adventure Reaper",
           "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_reaper/largeicon.png"
@@ -484,6 +494,11 @@
           "released": true
         },
         {
+          "id": "klombo_quack",
+          "name": "Klombo Quack",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_quack/largeicon.png"
+        },
+        {
           "id": "klombo_reaper",
           "name": "Klombo Reaper",
           "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_reaper/largeicon.png"
@@ -530,6 +545,11 @@
           "name": "Jonesy Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "jonesy_quack",
+          "name": "Jonesy Quack",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_quack/largeicon.png"
         },
         {
           "id": "jonesy_reaper",
@@ -1012,6 +1032,11 @@
           "released": true
         },
         {
+          "id": "spooky_dash_quack",
+          "name": "Spooky Dash Quack",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_quack/largeicon.png"
+        },
+        {
           "id": "spooky_dash_reaper",
           "name": "Spooky Dash Reaper",
           "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_reaper/largeicon.png"
@@ -1165,6 +1190,80 @@
           "name": "Dumpster Dive Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_tricktreat/largeicon.png",
           "released": false
+        }
+      ]
+    },
+    {
+      "id": "honey",
+      "name": "Honey",
+      "image": "https://cdn.fn-api.cc/sprites/winneresprite/largeicon.png",
+      "items": [
+        {
+          "id": "honey_normal",
+          "name": "Honey",
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_a/largeicon.png"
+        },
+        {
+          "id": "honey_cheatmaster",
+          "name": "Honey Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_cheatmaster/largeicon.png"
+        },
+        {
+          "id": "honey_gold",
+          "name": "Honey Gold",
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_gold/largeicon.png"
+        },
+        {
+          "id": "honey_hacker",
+          "name": "Honey Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_loothacker/largeicon.png"
+        },
+        {
+          "id": "honey_reaper",
+          "name": "Honey Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "honey_tricktreat",
+          "name": "Honey Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_tricktreat/largeicon.png"
+        }
+      ]
+    },
+    {
+      "id": "one_wish_willow",
+      "name": "One Wish Willow",
+      "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite/largeicon.png",
+      "items": [
+        {
+          "id": "one_wish_willow_normal",
+          "name": "One Wish Willow",
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_a/largeicon.png"
+        },
+        {
+          "id": "one_wish_willow_cheatmaster",
+          "name": "One Wish Willow Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_cheatmaster/largeicon.png"
+        },
+        {
+          "id": "one_wish_willow_gold",
+          "name": "One Wish Willow Gold",
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_gold/largeicon.png"
+        },
+        {
+          "id": "one_wish_willow_hacker",
+          "name": "One Wish Willow Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_loothacker/largeicon.png"
+        },
+        {
+          "id": "one_wish_willow_reaper",
+          "name": "One Wish Willow Reaper",
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_reaper/largeicon.png"
+        },
+        {
+          "id": "one_wish_willow_tricktreat",
+          "name": "One Wish Willow Trick Treat",
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_tricktreat/largeicon.png"
         }
       ]
     }
