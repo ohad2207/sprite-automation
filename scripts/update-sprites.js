@@ -86,19 +86,58 @@ function getImage(record) {
 function isExplicitlyUnreleased(record) {
   if (!record || typeof record !== 'object') return false;
 
-  if (record.released === false || record.isReleased === false) {
+  // Different sources may expose the same release state with different field names.
+  const falseFlags = [
+    record.released,
+    record.isReleased,
+    record.is_released,
+    record.neverReleased,
+    record.never_released,
+    record.unreleased,
+  ];
+
+  if (falseFlags.some(value => value === false || value === true && falseFlags.indexOf(value) === -1)) {
+    // Handled below using field names so a positive "unreleased" flag is not missed.
+  }
+
+  if (
+    record.released === false ||
+    record.isReleased === false ||
+    record.is_released === false ||
+    record.neverReleased === true ||
+    record.never_released === true ||
+    record.unreleased === true
+  ) {
     return true;
   }
 
-  const status = String(
-    record.releaseStatus || record.release_status || ''
-  ).toLowerCase();
+  const rawStatus = record.releaseStatus ?? record.release_status ?? record.release_state ?? '';
+  const status = String(rawStatus)
+    .toLowerCase()
+    .trim()
+    .replace(/[\\s-]+/g, '_');
 
-  return [
+  if ([
     'unreleased',
     'never_released',
     'not_released',
-  ].includes(status);
+    'upcoming',
+    'future',
+    'pending_release',
+  ].includes(status)) {
+    return true;
+  }
+
+  // If the source provides an explicit future release date, do not publish it yet.
+  const rawReleaseDate = record.releaseDate ?? record.release_date ?? record.releaseAt ?? record.release_at;
+  if (rawReleaseDate) {
+    const releaseTime = Date.parse(rawReleaseDate);
+    if (Number.isFinite(releaseTime) && releaseTime > Date.now()) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 function getVariantInfo(rawVariant) {
