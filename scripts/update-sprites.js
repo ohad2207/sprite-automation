@@ -7,15 +7,11 @@ const SPRITES_API_URL = 'https://prod.fn-api.cc/v1/sprites';
 const REQUEST_TIMEOUT_MS = 30_000;
 const CURRENT_SEASON_FILENAME = 'season-current.json';
 
-// החרגה ממוקדת לפריט שגוי.
-const EXCLUDED_SPRITE_IDS = new Set(['overshield_reaper']);
-
 const VARIANT_ALIASES = {
   a: { id: 'normal', label: null },
   base: { id: 'normal', label: null },
   default: { id: 'normal', label: null },
   normal: { id: 'normal', label: null },
-
   candy: { id: 'gummy', label: 'Gummy' },
   gummy: { id: 'gummy', label: 'Gummy' },
   gold: { id: 'gold', label: 'Gold' },
@@ -24,17 +20,13 @@ const VARIANT_ALIASES = {
   holofoil: { id: 'holofoil', label: 'Holofoil' },
   cube: { id: 'cube', label: 'Cube' },
   quack: { id: 'quack', label: 'Quack' },
-
   cheatmaster: { id: 'cheatmaster', label: 'Cheat Master' },
   cheat_master: { id: 'cheatmaster', label: 'Cheat Master' },
-
   loothacker: { id: 'hacker', label: 'Loot Hacker' },
   loot_hacker: { id: 'hacker', label: 'Loot Hacker' },
   hacker: { id: 'hacker', label: 'Loot Hacker' },
-
   bountyhunter: { id: 'bountyhunter', label: 'Bounty Hunter' },
   bounty_hunter: { id: 'bountyhunter', label: 'Bounty Hunter' },
-
   trickortreat: { id: 'tricktreat', label: 'Trick or Treat' },
   trick_or_treat: { id: 'tricktreat', label: 'Trick or Treat' },
 };
@@ -52,13 +44,11 @@ function humanize(value) {
     .replace(/[_-]+/g, ' ')
     .replace(/\s+/g, ' ')
     .trim()
-    .replace(/\b\w/g, (character) => character.toUpperCase());
+    .replace(/\b\w/g, c => c.toUpperCase());
 }
 
 function stripSpriteSuffix(name) {
-  return String(name || '')
-    .replace(/\s+sprite$/i, '')
-    .trim();
+  return String(name || '').replace(/\s+sprite$/i, '').trim();
 }
 
 function parseSeason(rawSeason) {
@@ -75,21 +65,43 @@ function parseSeason(rawSeason) {
     id: `c${chapter}s${season}`,
     filename: `c${chapter}s${season}.json`,
     displayName: `Chapter ${chapter} Season ${season}`,
+    chapter: Number(chapter),
+    season: Number(season),
   };
+}
+
+function compareSeasons(a, b) {
+  return a.chapter - b.chapter || a.season - b.season;
 }
 
 function getImage(record) {
   return record?.images?.largeIcon || record?.images?.icon || '';
 }
 
+// מסנן רק פריטים שהמקור מסמן במפורש כלא משוחררים.
+// שדות חסרים אינם נחשבים להוכחה שהפריט לא יצא.
+function isExplicitlyUnreleased(record) {
+  if (!record || typeof record !== 'object') return false;
+
+  if (record.released === false || record.isReleased === false) {
+    return true;
+  }
+
+  const status = String(
+    record.releaseStatus || record.release_status || ''
+  ).toLowerCase();
+
+  return [
+    'unreleased',
+    'never_released',
+    'not_released',
+  ].includes(status);
+}
+
 function getVariantInfo(rawVariant) {
   const key = slugify(rawVariant);
 
-  if (VARIANT_ALIASES[key]) {
-    return VARIANT_ALIASES[key];
-  }
-
-  return {
+  return VARIANT_ALIASES[key] || {
     id: key || 'normal',
     label: key ? humanize(rawVariant) : null,
   };
@@ -100,7 +112,7 @@ function loadJson(filePath) {
     return JSON.parse(fs.readFileSync(filePath, 'utf8'));
   } catch (error) {
     throw new Error(
-      `Cannot read valid JSON from ${filePath}: ${error.message}`,
+      `Cannot read valid JSON from ${filePath}: ${error.message}`
     );
   }
 }
@@ -124,212 +136,207 @@ function getExistingSeasonData(seasonInfo) {
 
   if (!Array.isArray(data.categories)) {
     throw new Error(
-      `${seasonInfo.filename} has no valid "categories" array. No files were changed.`,
+      `${seasonInfo.filename} has no valid categories array.`
     );
   }
 
   return { filePath, exists: true, data };
 }
 
-function buildIncomingCategory(family, seasonInfo) {
+function buildIncomingCategory(family, seasonInfo, isCurrentSeason) {
   const categoryName = stripSpriteSuffix(family.name);
-
-  if (!categoryName) {
-    throw new Error(
-      `A sprite family in ${seasonInfo.id} has no usable name.`,
-    );
-  }
-
   const categoryId = slugify(categoryName);
 
-  if (!categoryId) {
-    throw new Error(
-      `Could not create a stable ID for "${categoryName}".`,
-    );
+  if (!categoryName || !categoryId) {
+    throw new Error(`Invalid sprite family in ${seasonInfo.id}.`);
   }
 
   const rawVariants =
-    Array.isArray(family.variants) && family.variants.length > 0
+    Array.isArray(family.variants) && family.variants.length
       ? family.variants
       : [family];
 
-  const itemIds = new Set();
   const items = [];
+  const filteredItemIds = new Set();
+  const seenIds = new Set();
 
   for (const variant of rawVariants) {
     const variantInfo = getVariantInfo(variant.variant);
     const itemId = `${categoryId}_${variantInfo.id}`;
 
-    if (itemIds.has(itemId)) {
+    if (seenIds.has(itemId)) {
       throw new Error(
-        `Duplicate source ID "${itemId}" in season ${seasonInfo.id}. No files were changed.`,
+        `Duplicate source ID "${itemId}" in ${seasonInfo.id}.`
       );
     }
+    seenIds.add(itemId);
 
-    itemIds.add(itemId);
+    // Explicit release status applies to every season.
+    const explicitlyUnreleased =
+      isExplicitlyUnreleased(family) ||
+      isExplicitlyUnreleased(variant);
 
-    // אל תכניס את הפריט המוחרג אפילו אם ה-API מחזיר אותו שוב.
-    if (EXCLUDED_SPRITE_IDS.has(itemId)) continue;
+    // "enabled" is a live switch, not a historical release record.
+    // Use it only for the current season.
+    const disabledNow =
+      isCurrentSeason &&
+      (family.enabled === false || variant.enabled === false);
 
-    items.push({
+    if (explicitlyUnreleased || disabledNow) {
+      filteredItemIds.add(itemId);
+      continue;
+    }
+
+    const item = {
       id: itemId,
       name: variantInfo.label
         ? `${categoryName} ${variantInfo.label}`
         : categoryName,
       image: getImage(variant) || getImage(family),
-    });
+    };
+
+    if (typeof variant.released === 'boolean') {
+      item.released = variant.released;
+    } else if (typeof variant.isReleased === 'boolean') {
+      item.released = variant.isReleased;
+    }
+
+    items.push(item);
   }
 
-  items.sort((left, right) => {
-    if (left.id.endsWith('_normal')) return -1;
-    if (right.id.endsWith('_normal')) return 1;
-    return left.name.localeCompare(right.name);
+  items.sort((a, b) => {
+    if (a.id.endsWith('_normal')) return -1;
+    if (b.id.endsWith('_normal')) return 1;
+    return a.name.localeCompare(b.name);
   });
 
   return {
-    id: categoryId,
-    name: categoryName,
-    image: getImage(family) || items[0]?.image || '',
-    items,
+    category: {
+      id: categoryId,
+      name: categoryName,
+      image: getImage(family) || items[0]?.image || '',
+      items,
+    },
+    filteredItemIds: [...filteredItemIds],
   };
 }
 
-function mergeCategory(existingCategory, incomingCategory) {
+function mergeCategory(existingCategory, incomingEntry) {
+  const incomingCategory = incomingEntry.category;
+  const filteredIds = new Set(incomingEntry.filteredItemIds);
   const existingItems = Array.isArray(existingCategory?.items)
     ? existingCategory.items
     : [];
 
+  // Remove filtered IDs and items already marked unreleased.
+  const mergedItems = existingItems.filter(item =>
+    !filteredIds.has(item.id) &&
+    !isExplicitlyUnreleased(item)
+  );
+
   const existingItemsById = new Map(
-    existingItems.map((item) => [item.id, item]),
+    existingItems.map(item => [item.id, item])
   );
-
-  // מסיר גם פריטים מוחרגים שכבר שמורים בקובץ.
-  const mergedItems = existingItems.filter(
-    (item) => !EXCLUDED_SPRITE_IDS.has(item.id),
-  );
-
-  let changed = mergedItems.length !== existingItems.length;
 
   for (const incomingItem of incomingCategory.items) {
-    if (EXCLUDED_SPRITE_IDS.has(incomingItem.id)) continue;
+    const oldItem = existingItemsById.get(incomingItem.id);
 
-    const existingItem = existingItemsById.get(incomingItem.id);
-
-    if (!existingItem) {
+    if (!oldItem) {
       mergedItems.push(incomingItem);
-      changed = true;
       continue;
     }
 
     const mergedItem = {
-      ...existingItem,
-      id: incomingItem.id,
-      name: incomingItem.name,
-      image: incomingItem.image || existingItem.image || '',
+      ...oldItem,
+      ...incomingItem,
+      image: incomingItem.image || oldItem.image || '',
     };
 
-    if (JSON.stringify(mergedItem) !== JSON.stringify(existingItem)) {
-      const index = mergedItems.findIndex(
-        (item) => item.id === incomingItem.id,
-      );
+    const index = mergedItems.findIndex(
+      item => item.id === incomingItem.id
+    );
 
-      if (index !== -1) mergedItems[index] = mergedItem;
-      changed = true;
+    if (index === -1) {
+      mergedItems.push(mergedItem);
+    } else {
+      mergedItems[index] = mergedItem;
     }
   }
 
-  mergedItems.sort((left, right) => {
-    if (left.id.endsWith('_normal')) return -1;
-    if (right.id.endsWith('_normal')) return 1;
-    return left.name.localeCompare(right.name);
+  mergedItems.sort((a, b) => {
+    if (a.id.endsWith('_normal')) return -1;
+    if (b.id.endsWith('_normal')) return 1;
+    return a.name.localeCompare(b.name);
   });
 
-  const mergedCategory = {
+  return {
     ...existingCategory,
     id: incomingCategory.id,
     name: incomingCategory.name,
     image: incomingCategory.image || existingCategory.image || '',
     items: mergedItems,
   };
-
-  if (
-    JSON.stringify(mergedCategory) !== JSON.stringify(existingCategory)
-  ) {
-    changed = true;
-  }
-
-  return { category: mergedCategory, changed };
 }
 
-function mergeSeason(existingData, seasonInfo, incomingCategories) {
+function mergeSeason(existingData, seasonInfo, incomingEntries) {
   const existingCategories = Array.isArray(existingData.categories)
     ? existingData.categories
     : [];
 
-  const categoriesById = new Map(
-    existingCategories.map((category) => [category.id, category]),
+  const incomingById = new Map(
+    incomingEntries.map(entry => [entry.category.id, entry])
   );
 
-  // מסיר פריטים מוחרגים מכל הקטגוריות הקיימות, גם אם המקור כבר לא מחזיר אותן.
-  const mergedCategories = existingCategories.map((category) => {
-    const oldItems = Array.isArray(category.items) ? category.items : [];
-    const items = oldItems.filter(
-      (item) => !EXCLUDED_SPRITE_IDS.has(item.id),
-    );
+  const mergedCategories = existingCategories.map(existingCategory => {
+    const incomingEntry = incomingById.get(existingCategory.id);
 
-    return items.length === oldItems.length
-      ? category
-      : { ...category, items };
+    if (incomingEntry) {
+      return mergeCategory(existingCategory, incomingEntry);
+    }
+
+    // Even categories not returned by the source lose explicit
+    // unreleased items, so stale entries cannot persist forever.
+    const oldItems = Array.isArray(existingCategory.items)
+      ? existingCategory.items
+      : [];
+
+    return {
+      ...existingCategory,
+      items: oldItems.filter(item => !isExplicitlyUnreleased(item)),
+    };
   });
 
-  let changed = mergedCategories.some(
-    (category, index) => category !== existingCategories[index],
-  );
+  const mergedIds = new Set(mergedCategories.map(category => category.id));
 
-  for (const incomingCategory of incomingCategories) {
-    const existingCategory = categoriesById.get(incomingCategory.id);
-
-    if (!existingCategory) {
-      mergedCategories.push(incomingCategory);
-      changed = true;
-      continue;
-    }
-
-    const result = mergeCategory(existingCategory, incomingCategory);
-
-    if (result.changed) {
-      const index = mergedCategories.findIndex(
-        (category) => category.id === incomingCategory.id,
-      );
-
-      mergedCategories[index] = result.category;
-      changed = true;
+  for (const entry of incomingEntries) {
+    if (!mergedIds.has(entry.category.id)) {
+      mergedCategories.push({
+        ...entry.category,
+        items: entry.category.items.filter(
+          item => !isExplicitlyUnreleased(item)
+        ),
+      });
+      mergedIds.add(entry.category.id);
     }
   }
 
-  if (!existingData.season) changed = true;
-
-  if (!changed) {
-    return { changed: false, data: existingData };
-  }
-
-  return {
-    changed: true,
-    data: {
-      ...existingData,
-      version: `auto-${new Date().toISOString().slice(0, 10)}`,
-      updatedAt: new Date().toISOString(),
-      season: existingData.season || seasonInfo.displayName,
-      categories: mergedCategories,
-    },
+  const data = {
+    ...existingData,
+    version: `auto-${new Date().toISOString().slice(0, 10)}`,
+    updatedAt: new Date().toISOString(),
+    season: existingData.season || seasonInfo.displayName,
+    categories: mergedCategories,
   };
+
+  const changed = JSON.stringify(data) !== JSON.stringify(existingData);
+  return { changed, data };
 }
 
 async function fetchSpriteCatalog() {
   const controller = new AbortController();
   const timeout = setTimeout(
     () => controller.abort(),
-    REQUEST_TIMEOUT_MS,
+    REQUEST_TIMEOUT_MS
   );
 
   try {
@@ -342,22 +349,14 @@ async function fetchSpriteCatalog() {
       throw new Error(`Sprite API returned HTTP ${response.status}.`);
     }
 
-    let payload;
-
-    try {
-      payload = await response.json();
-    } catch {
-      throw new Error('Sprite API returned invalid JSON.');
-    }
+    const payload = await response.json();
 
     if (
       payload?.status !== 200 ||
       !Array.isArray(payload?.data) ||
       payload.data.length === 0
     ) {
-      throw new Error(
-        'Sprite API response is empty or has an unexpected shape.',
-      );
+      throw new Error('Sprite API returned empty or unexpected data.');
     }
 
     return payload.data;
@@ -367,43 +366,58 @@ async function fetchSpriteCatalog() {
 }
 
 async function main() {
-  console.log(`Fetching sprite data from ${SPRITES_API_URL}`);
+  console.log(`Fetching sprites from ${SPRITES_API_URL}`);
 
-  // לא כותבים קבצים לפני שה-API נבדק במלואו.
   const families = await fetchSpriteCatalog();
-  const bySeason = new Map();
+  const parsed = families.map(family => ({
+    family,
+    seasonInfo: parseSeason(family.season),
+  }));
 
-  for (const family of families) {
-    const seasonInfo = parseSeason(family.season);
-
-    if (!seasonInfo) {
+  for (const entry of parsed) {
+    if (!entry.seasonInfo) {
       throw new Error(
-        `Unknown season value "${family.season}" for "${family.name}". No files were changed.`,
+        `Unknown season "${entry.family.season}". No files were changed.`
       );
     }
+  }
 
+  const seasonInfos = [
+    ...new Map(
+      parsed.map(entry => [entry.seasonInfo.id, entry.seasonInfo])
+    ).values(),
+  ].sort(compareSeasons);
+
+  if (!seasonInfos.length) {
+    throw new Error('No valid seasons found.');
+  }
+
+  const currentSeasonId = seasonInfos[seasonInfos.length - 1].id;
+  const bySeason = new Map();
+
+  for (const { family, seasonInfo } of parsed) {
     if (!bySeason.has(seasonInfo.id)) {
       bySeason.set(seasonInfo.id, {
         seasonInfo,
-        categories: [],
+        entries: [],
       });
     }
 
-    bySeason
-      .get(seasonInfo.id)
-      .categories.push(buildIncomingCategory(family, seasonInfo));
-  }
+    const entry = buildIncomingCategory(
+      family,
+      seasonInfo,
+      seasonInfo.id === currentSeasonId
+    );
 
-  if (bySeason.size === 0) {
-    throw new Error('No valid seasons found. No files were changed.');
+    bySeason.get(seasonInfo.id).entries.push(entry);
   }
 
   const pendingWrites = [];
   const mergedSeasons = [];
 
-  for (const { seasonInfo, categories } of bySeason.values()) {
+  for (const { seasonInfo, entries } of bySeason.values()) {
     const existing = getExistingSeasonData(seasonInfo);
-    const merged = mergeSeason(existing.data, seasonInfo, categories);
+    const merged = mergeSeason(existing.data, seasonInfo, entries);
 
     mergedSeasons.push({
       seasonInfo,
@@ -414,49 +428,33 @@ async function main() {
       pendingWrites.push({
         filePath: existing.filePath,
         data: merged.data,
-        categoryCount: categories.length,
       });
     }
   }
 
-  // מזהה את העונה החדשה ביותר בלי לקבע מספר עונה בקוד.
-  mergedSeasons.sort((left, right) => {
-    const a = left.seasonInfo.id.match(/^c(\d+)s(\d+)$/);
-    const b = right.seasonInfo.id.match(/^c(\d+)s(\d+)$/);
+  const latest = mergedSeasons.sort(
+    (a, b) => compareSeasons(a.seasonInfo, b.seasonInfo)
+  ).at(-1);
 
-    return (
-      Number(b[1]) - Number(a[1]) ||
-      Number(b[2]) - Number(a[2])
-    );
-  });
-
-  const latestSeason = mergedSeasons[0];
-
-  if (latestSeason) {
+  if (latest) {
     const currentPath = path.join(DATA_DIR, CURRENT_SEASON_FILENAME);
-    let currentData = null;
-
-    if (fs.existsSync(currentPath)) {
-      currentData = loadJson(currentPath);
-    }
-
-    const latestJson = JSON.stringify(latestSeason.data, null, 2);
-    const currentJson = currentData
-      ? JSON.stringify(currentData, null, 2)
+    const currentData = fs.existsSync(currentPath)
+      ? loadJson(currentPath)
       : null;
 
-    // יוצר season-current.json אם חסר, ומעדכן אותו כשהעונה משתנה.
-    if (currentJson !== latestJson) {
+    if (
+      !currentData ||
+      JSON.stringify(currentData) !== JSON.stringify(latest.data)
+    ) {
       pendingWrites.push({
         filePath: currentPath,
-        data: latestSeason.data,
-        categoryCount: latestSeason.data.categories.length,
+        data: latest.data,
       });
     }
   }
 
-  if (pendingWrites.length === 0) {
-    console.log('No sprite changes found. No files were updated.');
+  if (!pendingWrites.length) {
+    console.log('No sprite changes found.');
     return;
   }
 
@@ -466,20 +464,16 @@ async function main() {
     fs.writeFileSync(
       file.filePath,
       `${JSON.stringify(file.data, null, 2)}\n`,
-      'utf8',
+      'utf8'
     );
 
-    console.log(
-      `Updated ${path.basename(file.filePath)} with ${file.categoryCount} categories.`,
-    );
+    console.log(`Updated ${path.basename(file.filePath)}.`);
   }
 
-  console.log(
-    `Finished: updated ${pendingWrites.length} file(s).`,
-  );
+  console.log(`Finished: updated ${pendingWrites.length} file(s).`);
 }
 
-main().catch((error) => {
+main().catch(error => {
   console.error(`Sprite update failed: ${error.message}`);
   process.exit(1);
 });
