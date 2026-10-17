@@ -1,4 +1,3 @@
-
 const fs = require('fs');
 const path = require('path');
 
@@ -7,8 +6,19 @@ const SPRITES_API_URL = 'https://prod.fn-api.cc/v1/sprites';
 const REQUEST_TIMEOUT_MS = 30_000;
 const CURRENT_SEASON_FILENAME = 'season-current.json';
 
-// Known false-positive sprites that should never appear in the tracker.
+// Optional manual backup only. Nothing needs to be added here anymore: variants
+// that cannot be obtained in the game are detected automatically (see
+// isWiredIntoGame below) on every run.
 const EXCLUDED_SPRITE_IDS = new Set(['overshield_reaper']);
+
+// Every item ID that must not appear in any data file. It starts with the
+// manual backup list and is extended automatically while the API data is
+// processed, so it is rebuilt from scratch on each run. If the API later makes
+// a variant obtainable, it simply stops being added here and shows up again.
+const PURGE_ITEM_IDS = new Set(EXCLUDED_SPRITE_IDS);
+
+// Variants skipped by the automatic rule during this run, for the log.
+const autoExcludedLog = [];
 
 const VARIANT_ALIASES = {
   a: { id: 'normal', label: null },
@@ -125,6 +135,71 @@ function isExplicitlyUnreleased(record) {
   return false;
 }
 
+// AUTOMATIC RULE: a variant counts as "in the game" only if the API gives it
+// some way to be obtained. A variant that has no spawn/reward/grant path and no
+// row in the spawn tables is just an asset sitting in the game files that never
+// shipped, which is what "reaper" is. This works for any variant name, in any
+// season, with no list to maintain.
+//
+// It is deliberately conservative:
+//  - "Cube" variants have acquisition all empty but DO have a spawn-table row,
+//    so they count as real and are kept.
+//  - If a record has no acquisition data at all (a different API shape),
+//    there is no evidence either way, so it is kept.
+//  - The normal/base variant is never judged by this rule.
+function isWiredIntoGame(variant) {
+  const acquisition = variant?.acquisition;
+  if (!acquisition || typeof acquisition !== 'object') return true;
+
+  const spawn = variant.spawn && typeof variant.spawn === 'object' ? variant.spawn : {};
+
+  return Boolean(
+    acquisition.spawnable ||
+    acquisition.granted ||
+    (Array.isArray(acquisition.methods) && acquisition.methods.length > 0) ||
+    (Array.isArray(acquisition.grants) && acquisition.grants.length > 0) ||
+    spawn.weightRow ||
+    spawn.eventRow
+  );
+}
+
+function describeAcquisition(variant) {
+  const acquisition = variant?.acquisition || {};
+  const spawn = variant?.spawn || {};
+  return (
+    `spawnable=${Boolean(acquisition.spawnable)}, granted=${Boolean(acquisition.granted)}, ` +
+    `methods=${(acquisition.methods || []).length}, grants=${(acquisition.grants || []).length}, ` +
+    `spawnRow=${spawn.weightRow || spawn.eventRow || 'none'}`
+  );
+}
+
+function isPurgedItem(item) {
+  return Boolean(item) && typeof item.id === 'string' && PURGE_ITEM_IDS.has(item.id);
+}
+
+// Removes purged items from a categories array. A category that ONLY becomes
+// empty because of this removal is dropped too, so no hollow category is left.
+function sanitizeCategories(categories) {
+  let removed = 0;
+  const cleaned = [];
+
+  for (const category of categories) {
+    if (!category || !Array.isArray(category.items)) {
+      cleaned.push(category);
+      continue;
+    }
+
+    const keptItems = category.items.filter(item => !isPurgedItem(item));
+    removed += category.items.length - keptItems.length;
+
+    if (category.items.length > 0 && keptItems.length === 0) continue;
+
+    cleaned.push({ ...category, items: keptItems });
+  }
+
+  return { categories: cleaned, removed };
+}
+
 function getVariantInfo(rawVariant) {
   const key = slugify(rawVariant);
 
@@ -191,18 +266,30 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason) {
     const variantInfo = getVariantInfo(variant.variant);
     const itemId = `${categoryId}_${variantInfo.id}`;
 
+    // Manual backup list.
+    if (EXCLUDED_SPRITE_IDS.has(itemId)) {
+      filteredItemIds.add(itemId);
+      continue;
+    }
+
+    // Automatic rule: a non-base variant the API gives no way to obtain is
+    // not in the game. It is skipped now AND remembered in PURGE_ITEM_IDS so
+    // it is also removed from anything saved in earlier runs.
+    if (variantInfo.id !== 'normal' && !isWiredIntoGame(variant)) {
+      PURGE_ITEM_IDS.add(itemId);
+      filteredItemIds.add(itemId);
+      autoExcludedLog.push(
+        `${itemId} (${seasonInfo.id}) - ${describeAcquisition(variant)}`
+      );
+      continue;
+    }
+
     if (seenIds.has(itemId)) {
       throw new Error(
         `Duplicate source ID "${itemId}" in ${seasonInfo.id}.`
       );
     }
     seenIds.add(itemId);
-
-    // Explicitly excluded false-positive IDs must be removed from old data too.
-    if (EXCLUDED_SPRITE_IDS.has(itemId)) {
-      filteredItemIds.add(itemId);
-      continue;
-    }
 
     // Explicit release status applies to every season.
     const explicitlyUnreleased =
@@ -261,10 +348,11 @@ function mergeCategory(existingCategory, incomingEntry) {
     ? existingCategory.items
     : [];
 
-  // Remove filtered IDs and items already marked unreleased.
+  // Remove filtered IDs, purged items, and items already marked unreleased.
   const mergedItems = existingItems.filter(item =>
     !filteredIds.has(item.id) &&
-    !isExplicitlyUnreleased(item)
+    !isExplicitlyUnreleased(item) &&
+    !isPurgedItem(item)
   );
 
   const existingItemsById = new Map(
@@ -312,8 +400,10 @@ function mergeCategory(existingCategory, incomingEntry) {
 }
 
 function mergeSeason(existingData, seasonInfo, incomingEntries) {
+  // Sanitize first: strips purged items and drops any category that ends up
+  // empty only because of that, instead of leaving a hollow one.
   const existingCategories = Array.isArray(existingData.categories)
-    ? existingData.categories
+    ? sanitizeCategories(existingData.categories).categories
     : [];
 
   const incomingById = new Map(
@@ -328,14 +418,18 @@ function mergeSeason(existingData, seasonInfo, incomingEntries) {
     }
 
     // Even categories not returned by the source lose explicit
-    // unreleased items, so stale entries cannot persist forever.
+    // unreleased items and purged items, so stale entries
+    // cannot persist forever.
     const oldItems = Array.isArray(existingCategory.items)
       ? existingCategory.items
       : [];
 
     return {
       ...existingCategory,
-      items: oldItems.filter(item => !isExplicitlyUnreleased(item)),
+      items: oldItems.filter(item =>
+        !isExplicitlyUnreleased(item) &&
+        !isPurgedItem(item)
+      ),
     };
   });
 
@@ -445,6 +539,15 @@ async function main() {
     bySeason.get(seasonInfo.id).entries.push(entry);
   }
 
+  // All incoming data is processed, so PURGE_ITEM_IDS is complete before
+  // anything is merged or written.
+  if (autoExcludedLog.length > 0) {
+    console.log(
+      `Skipped ${autoExcludedLog.length} variant(s) the API gives no way to obtain:`
+    );
+    for (const line of autoExcludedLog) console.log(`  - ${line}`);
+  }
+
   const pendingWrites = [];
   const mergedSeasons = [];
 
@@ -484,6 +587,54 @@ async function main() {
         data: latest.data,
       });
     }
+  }
+
+  // Safety net, part 1: strip purged items from every file about to be written.
+  let purged = 0;
+  for (const file of pendingWrites) {
+    const cleaned = sanitizeCategories(file.data.categories);
+    if (cleaned.removed > 0) {
+      purged += cleaned.removed;
+      file.data = { ...file.data, categories: cleaned.categories };
+    }
+  }
+
+  // Safety net, part 2: other data files the merge didn't touch (for example
+  // an older file the API no longer returns) are cleaned too, so a variant
+  // that is not in the game can't keep living in a file the app still reads.
+  const handledPaths = new Set(
+    pendingWrites.map(file => path.resolve(file.filePath))
+  );
+
+  if (fs.existsSync(DATA_DIR)) {
+    for (const name of fs.readdirSync(DATA_DIR)) {
+      if (!name.endsWith('.json')) continue;
+
+      const filePath = path.join(DATA_DIR, name);
+      if (handledPaths.has(path.resolve(filePath))) continue;
+
+      let data;
+      try {
+        data = loadJson(filePath);
+      } catch {
+        continue; // not a file we understand; leave it alone
+      }
+
+      if (!data || !Array.isArray(data.categories)) continue;
+
+      const cleaned = sanitizeCategories(data.categories);
+      if (cleaned.removed > 0) {
+        purged += cleaned.removed;
+        pendingWrites.push({
+          filePath,
+          data: { ...data, categories: cleaned.categories },
+        });
+      }
+    }
+  }
+
+  if (purged > 0) {
+    console.log(`Removed ${purged} previously saved item(s) that are not in the game.`);
   }
 
   if (!pendingWrites.length) {
