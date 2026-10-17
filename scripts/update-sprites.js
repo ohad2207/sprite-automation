@@ -6,16 +6,15 @@ const SPRITES_API_URL = 'https://prod.fn-api.cc/v1/sprites';
 const REQUEST_TIMEOUT_MS = 30_000;
 const CURRENT_SEASON_FILENAME = 'season-current.json';
 
-// Optional manual backup only. Nothing needs to be added here anymore: variants
-// that cannot be obtained in the game are detected automatically (see
-// isWiredIntoGame below) on every run.
-const EXCLUDED_SPRITE_IDS = new Set(['overshield_reaper']);
+// These are asset-only variant names that must never be published.  The API
+// currently exposes "reaper" alongside real variants, even though it is not a
+// player-facing variant. Keep this rule name-based so it covers every sprite,
+// not only whichever sprite happened to expose it first.
+const EXCLUDED_VARIANT_IDS = new Set(['reaper']);
 
-// Every item ID that must not appear in any data file. It starts with the
-// manual backup list and is extended automatically while the API data is
-// processed, so it is rebuilt from scratch on each run. If the API later makes
-// a variant obtainable, it simply stops being added here and shows up again.
-const PURGE_ITEM_IDS = new Set(EXCLUDED_SPRITE_IDS);
+// Every item ID that must not appear in any data file. It is extended
+// automatically while the API data is processed, and rebuilt on each run.
+const PURGE_ITEM_IDS = new Set();
 
 // Variants skipped by the automatic rule during this run, for the log.
 const autoExcludedLog = [];
@@ -174,7 +173,11 @@ function describeAcquisition(variant) {
 }
 
 function isPurgedItem(item) {
-  return Boolean(item) && typeof item.id === 'string' && PURGE_ITEM_IDS.has(item.id);
+  if (!item || typeof item.id !== 'string') return false;
+
+  // This removes previously committed Reaper entries even if the source API
+  // does not return their family during the current run.
+  return PURGE_ITEM_IDS.has(item.id) || /_reaper$/i.test(item.id);
 }
 
 // Removes purged items from a categories array. A category that ONLY becomes
@@ -266,8 +269,10 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason) {
     const variantInfo = getVariantInfo(variant.variant);
     const itemId = `${categoryId}_${variantInfo.id}`;
 
-    // Manual backup list.
-    if (EXCLUDED_SPRITE_IDS.has(itemId)) {
+    // Asset-only variants must never be included, regardless of what
+    // acquisition metadata the API happens to expose for them.
+    if (EXCLUDED_VARIANT_IDS.has(variantInfo.id)) {
+      PURGE_ITEM_IDS.add(itemId);
       filteredItemIds.add(itemId);
       continue;
     }
@@ -431,7 +436,7 @@ function mergeSeason(existingData, seasonInfo, incomingEntries) {
         !isPurgedItem(item)
       ),
     };
-  });
+  }).filter(category => category.items.length > 0);
 
   const mergedIds = new Set(mergedCategories.map(category => category.id));
 
@@ -536,7 +541,10 @@ async function main() {
       seasonInfo.id === currentSeasonId
     );
 
-    bySeason.get(seasonInfo.id).entries.push(entry);
+    // Do not create a category when all of its variants were filtered out.
+    if (entry.category.items.length > 0) {
+      bySeason.get(seasonInfo.id).entries.push(entry);
+    }
   }
 
   // All incoming data is processed, so PURGE_ITEM_IDS is complete before
