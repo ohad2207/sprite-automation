@@ -1,6 +1,6 @@
 {
   "version": "auto-2026-10-17",
-  "updatedAt": "2026-10-17T22:47:20.686Z",
+  "updatedAt": "2026-10-17T22:58:44.818Z",
   "season": "Chapter 7 Season 4",
   "categories": [
     {
@@ -95,11 +95,6 @@
           "released": true
         },
         {
-          "id": "x_ray_reaper",
-          "name": "X-Ray Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_reaper/largeicon.png"
-        },
-        {
           "id": "x_ray_tricktreat",
           "name": "X-Ray Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_tricktreat/largeicon.png",
@@ -141,11 +136,6 @@
           "name": "Onigiri Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_loothacker/largeicon.png",
           "released": true
-        },
-        {
-          "id": "onigiri_reaper",
-          "name": "Onigiri Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_reaper/largeicon.png"
         },
         {
           "id": "onigiri_tricktreat",
@@ -191,11 +181,6 @@
           "released": true
         },
         {
-          "id": "jackrabbit_reaper",
-          "name": "Jackrabbit Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_reaper/largeicon.png"
-        },
-        {
           "id": "jackrabbit_tricktreat",
           "name": "Jackrabbit Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_tricktreat/largeicon.png",
@@ -239,11 +224,6 @@
           "released": true
         },
         {
-          "id": "tails_reaper",
-          "name": "Tails Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_reaper/largeicon.png"
-        },
-        {
           "id": "tails_tricktreat",
           "name": "Tails Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_tricktreat/largeicon.png",
@@ -285,11 +265,6 @@
           "name": "Shadow Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_loothacker/largeicon.png",
           "released": true
-        },
-        {
-          "id": "shadow_reaper",
-          "name": "Shadow Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_reaper/largeicon.png"
         },
         {
           "id": "shadow_tricktreat",
@@ -340,11 +315,6 @@
           "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_quack/largeicon.png"
         },
         {
-          "id": "bush_reaper",
-          "name": "Bush Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_reaper/largeicon.png"
-        },
-        {
           "id": "bush_tricktreat",
           "name": "Bush Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_tricktreat/largeicon.png",
@@ -386,11 +356,6 @@
           "name": "Killswitch Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_loothacker/largeicon.png",
           "released": true
-        },
-        {
-          "id": "killswitch_reaper",
-          "name": "Killswitch Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_reaper/largeicon.png"
         },
         {
           "id": "killswitch_tricktreat",
@@ -441,11 +406,6 @@
           "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_quack/largeicon.png"
         },
         {
-          "id": "adventure_reaper",
-          "name": "Adventure Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_reaper/largeicon.png"
-        },
-        {
           "id": "adventure_tricktreat",
           "name": "Adventure Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_tricktreat/largeicon.png",
@@ -492,11 +452,6 @@
           "id": "klombo_quack",
           "name": "Klombo Quack",
           "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_quack/largeicon.png"
-        },
-        {
-          "id": "klombo_reaper",
-          "name": "Klombo Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_reaper/largeicon.png"
         },
         {
           "id": "klombo_tricktreat",
@@ -547,11 +502,6 @@
           "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_quack/largeicon.png"
         },
         {
-          "id": "jonesy_reaper",
-          "name": "Jonesy Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_reaper/largeicon.png"
-        },
-        {
           "id": "jonesy_tricktreat",
           "name": "Jonesy Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_tricktreat/largeicon.png",
@@ -593,11 +543,6 @@
           "name": "Sonic Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_loothacker/largeicon.png",
           "released": true
-        },
-        {
-          "id": "sonic_reaper",
-          "name": "Sonic Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_reaper/largeicon.png"
         },
         {
           "id": "sonic_tricktreat",
@@ -643,11 +588,6 @@
           "released": true
         },
         {
-          "id": "crown_reaper",
-          "name": "Crown Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_reaper/largeicon.png"
-        },
-        {
           "id": "crown_tricktreat",
           "name": "Crown Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_tricktreat/largeicon.png",
@@ -689,11 +629,6 @@
           "name": "8-Bit Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_loothacker/largeicon.png",
           "released": true
-        },
-        {
-          "id": "8_bit_reaper",
-          "name": "8-Bit Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_reaper/largeicon.png"
         },
         {
           "id": "8_bit_tricktreat",
@@ -739,11 +674,6 @@
           "released": true
         },
         {
-          "id": "storm_scout_reaper",
-          "name": "Storm Scout Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_reaper/largeicon.png"
-        },
-        {
           "id": "storm_scout_tricktreat",
           "name": "Storm Scout Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_tricktreat/largeicon.png",
@@ -785,11 +715,6 @@
           "name": "Blinky Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_loothacker/largeicon.png",
           "released": true
-        },
-        {
-          "id": "blinky_reaper",
-          "name": "Blinky Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_reaper/largeicon.png"
         },
         {
           "id": "blinky_tricktreat",
@@ -835,11 +760,6 @@
           "released": true
         },
         {
-          "id": "birthday_reaper",
-          "name": "Birthday Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_reaper/largeicon.png"
-        },
-        {
           "id": "birthday_tricktreat",
           "name": "Birthday Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_tricktreat/largeicon.png",
@@ -881,11 +801,6 @@
           "name": "Crash Bandicoot Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_loothacker/largeicon.png",
           "released": true
-        },
-        {
-          "id": "crash_bandicoot_reaper",
-          "name": "Crash Bandicoot Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_reaper/largeicon.png"
         },
         {
           "id": "crash_bandicoot_tricktreat",
@@ -931,11 +846,6 @@
           "released": true
         },
         {
-          "id": "pond_reaper",
-          "name": "Pond Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_reaper/largeicon.png"
-        },
-        {
           "id": "pond_tricktreat",
           "name": "Pond Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_tricktreat/largeicon.png",
@@ -977,11 +887,6 @@
           "name": "Morgana Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_loothacker/largeicon.png",
           "released": true
-        },
-        {
-          "id": "morgana_reaper",
-          "name": "Morgana Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_reaper/largeicon.png"
         },
         {
           "id": "morgana_tricktreat",
@@ -1032,11 +937,6 @@
           "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_quack/largeicon.png"
         },
         {
-          "id": "spooky_dash_reaper",
-          "name": "Spooky Dash Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_reaper/largeicon.png"
-        },
-        {
           "id": "spooky_dash_tricktreat",
           "name": "Spooky Dash Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_tricktreat/largeicon.png",
@@ -1078,11 +978,6 @@
           "name": "Vampire Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_loothacker/largeicon.png",
           "released": true
-        },
-        {
-          "id": "vampire_reaper",
-          "name": "Vampire Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_reaper/largeicon.png"
         },
         {
           "id": "vampire_tricktreat",
@@ -1128,11 +1023,6 @@
           "released": true
         },
         {
-          "id": "the_deer_reaper",
-          "name": "The Deer Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_reaper/largeicon.png"
-        },
-        {
           "id": "the_deer_tricktreat",
           "name": "The Deer Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_tricktreat/largeicon.png",
@@ -1176,11 +1066,6 @@
           "released": true
         },
         {
-          "id": "dumpster_dive_reaper",
-          "name": "Dumpster Dive Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_reaper/largeicon.png"
-        },
-        {
           "id": "dumpster_dive_tricktreat",
           "name": "Dumpster Dive Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_tricktreat/largeicon.png",
@@ -1214,11 +1099,6 @@
           "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_loothacker/largeicon.png"
         },
         {
-          "id": "honey_reaper",
-          "name": "Honey Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_reaper/largeicon.png"
-        },
-        {
           "id": "honey_tricktreat",
           "name": "Honey Trick Treat",
           "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_tricktreat/largeicon.png"
@@ -1249,11 +1129,6 @@
           "id": "one_wish_willow_hacker",
           "name": "One Wish Willow Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_loothacker/largeicon.png"
-        },
-        {
-          "id": "one_wish_willow_reaper",
-          "name": "One Wish Willow Reaper",
-          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_reaper/largeicon.png"
         },
         {
           "id": "one_wish_willow_tricktreat",
