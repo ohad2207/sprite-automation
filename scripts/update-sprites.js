@@ -111,6 +111,9 @@ function compareSeasons(a, b) {
 function getImage(record) {
   return record?.images?.largeIcon || record?.images?.icon || '';
 }
+function getFortniteGgImage(verifiedItemIds, itemId) {
+  return verifiedItemIds.imageByItemId?.get(itemId) || '';
+}
 
 function imageForVerifiedVariant(normalImage, variantId) {
   // fn-api's CDN uses the same asset stem for a family's normal and special
@@ -151,14 +154,54 @@ async function fetchFortniteGgCatalog() {
       throw new Error(`Fortnite.gg returned HTTP ${response.status}.`);
     }
 
-    const html = await response.text();
-    const verifiedItemIds = new Set();
-    const spriteLinks = /\/sprites\/\d+-([a-z0-9-]+)-sprite(?=["'/?#])/gi;
+   const html = await response.text();
+const verifiedItemIds = new Set();
+const imageByItemId = new Map();
 
-    for (const match of html.matchAll(spriteLinks)) {
-      const { categoryId, variantId } = parseFortniteGgVariantSlug(match[1]);
-      if (categoryId) verifiedItemIds.add(`${categoryId}_${variantId}`);
-    }
+const spriteLinks =
+  /\/sprites\/\d+-([a-z0-9-]+)-sprite(?=["'/?#])/gi;
+
+for (const match of html.matchAll(spriteLinks)) {
+  const { categoryId, variantId } =
+    parseFortniteGgVariantSlug(match[1]);
+
+  if (!categoryId) continue;
+
+  const itemId = `${categoryId}_${variantId}`;
+  verifiedItemIds.add(itemId);
+
+  const linkStart = html.lastIndexOf('<a', match.index);
+  const linkEnd = html.indexOf('</a>', match.index);
+
+  if (linkStart === -1 || linkEnd === -1) continue;
+
+  const anchorHtml = html.slice(linkStart, linkEnd + 4);
+  if (!anchorHtml.includes(match[0])) continue;
+
+  const imageTag =
+    anchorHtml.match(/<(?:img|source)\b[^>]*>/i)?.[0];
+
+  if (!imageTag) continue;
+
+  const imageMatch =
+    imageTag.match(/\b(?:data-src|data-original|data-lazy-src)=["']([^"']+)["']/i) ||
+    imageTag.match(/\bsrc=["']([^"']+)["']/i) ||
+    imageTag.match(/\bsrcset=["']([^"'\s,]+)/i);
+
+  if (!imageMatch?.[1]) continue;
+
+  const rawImageUrl = imageMatch[1].replace(/&amp;/g, '&');
+
+  const imageUrl = rawImageUrl.startsWith('//')
+    ? `https:${rawImageUrl}`
+    : new URL(rawImageUrl, 'https://fortnite.gg').href;
+
+  if (/^https?:\/\//i.test(imageUrl)) {
+    imageByItemId.set(itemId, imageUrl);
+  }
+}
+
+verifiedItemIds.imageByItemId = imageByItemId;
 
     // A tiny or malformed page could otherwise silently delete most of the
     // catalog. Require a credible catalog plus two known current entries.
@@ -415,7 +458,10 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason, verifiedItem
       name: variantInfo.label
         ? `${categoryName} ${variantInfo.label}`
         : categoryName,
-      image: getImage(variant) || getImage(family),
+      image:
+        getImage(variant) ||
+        getImage(family) ||
+        getFortniteGgImage(verifiedItemIds, itemId),
     };
 
     if (typeof variant.released === 'boolean') {
@@ -446,7 +492,10 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason, verifiedItem
     items.push({
       id: verifiedItemId,
       name: variantInfo.label ? `${categoryName} ${variantInfo.label}` : categoryName,
-      image: imageForVerifiedVariant(normalImage, variantId) || normalImage,
+     image:
+       getFortniteGgImage(verifiedItemIds, verifiedItemId) ||
+       imageForVerifiedVariant(normalImage, variantId) ||
+       normalImage,
     });
     seenIds.add(verifiedItemId);
   }
