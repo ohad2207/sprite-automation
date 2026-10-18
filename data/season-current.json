@@ -1,6 +1,6 @@
 {
   "version": "auto-2026-10-18",
-  "updatedAt": "2026-10-18T15:46:57.003Z",
+  "updatedAt": "2026-10-18T16:04:51.929Z",
   "season": "Chapter 7 Season 4",
   "categories": [
     {
@@ -17,7 +17,7 @@
         {
           "id": "overshield_bountyhunter",
           "name": "Overshield Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Overshield_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -73,7 +73,7 @@
         {
           "id": "x_ray_bountyhunter",
           "name": "X-Ray Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerB_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -116,7 +116,7 @@
         {
           "id": "onigiri_bountyhunter",
           "name": "Onigiri Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerC_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -159,7 +159,7 @@
         {
           "id": "jackrabbit_bountyhunter",
           "name": "Jackrabbit Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_DoubleJump_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -202,7 +202,7 @@
         {
           "id": "tails_bountyhunter",
           "name": "Tails Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFleaMonkey_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -245,7 +245,7 @@
         {
           "id": "shadow_bountyhunter",
           "name": "Shadow Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ReloadOverTime_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -288,7 +288,7 @@
         {
           "id": "bush_bountyhunter",
           "name": "Bush Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BushRanger_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -336,7 +336,7 @@
         {
           "id": "killswitch_bountyhunter",
           "name": "Killswitch Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Killswitch_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -379,7 +379,7 @@
         {
           "id": "adventure_bountyhunter",
           "name": "Adventure Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Dwarf_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -427,7 +427,7 @@
         {
           "id": "klombo_bountyhunter",
           "name": "Klombo Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Klombo_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -475,7 +475,7 @@
         {
           "id": "jonesy_bountyhunter",
           "name": "Jonesy Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Jonesy_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -523,7 +523,7 @@
         {
           "id": "sonic_bountyhunter",
           "name": "Sonic Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -566,7 +566,7 @@
         {
           "id": "crown_bountyhunter",
           "name": "Crown Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -609,7 +609,7 @@
         {
           "id": "8_bit_bountyhunter",
           "name": "8-Bit Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_8BitBlaster_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -652,7 +652,7 @@
         {
           "id": "storm_scout_bountyhunter",
           "name": "Storm Scout Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_StormScout_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -695,7 +695,7 @@
         {
           "id": "blinky_bountyhunter",
           "name": "Blinky Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_GhostDamage_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -738,7 +738,7 @@
         {
           "id": "birthday_bountyhunter",
           "name": "Birthday Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Birthday_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -781,7 +781,7 @@
         {
           "id": "crash_bandicoot_bountyhunter",
           "name": "Crash Bandicoot Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BodySlam_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -824,7 +824,7 @@
         {
           "id": "pond_bountyhunter",
           "name": "Pond Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerA_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -867,7 +867,7 @@
         {
           "id": "morgana_bountyhunter",
           "name": "Morgana Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreaseHeals_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -910,7 +910,7 @@
         {
           "id": "spooky_dash_bountyhunter",
           "name": "Spooky Dash Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_PhaseDash_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -958,7 +958,7 @@
         {
           "id": "vampire_bountyhunter",
           "name": "Vampire Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_HealthSiphon_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -1001,7 +1001,7 @@
         {
           "id": "the_deer_bountyhunter",
           "name": "The Deer Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_IncreasedMelee_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -1044,7 +1044,7 @@
         {
           "id": "dumpster_dive_bountyhunter",
           "name": "Dumpster Dive Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerD_BountyHunter_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_bountyhunter/largeicon.png",
           "released": true
         },
         {
@@ -1086,7 +1086,7 @@
         {
           "id": "honey_bountyhunter",
           "name": "Honey Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerE_BountyHunter_L.webp"
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_bountyhunter/largeicon.png"
         },
         {
           "id": "honey_cheatmaster",
@@ -1123,7 +1123,7 @@
         {
           "id": "one_wish_willow_bountyhunter",
           "name": "One Wish Willow Bounty Hunter",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_CargoLying_BountyHunter_L.webp"
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_bountyhunter/largeicon.png"
         },
         {
           "id": "one_wish_willow_cheatmaster",
