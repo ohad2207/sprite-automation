@@ -1084,6 +1084,11 @@
           "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_a/largeicon.png"
         },
         {
+          "id": "honey_bountyhunter",
+          "name": "Honey Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerE_BountyHunter_L.webp"
+        },
+        {
           "id": "honey_cheatmaster",
           "name": "Honey Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_cheatmaster/largeicon.png"
@@ -1114,6 +1119,11 @@
           "id": "one_wish_willow_normal",
           "name": "One Wish Willow",
           "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_a/largeicon.png"
+        },
+        {
+          "id": "one_wish_willow_bountyhunter",
+          "name": "One Wish Willow Bounty Hunter",
+          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_CargoLying_BountyHunter_L.webp"
         },
         {
           "id": "one_wish_willow_cheatmaster",

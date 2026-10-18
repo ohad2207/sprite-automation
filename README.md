@@ -17,11 +17,14 @@ sprite-automation/
 
 1. GitHub runs the workflow on a schedule (daily at 06:00 UTC by default).
 2. It runs the catalog update script with Node.js 20.
-3. The script validates the API response, groups variants into categories,
-   and updates each season's file plus `season-current.json`.
-4. Variants explicitly marked unreleased are excluded. Asset-only `reaper`
+3. Before changing data, the script validates Fortnite.gg's public Sprite
+   catalog. `fn-api.cc` entries must appear there to be included; entries
+   visible on Fortnite.gg but temporarily missing from the API are added.
+4. If Fortnite.gg cannot be fetched or its catalog is incomplete, the run
+   fails without changing files. The next daily run retries automatically.
+5. Variants explicitly marked unreleased are excluded. Asset-only `reaper`
    variants are also always excluded and removed from older saved files.
-5. If a file changed, the workflow commits and pushes it back into this
+6. If a file changed, the workflow commits and pushes it back into this
    repo automatically.
 
 ## If the catalog update fails

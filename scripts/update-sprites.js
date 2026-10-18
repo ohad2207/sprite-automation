@@ -3,6 +3,7 @@ const path = require('path');
 
 const DATA_DIR = path.join(__dirname, '..', 'data');
 const SPRITES_API_URL = 'https://prod.fn-api.cc/v1/sprites';
+const FORTNITE_GG_SPRITES_URL = 'https://fortnite.gg/sprites';
 const REQUEST_TIMEOUT_MS = 30_000;
 const CURRENT_SEASON_FILENAME = 'season-current.json';
 
@@ -42,6 +43,27 @@ const VARIANT_ALIASES = {
   trickortreat: { id: 'tricktreat', label: 'Trick or Treat' },
   trick_or_treat: { id: 'tricktreat', label: 'Trick or Treat' },
 };
+
+// Fortnite.gg spells variant names in page URLs, while fn-api uses a mixture
+// of names such as "BountyHunter" and "LootHacker". These are the canonical
+// IDs used in our data files.
+const FORTNITE_GG_VARIANT_PREFIXES = [
+  ['bounty-hunter-', 'bountyhunter'],
+  ['cheat-master-', 'cheatmaster'],
+  ['cheatmaster-', 'cheatmaster'],
+  ['loot-hacker-', 'hacker'],
+  ['loothacker-', 'hacker'],
+  ['trick-or-treat-', 'tricktreat'],
+  ['tricktreat-', 'tricktreat'],
+  ['holofoil-', 'holofoil'],
+  ['galaxy-', 'galaxy'],
+  ['gummy-', 'gummy'],
+  ['candy-', 'gummy'],
+  ['gold-', 'gold'],
+  ['gem-', 'gem'],
+  ['cube-', 'cube'],
+  ['quack-', 'quack'],
+];
 
 function slugify(value) {
   return String(value || '')
@@ -88,6 +110,70 @@ function compareSeasons(a, b) {
 
 function getImage(record) {
   return record?.images?.largeIcon || record?.images?.icon || '';
+}
+
+function imageForVerifiedVariant(normalImage, variantId) {
+  // fn-api's CDN uses the same asset stem for a family's normal and special
+  // variants. This gives Fortnite.gg-confirmed variants their own icon even
+  // when fn-api omitted their record altogether.
+  if (typeof normalImage !== 'string') return '';
+
+  return normalImage.replace(
+    /_variant_(?:a|base)(?=\/)/i,
+    `_variant_${variantId}`
+  );
+}
+
+function parseFortniteGgVariantSlug(slug) {
+  for (const [prefix, variantId] of FORTNITE_GG_VARIANT_PREFIXES) {
+    if (slug.startsWith(prefix)) {
+      return { categoryId: slugify(slug.slice(prefix.length)), variantId };
+    }
+  }
+
+  return { categoryId: slugify(slug), variantId: 'normal' };
+}
+
+async function fetchFortniteGgCatalog() {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(FORTNITE_GG_SPRITES_URL, {
+      headers: {
+        Accept: 'text/html',
+        'User-Agent': 'sprite-automation/1.0 (+https://github.com/ohad2207/sprite-automation)',
+      },
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Fortnite.gg returned HTTP ${response.status}.`);
+    }
+
+    const html = await response.text();
+    const verifiedItemIds = new Set();
+    const spriteLinks = /\/sprites\/\d+-([a-z0-9-]+)-sprite(?=["'/?#])/gi;
+
+    for (const match of html.matchAll(spriteLinks)) {
+      const { categoryId, variantId } = parseFortniteGgVariantSlug(match[1]);
+      if (categoryId) verifiedItemIds.add(`${categoryId}_${variantId}`);
+    }
+
+    // A tiny or malformed page could otherwise silently delete most of the
+    // catalog. Require a credible catalog plus two known current entries.
+    if (
+      verifiedItemIds.size < 100 ||
+      !verifiedItemIds.has('honey_bountyhunter') ||
+      !verifiedItemIds.has('one_wish_willow_bountyhunter')
+    ) {
+      throw new Error('Fortnite.gg returned an incomplete or unrecognised sprite catalog.');
+    }
+
+    return verifiedItemIds;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 // מסנן רק פריטים שהמקור מסמן במפורש כלא משוחררים.
@@ -248,7 +334,7 @@ function getExistingSeasonData(seasonInfo) {
   return { filePath, exists: true, data };
 }
 
-function buildIncomingCategory(family, seasonInfo, isCurrentSeason) {
+function buildIncomingCategory(family, seasonInfo, isCurrentSeason, verifiedItemIds) {
   const categoryName = stripSpriteSuffix(family.name);
   const categoryId = slugify(categoryName);
 
@@ -264,10 +350,22 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason) {
   const items = [];
   const filteredItemIds = new Set();
   const seenIds = new Set();
+  const apiImagesByVariantId = new Map();
 
   for (const variant of rawVariants) {
     const variantInfo = getVariantInfo(variant.variant);
     const itemId = `${categoryId}_${variantInfo.id}`;
+    apiImagesByVariantId.set(
+      variantInfo.id,
+      getImage(variant) || getImage(family) || ''
+    );
+
+    // Fortnite.gg is the published-catalog check. Never expose an API-only
+    // asset (for example Reaper) that the public tracker does not list.
+    if (!verifiedItemIds.has(itemId)) {
+      filteredItemIds.add(itemId);
+      continue;
+    }
 
     // Asset-only variants must never be included, regardless of what
     // acquisition metadata the API happens to expose for them.
@@ -327,6 +425,30 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason) {
     }
 
     items.push(item);
+  }
+
+  // fn-api can lag behind the public catalog. Add a Fortnite.gg-confirmed
+  // variant missing from the API for an existing family (for example Bounty
+  // Hunter Honey and One Wish Willow), while keeping fn-api as the source for
+  // season membership and the family itself.
+  const prefix = `${categoryId}_`;
+  const normalImage = apiImagesByVariantId.get('normal') || getImage(family) || '';
+  for (const verifiedItemId of verifiedItemIds) {
+    if (!verifiedItemId.startsWith(prefix) || seenIds.has(verifiedItemId)) continue;
+
+    const variantId = verifiedItemId.slice(prefix.length);
+    if (variantId === 'normal' || EXCLUDED_VARIANT_IDS.has(variantId)) continue;
+
+    const variantInfo = Object.values(VARIANT_ALIASES).find(
+      alias => alias.id === variantId
+    ) || { id: variantId, label: humanize(variantId) };
+
+    items.push({
+      id: verifiedItemId,
+      name: variantInfo.label ? `${categoryName} ${variantInfo.label}` : categoryName,
+      image: imageForVerifiedVariant(normalImage, variantId) || normalImage,
+    });
+    seenIds.add(verifiedItemId);
   }
 
   items.sort((a, b) => {
@@ -500,6 +622,12 @@ async function fetchSpriteCatalog() {
 async function main() {
   console.log(`Fetching sprites from ${SPRITES_API_URL}`);
 
+  // Fetch and validate before the API data is processed or any local file can
+  // be written. A Fortnite.gg outage is intentionally a failed run, so the
+  // next scheduled run retries without publishing unverified data.
+  const verifiedItemIds = await fetchFortniteGgCatalog();
+  console.log(`Verified ${verifiedItemIds.size} public sprite variant(s) from Fortnite.gg.`);
+
   const families = await fetchSpriteCatalog();
   const parsed = families.map(family => ({
     family,
@@ -538,7 +666,8 @@ async function main() {
     const entry = buildIncomingCategory(
       family,
       seasonInfo,
-      seasonInfo.id === currentSeasonId
+      seasonInfo.id === currentSeasonId,
+      verifiedItemIds
     );
 
     // Do not create a category when all of its variants were filtered out.
