@@ -1,6 +1,6 @@
 {
-  "version": "auto-2026-11-01",
-  "updatedAt": "2026-11-01T14:38:50.350Z",
+  "version": "auto-2026-11-04",
+  "updatedAt": "2026-11-04T20:25:36.997Z",
   "season": "Chapter 7 Season 3",
   "categories": [
     {
@@ -846,69 +846,37 @@
     {
       "id": "peeky_peely",
       "name": "Peeky Peely",
-      "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Peely_ui_L.webp",
+      "image": "https://cdn.fn-api.cc/sprites/peelysprite/largeicon.png",
       "items": [
         {
           "id": "peeky_peely_normal",
           "name": "Peeky Peely",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Peely_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "peeky_peely_gold",
-          "name": "Peeky Peely Gold",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Peely_Gold_ui_L.webp",
-          "released": true
-        },
-        {
-          "id": "peeky_peely_gummy",
-          "name": "Peeky Peely Gummy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Peely_Candy_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/peelysprite_variant_a/largeicon.png",
           "released": true
         },
         {
           "id": "peeky_peely_galaxy",
           "name": "Peeky Peely Galaxy",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Peely_Galaxy_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/peelysprite_variant_galaxy/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "peeky_peely_gold",
+          "name": "Peeky Peely Gold",
+          "image": "https://cdn.fn-api.cc/sprites/peelysprite_variant_gold/largeicon.png",
+          "released": true
+        },
+        {
+          "id": "peeky_peely_gummy",
+          "name": "Peeky Peely Gummy",
+          "image": "https://cdn.fn-api.cc/sprites/peelysprite_variant_candy/largeicon.png",
           "released": true
         },
         {
           "id": "peeky_peely_holofoil",
           "name": "Peeky Peely Holofoil",
-          "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Peely_Holofoil_ui_L.webp",
+          "image": "https://cdn.fn-api.cc/sprites/peelysprite_variant_holofoil/largeicon.png",
           "released": true
-        }
-      ]
-    },
-    {
-      "id": "peely",
-      "name": "Peely",
-      "image": "https://cdn.fn-api.cc/sprites/peelysprite/largeicon.png",
-      "items": [
-        {
-          "id": "peely_normal",
-          "name": "Peely",
-          "image": "https://cdn.fn-api.cc/sprites/peelysprite_variant_a/largeicon.png"
-        },
-        {
-          "id": "peely_galaxy",
-          "name": "Peely Galaxy",
-          "image": "https://cdn.fn-api.cc/sprites/peelysprite_variant_galaxy/largeicon.png"
-        },
-        {
-          "id": "peely_gold",
-          "name": "Peely Gold",
-          "image": "https://cdn.fn-api.cc/sprites/peelysprite_variant_gold/largeicon.png"
-        },
-        {
-          "id": "peely_gummy",
-          "name": "Peely Gummy",
-          "image": "https://cdn.fn-api.cc/sprites/peelysprite_variant_candy/largeicon.png"
-        },
-        {
-          "id": "peely_holofoil",
-          "name": "Peely Holofoil",
-          "image": "https://cdn.fn-api.cc/sprites/peelysprite_variant_holofoil/largeicon.png"
         }
       ]
     }
