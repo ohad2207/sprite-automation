@@ -928,7 +928,15 @@ async function main() {
       data: merged.data,
     });
 
-    if (merged.changed || !existing.exists) {
+    const hasCategories = merged.data.categories.length > 0;
+
+    if (!hasCategories) {
+      console.log(
+        `WARNING: ${seasonInfo.id} has 0 categories after filtering - not writing it.`
+      );
+    }
+
+    if (hasCategories && (merged.changed || !existing.exists)) {
       pendingWrites.push({
         filePath: existing.filePath,
         data: merged.data,
@@ -936,9 +944,12 @@ async function main() {
     }
   }
 
-  const latest = mergedSeasons.sort(
-    (a, b) => compareSeasons(a.seasonInfo, b.seasonInfo)
-  ).at(-1);
+  // season-current.json must never point at an empty season: use the newest
+  // season that actually has categories.
+  const latest = mergedSeasons
+    .filter(season => season.data.categories.length > 0)
+    .sort((a, b) => compareSeasons(a.seasonInfo, b.seasonInfo))
+    .at(-1);
 
   if (latest) {
     const currentPath = path.join(DATA_DIR, CURRENT_SEASON_FILENAME);
