@@ -6,6 +6,7 @@ const SPRITES_API_URL = 'https://prod.fn-api.cc/v1/sprites';
 const FORTNITE_GG_SPRITES_URL = 'https://fortnite.gg/sprites';
 const REQUEST_TIMEOUT_MS = 30_000;
 const CURRENT_SEASON_FILENAME = 'season-current.json';
+const MINI_SEASON_ORDER = 50; // sorts after numbered seasons 1-49 of the chapter
 
 // These are asset-only variant names that must never be published.  The API
 // currently exposes "reaper" alongside real variants, even though it is not a
@@ -116,10 +117,26 @@ function stripSpriteSuffix(name) {
 }
 
 function parseSeason(rawSeason) {
-  const match = String(rawSeason || '')
+  const normalized = String(rawSeason || '')
     .replace(/\s+/g, '')
-    .toUpperCase()
-    .match(/^CH(\d+)S(\d+)$/);
+    .toUpperCase();
+
+  // Mini season, e.g. "Ch7MS". It sorts after every numbered season of its
+  // chapter that exists today (MINI_SEASON_ORDER). If a numbered season that
+  // comes AFTER the mini season is added later, lower this value.
+  const mini = normalized.match(/^CH(\d+)MS$/);
+  if (mini) {
+    const chapter = mini[1];
+    return {
+      id: `c${chapter}ms`,
+      filename: `c${chapter}ms.json`,
+      displayName: `Chapter ${chapter} Mini Season`,
+      chapter: Number(chapter),
+      season: MINI_SEASON_ORDER,
+    };
+  }
+
+  const match = normalized.match(/^CH(\d+)S(\d+)$/);
 
   if (!match) return null;
 
