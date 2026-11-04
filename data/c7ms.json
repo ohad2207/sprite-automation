@@ -1,6 +1,201 @@
 {
   "version": "auto-2026-11-04",
   "season": "Chapter 7 Mini Season",
-  "categories": [],
-  "updatedAt": "2026-11-04T20:25:36.999Z"
+  "categories": [
+    {
+      "id": "transponder_snail",
+      "name": "Transponder Snail",
+      "image": "https://cdn.fn-api.cc/sprites/feedjet/largeicon.png",
+      "items": [
+        {
+          "id": "transponder_snail_normal",
+          "name": "Transponder Snail",
+          "image": "https://cdn.fn-api.cc/sprites/feedjet_variant_a/largeicon.png"
+        }
+      ]
+    },
+    {
+      "id": "sweet_dreams",
+      "name": "Sweet Dreams",
+      "image": "https://cdn.fn-api.cc/sprites/starlight/largeicon.png",
+      "items": [
+        {
+          "id": "sweet_dreams_normal",
+          "name": "Sweet Dreams",
+          "image": "https://cdn.fn-api.cc/sprites/starlight_variant_a/largeicon.png"
+        }
+      ]
+    },
+    {
+      "id": "plundarrgh",
+      "name": "Plundarrgh",
+      "image": "https://cdn.fn-api.cc/sprites/coinpile/largeicon.png",
+      "items": [
+        {
+          "id": "plundarrgh_normal",
+          "name": "Plundarrgh",
+          "image": "https://cdn.fn-api.cc/sprites/coinpile_variant_a/largeicon.png"
+        },
+        {
+          "id": "plundarrgh_jeweled",
+          "name": "Plundarrgh Jeweled",
+          "image": "https://cdn.fn-api.cc/sprites/coinpile_variant_jeweled/largeicon.png"
+        }
+      ]
+    },
+    {
+      "id": "lil_flacko",
+      "name": "Lil' Flacko",
+      "image": "https://cdn.fn-api.cc/sprites/playmakerbrewery/largeicon.png",
+      "items": [
+        {
+          "id": "lil_flacko_normal",
+          "name": "Lil' Flacko",
+          "image": "https://cdn.fn-api.cc/sprites/playmakerbrewery_variant_a/largeicon.png"
+        },
+        {
+          "id": "lil_flacko_jeweled",
+          "name": "Lil' Flacko Jeweled",
+          "image": "https://cdn.fn-api.cc/sprites/playmakerbrewery_variant_jeweled/largeicon.png"
+        }
+      ]
+    },
+    {
+      "id": "lil_squibbly",
+      "name": "Lil' Squibbly",
+      "image": "https://cdn.fn-api.cc/sprites/squibbly/largeicon.png",
+      "items": [
+        {
+          "id": "lil_squibbly_normal",
+          "name": "Lil' Squibbly",
+          "image": "https://cdn.fn-api.cc/sprites/squibbly_variant_a/largeicon.png"
+        },
+        {
+          "id": "lil_squibbly_jeweled",
+          "name": "Lil' Squibbly Jeweled",
+          "image": "https://cdn.fn-api.cc/sprites/squibbly_variant_jeweled/largeicon.png"
+        }
+      ]
+    },
+    {
+      "id": "kelper",
+      "name": "Kelper",
+      "image": "https://cdn.fn-api.cc/sprites/unbotheredfish/largeicon.png",
+      "items": [
+        {
+          "id": "kelper_normal",
+          "name": "Kelper",
+          "image": "https://cdn.fn-api.cc/sprites/unbotheredfish_variant_a/largeicon.png"
+        },
+        {
+          "id": "kelper_jeweled",
+          "name": "Kelper Jeweled",
+          "image": "https://cdn.fn-api.cc/sprites/unbotheredfish_variant_jeweled/largeicon.png"
+        }
+      ]
+    },
+    {
+      "id": "wayfinder",
+      "name": "Wayfinder",
+      "image": "https://cdn.fn-api.cc/sprites/compass/largeicon.png",
+      "items": [
+        {
+          "id": "wayfinder_normal",
+          "name": "Wayfinder",
+          "image": "https://cdn.fn-api.cc/sprites/compass_variant_a/largeicon.png"
+        },
+        {
+          "id": "wayfinder_jeweled",
+          "name": "Wayfinder Jeweled",
+          "image": "https://cdn.fn-api.cc/sprites/compass_variant_jeweled/largeicon.png"
+        }
+      ]
+    },
+    {
+      "id": "exmarks",
+      "name": "Exmarks",
+      "image": "https://cdn.fn-api.cc/sprites/treasuremap/largeicon.png",
+      "items": [
+        {
+          "id": "exmarks_normal",
+          "name": "Exmarks",
+          "image": "https://cdn.fn-api.cc/sprites/treasuremap_variant_a/largeicon.png"
+        },
+        {
+          "id": "exmarks_jeweled",
+          "name": "Exmarks Jeweled",
+          "image": "https://cdn.fn-api.cc/sprites/treasuremap_variant_jeweled/largeicon.png"
+        }
+      ]
+    },
+    {
+      "id": "barry_o_fish",
+      "name": "Barry O'Fish",
+      "image": "https://cdn.fn-api.cc/sprites/barreloffish/largeicon.png",
+      "items": [
+        {
+          "id": "barry_o_fish_normal",
+          "name": "Barry O'Fish",
+          "image": "https://cdn.fn-api.cc/sprites/barreloffish_variant_a/largeicon.png"
+        },
+        {
+          "id": "barry_o_fish_jeweled",
+          "name": "Barry O'Fish Jeweled",
+          "image": "https://cdn.fn-api.cc/sprites/barreloffish_variant_jeweled/largeicon.png"
+        }
+      ]
+    },
+    {
+      "id": "chester",
+      "name": "Chester",
+      "image": "https://cdn.fn-api.cc/sprites/treasurechest/largeicon.png",
+      "items": [
+        {
+          "id": "chester_normal",
+          "name": "Chester",
+          "image": "https://cdn.fn-api.cc/sprites/treasurechest_variant_a/largeicon.png"
+        },
+        {
+          "id": "chester_jeweled",
+          "name": "Chester Jeweled",
+          "image": "https://cdn.fn-api.cc/sprites/treasurechest_variant_jeweled/largeicon.png"
+        }
+      ]
+    },
+    {
+      "id": "re_pete",
+      "name": "Re-Pete",
+      "image": "https://cdn.fn-api.cc/sprites/parrot/largeicon.png",
+      "items": [
+        {
+          "id": "re_pete_normal",
+          "name": "Re-Pete",
+          "image": "https://cdn.fn-api.cc/sprites/parrot_variant_a/largeicon.png"
+        },
+        {
+          "id": "re_pete_jeweled",
+          "name": "Re-Pete Jeweled",
+          "image": "https://cdn.fn-api.cc/sprites/parrot_variant_jeweled/largeicon.png"
+        }
+      ]
+    },
+    {
+      "id": "halfpeel_d",
+      "name": "Halfpeel'd",
+      "image": "https://cdn.fn-api.cc/sprites/peelybones/largeicon.png",
+      "items": [
+        {
+          "id": "halfpeel_d_normal",
+          "name": "Halfpeel'd",
+          "image": "https://cdn.fn-api.cc/sprites/peelybones_variant_a/largeicon.png"
+        },
+        {
+          "id": "halfpeel_d_jeweled",
+          "name": "Halfpeel'd Jeweled",
+          "image": "https://cdn.fn-api.cc/sprites/peelybones_variant_jeweled/largeicon.png"
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-11-04T20:31:28.122Z"
 }
