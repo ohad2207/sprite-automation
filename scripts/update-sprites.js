@@ -13,12 +13,32 @@ const CURRENT_SEASON_FILENAME = 'season-current.json';
 // not only whichever sprite happened to expose it first.
 const EXCLUDED_VARIANT_IDS = new Set(['reaper']);
 
+// Per-season fixes for sprites whose API name is wrong or misleading.
+// Key = season id, then the category id as the API produces it.
+// c7s3: the API calls it "Peely", the real sprite is "Peeky Peely".
+const SEASON_CATEGORY_OVERRIDES = {
+  c7s3: {
+    peely: { id: 'peeky_peely', name: 'Peeky Peely' },
+  },
+};
+
+// Per-season categories that must be deleted from the saved file. The merge
+// keeps categories the API no longer returns, so a wrong old entry (like the
+// plain "peely" in c7s3) would otherwise live forever next to the right one.
+const SEASON_CATEGORY_REMOVALS = {
+  c7s3: ['peely'],
+};
+
 // Every item ID that must not appear in any data file. It is extended
 // automatically while the API data is processed, and rebuilt on each run.
 const PURGE_ITEM_IDS = new Set();
 
 // Variants skipped by the automatic rule during this run, for the log.
 const autoExcludedLog = [];
+
+// Every item dropped during this run, with the reason. Printed at the end so
+// a missing sprite can be traced to the exact filter that removed it.
+const dropLog = [];
 
 const VARIANT_ALIASES = {
   a: { id: 'normal', label: null },
@@ -72,6 +92,16 @@ function slugify(value) {
     .replace(/^_+|_+$/g, '');
 }
 
+// Same idea as slugify, but hyphen-separated and camelCase-aware, so the API
+// name "BountyHunter" becomes "bounty-hunter" like fortnite.gg URLs.
+function hyphenate(value) {
+  return String(value || '')
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 function humanize(value) {
   return String(value || '')
     .replace(/([a-z])([A-Z])/g, '$1 $2')
@@ -111,6 +141,7 @@ function compareSeasons(a, b) {
 function getImage(record) {
   return record?.images?.largeIcon || record?.images?.icon || '';
 }
+
 function getFortniteGgImage(verifiedItemIds, itemId) {
   return verifiedItemIds.imageByItemId?.get(itemId) || '';
 }
@@ -137,6 +168,32 @@ function parseFortniteGgVariantSlug(slug) {
   return { categoryId: slugify(slug), variantId: 'normal' };
 }
 
+// An API item counts as confirmed by Fortnite.gg if EITHER:
+//  1. its ID matches what we derived from the Fortnite.gg URL (old behavior), or
+//  2. the exact Fortnite.gg URL slug we would expect for it exists.
+// Check 2 is what lets brand-new variant names (not in
+// FORTNITE_GG_VARIANT_PREFIXES yet) and new-season sprites pass verification
+// instead of being silently dropped.
+function isVerifiedOnFortniteGg(verifiedItemIds, itemId, categoryName, variant, variantInfo) {
+  if (verifiedItemIds.has(itemId)) return true;
+
+  const slugs = verifiedItemIds.slugs;
+  if (!slugs) return false;
+
+  const categorySlug = hyphenate(categoryName);
+  if (!categorySlug) return false;
+
+  if (variantInfo.id === 'normal') return slugs.has(categorySlug);
+
+  const candidates = [
+    hyphenate(variant?.variant),
+    hyphenate(variantInfo.label),
+    hyphenate(variantInfo.id),
+  ].filter(Boolean);
+
+  return candidates.some(candidate => slugs.has(`${candidate}-${categorySlug}`));
+}
+
 async function fetchFortniteGgCatalog() {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
@@ -154,54 +211,58 @@ async function fetchFortniteGgCatalog() {
       throw new Error(`Fortnite.gg returned HTTP ${response.status}.`);
     }
 
-   const html = await response.text();
-const verifiedItemIds = new Set();
-const imageByItemId = new Map();
+    const html = await response.text();
+    const verifiedItemIds = new Set();
+    const imageByItemId = new Map();
+    const slugs = new Set();
 
-const spriteLinks =
-  /\/sprites\/\d+-([a-z0-9-]+)-sprite(?=["'/?#])/gi;
+    const spriteLinks =
+      /\/sprites\/\d+-([a-z0-9-]+)-sprite(?=["'/?#])/gi;
 
-for (const match of html.matchAll(spriteLinks)) {
-  const { categoryId, variantId } =
-    parseFortniteGgVariantSlug(match[1]);
+    for (const match of html.matchAll(spriteLinks)) {
+      slugs.add(match[1].toLowerCase());
 
-  if (!categoryId) continue;
+      const { categoryId, variantId } =
+        parseFortniteGgVariantSlug(match[1].toLowerCase());
 
-  const itemId = `${categoryId}_${variantId}`;
-  verifiedItemIds.add(itemId);
+      if (!categoryId) continue;
 
-  const linkStart = html.lastIndexOf('<a', match.index);
-  const linkEnd = html.indexOf('</a>', match.index);
+      const itemId = `${categoryId}_${variantId}`;
+      verifiedItemIds.add(itemId);
 
-  if (linkStart === -1 || linkEnd === -1) continue;
+      const linkStart = html.lastIndexOf('<a', match.index);
+      const linkEnd = html.indexOf('</a>', match.index);
 
-  const anchorHtml = html.slice(linkStart, linkEnd + 4);
-  if (!anchorHtml.includes(match[0])) continue;
+      if (linkStart === -1 || linkEnd === -1) continue;
 
-  const imageTag =
-    anchorHtml.match(/<(?:img|source)\b[^>]*>/i)?.[0];
+      const anchorHtml = html.slice(linkStart, linkEnd + 4);
+      if (!anchorHtml.includes(match[0])) continue;
 
-  if (!imageTag) continue;
+      const imageTag =
+        anchorHtml.match(/<(?:img|source)\b[^>]*>/i)?.[0];
 
-  const imageMatch =
-    imageTag.match(/\b(?:data-src|data-original|data-lazy-src)=["']([^"']+)["']/i) ||
-    imageTag.match(/\bsrc=["']([^"']+)["']/i) ||
-    imageTag.match(/\bsrcset=["']([^"'\s,]+)/i);
+      if (!imageTag) continue;
 
-  if (!imageMatch?.[1]) continue;
+      const imageMatch =
+        imageTag.match(/\b(?:data-src|data-original|data-lazy-src)=["']([^"']+)["']/i) ||
+        imageTag.match(/\bsrc=["']([^"']+)["']/i) ||
+        imageTag.match(/\bsrcset=["']([^"'\s,]+)/i);
 
-  const rawImageUrl = imageMatch[1].replace(/&amp;/g, '&');
+      if (!imageMatch?.[1]) continue;
 
-  const imageUrl = rawImageUrl.startsWith('//')
-    ? `https:${rawImageUrl}`
-    : new URL(rawImageUrl, 'https://fortnite.gg').href;
+      const rawImageUrl = imageMatch[1].replace(/&amp;/g, '&');
 
-  if (/^https?:\/\//i.test(imageUrl)) {
-    imageByItemId.set(itemId, imageUrl);
-  }
-}
+      const imageUrl = rawImageUrl.startsWith('//')
+        ? `https:${rawImageUrl}`
+        : new URL(rawImageUrl, 'https://fortnite.gg').href;
 
-verifiedItemIds.imageByItemId = imageByItemId;
+      if (/^https?:\/\//i.test(imageUrl)) {
+        imageByItemId.set(itemId, imageUrl);
+      }
+    }
+
+    verifiedItemIds.imageByItemId = imageByItemId;
+    verifiedItemIds.slugs = slugs;
 
     // A tiny or malformed page could otherwise silently delete most of the
     // catalog. Require a credible catalog plus two known current entries.
@@ -378,11 +439,21 @@ function getExistingSeasonData(seasonInfo) {
 }
 
 function buildIncomingCategory(family, seasonInfo, isCurrentSeason, verifiedItemIds) {
-  const categoryName = stripSpriteSuffix(family.name);
-  const categoryId = slugify(categoryName);
+  let categoryName = stripSpriteSuffix(family.name);
+  let categoryId = slugify(categoryName);
 
   if (!categoryName || !categoryId) {
     throw new Error(`Invalid sprite family in ${seasonInfo.id}.`);
+  }
+
+  // Fix wrong API names per season (e.g. c7s3 "Peely" -> "Peeky Peely").
+  const override = SEASON_CATEGORY_OVERRIDES[seasonInfo.id]?.[categoryId];
+  if (override) {
+    console.log(
+      `Override (${seasonInfo.id}): "${categoryName}" -> "${override.name}"`
+    );
+    categoryId = override.id;
+    categoryName = override.name;
   }
 
   const rawVariants =
@@ -395,6 +466,9 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason, verifiedItem
   const seenIds = new Set();
   const apiImagesByVariantId = new Map();
 
+  const drop = (itemId, reason) =>
+    dropLog.push({ season: seasonInfo.id, itemId, reason });
+
   for (const variant of rawVariants) {
     const variantInfo = getVariantInfo(variant.variant);
     const itemId = `${categoryId}_${variantInfo.id}`;
@@ -405,8 +479,17 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason, verifiedItem
 
     // Fortnite.gg is the published-catalog check. Never expose an API-only
     // asset (for example Reaper) that the public tracker does not list.
-    if (!verifiedItemIds.has(itemId)) {
+    if (
+      !isVerifiedOnFortniteGg(
+        verifiedItemIds,
+        itemId,
+        categoryName,
+        variant,
+        variantInfo
+      )
+    ) {
       filteredItemIds.add(itemId);
+      drop(itemId, 'not listed on fortnite.gg');
       continue;
     }
 
@@ -415,6 +498,7 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason, verifiedItem
     if (EXCLUDED_VARIANT_IDS.has(variantInfo.id)) {
       PURGE_ITEM_IDS.add(itemId);
       filteredItemIds.add(itemId);
+      drop(itemId, 'excluded variant');
       continue;
     }
 
@@ -424,6 +508,7 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason, verifiedItem
     if (variantInfo.id !== 'normal' && !isWiredIntoGame(variant)) {
       PURGE_ITEM_IDS.add(itemId);
       filteredItemIds.add(itemId);
+      drop(itemId, 'no way to obtain in API');
       autoExcludedLog.push(
         `${itemId} (${seasonInfo.id}) - ${describeAcquisition(variant)}`
       );
@@ -450,6 +535,12 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason, verifiedItem
 
     if (explicitlyUnreleased || disabledNow) {
       filteredItemIds.add(itemId);
+      drop(
+        itemId,
+        explicitlyUnreleased
+          ? 'marked unreleased by API'
+          : 'enabled=false in API (current season)'
+      );
       continue;
     }
 
@@ -492,10 +583,10 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason, verifiedItem
     items.push({
       id: verifiedItemId,
       name: variantInfo.label ? `${categoryName} ${variantInfo.label}` : categoryName,
-     image:
-       getFortniteGgImage(verifiedItemIds, verifiedItemId) ||
-       imageForVerifiedVariant(normalImage, variantId) ||
-       normalImage,
+      image:
+        getFortniteGgImage(verifiedItemIds, verifiedItemId) ||
+        imageForVerifiedVariant(normalImage, variantId) ||
+        normalImage,
     });
     seenIds.add(verifiedItemId);
   }
@@ -576,10 +667,16 @@ function mergeCategory(existingCategory, incomingEntry) {
 }
 
 function mergeSeason(existingData, seasonInfo, incomingEntries) {
+  const removedCategoryIds = new Set(
+    SEASON_CATEGORY_REMOVALS[seasonInfo.id] || []
+  );
+
   // Sanitize first: strips purged items and drops any category that ends up
-  // empty only because of that, instead of leaving a hollow one.
+  // empty only because of that, instead of leaving a hollow one. Categories
+  // listed in SEASON_CATEGORY_REMOVALS are deleted outright.
   const existingCategories = Array.isArray(existingData.categories)
     ? sanitizeCategories(existingData.categories).categories
+        .filter(category => !removedCategoryIds.has(category?.id))
     : [];
 
   const incomingById = new Map(
@@ -668,6 +765,63 @@ async function fetchSpriteCatalog() {
   }
 }
 
+// Two API families can end up with the same category id (for example after an
+// override). Combine them into one entry instead of letting one overwrite the
+// other, so the same sprite can never appear twice.
+function addEntryToSeason(seasonBucket, entry) {
+  const existing = seasonBucket.entries.find(
+    other => other.category.id === entry.category.id
+  );
+
+  if (!existing) {
+    seasonBucket.entries.push(entry);
+    return;
+  }
+
+  const itemsById = new Map(
+    existing.category.items.map(item => [item.id, item])
+  );
+  for (const item of entry.category.items) {
+    if (!itemsById.has(item.id)) itemsById.set(item.id, item);
+  }
+
+  existing.category.items = [...itemsById.values()].sort((a, b) => {
+    if (a.id.endsWith('_normal')) return -1;
+    if (b.id.endsWith('_normal')) return 1;
+    return a.name.localeCompare(b.name);
+  });
+  existing.category.image =
+    existing.category.image || entry.category.image || '';
+  existing.filteredItemIds = [
+    ...new Set([...existing.filteredItemIds, ...entry.filteredItemIds]),
+  ];
+}
+
+function printDropSummary(currentSeasonId) {
+  if (!dropLog.length) return;
+
+  const currentDrops = dropLog.filter(d => d.season === currentSeasonId);
+  console.log(
+    `Items dropped in ${currentSeasonId} (current season): ${currentDrops.length}`
+  );
+  for (const d of currentDrops) {
+    console.log(`  - ${d.itemId}: ${d.reason}`);
+  }
+
+  const otherCounts = new Map();
+  for (const d of dropLog) {
+    if (d.season === currentSeasonId) continue;
+    const key = `${d.season} / ${d.reason}`;
+    otherCounts.set(key, (otherCounts.get(key) || 0) + 1);
+  }
+  if (otherCounts.size) {
+    console.log('Items dropped in other seasons:');
+    for (const [key, count] of otherCounts) {
+      console.log(`  - ${key}: ${count}`);
+    }
+  }
+}
+
 async function main() {
   console.log(`Fetching sprites from ${SPRITES_API_URL}`);
 
@@ -702,6 +856,9 @@ async function main() {
   }
 
   const currentSeasonId = seasonInfos[seasonInfos.length - 1].id;
+  console.log(
+    `API seasons: ${seasonInfos.map(s => s.id).join(', ')} (current: ${currentSeasonId})`
+  );
   const bySeason = new Map();
 
   for (const { family, seasonInfo } of parsed) {
@@ -721,9 +878,15 @@ async function main() {
 
     // Do not create a category when all of its variants were filtered out.
     if (entry.category.items.length > 0) {
-      bySeason.get(seasonInfo.id).entries.push(entry);
+      addEntryToSeason(bySeason.get(seasonInfo.id), entry);
     }
   }
+
+  console.log(
+    `Families per season: ${[...bySeason.values()]
+      .map(s => `${s.seasonInfo.id}=${s.entries.length}`)
+      .join(', ')}`
+  );
 
   // All incoming data is processed, so PURGE_ITEM_IDS is complete before
   // anything is merged or written.
@@ -733,6 +896,8 @@ async function main() {
     );
     for (const line of autoExcludedLog) console.log(`  - ${line}`);
   }
+
+  printDropSummary(currentSeasonId);
 
   const pendingWrites = [];
   const mergedSeasons = [];
