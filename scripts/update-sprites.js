@@ -496,6 +496,9 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason, verifiedItem
 
     // Fortnite.gg is the published-catalog check. Never expose an API-only
     // asset (for example Reaper) that the public tracker does not list.
+    // Exception: in the CURRENT season, fortnite.gg usually lags behind the
+    // API, so API items it doesn't list yet are kept (the Reaper / not-wired /
+    // enabled rules below still apply). Older seasons stay strictly verified.
     if (
       !isVerifiedOnFortniteGg(
         verifiedItemIds,
@@ -505,9 +508,14 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason, verifiedItem
         variantInfo
       )
     ) {
-      filteredItemIds.add(itemId);
-      drop(itemId, 'not listed on fortnite.gg');
-      continue;
+      if (!isCurrentSeason) {
+        filteredItemIds.add(itemId);
+        drop(itemId, 'not listed on fortnite.gg');
+        continue;
+      }
+      console.log(
+        `Keeping ${itemId} (${seasonInfo.id}): not on fortnite.gg yet, current season.`
+      );
     }
 
     // Asset-only variants must never be included, regardless of what
