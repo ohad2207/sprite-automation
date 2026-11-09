@@ -1,5 +1,5 @@
 {
-  "version": "auto-2026-11-08",
+  "version": "auto-2026-11-09",
   "season": "Chapter 7 Mini Season",
   "categories": [
     {
@@ -37,6 +37,11 @@
           "image": "https://cdn.fn-api.cc/sprites/coinpile_variant_a/largeicon.png"
         },
         {
+          "id": "plundarrgh_cursed",
+          "name": "Plundarrgh Cursed",
+          "image": "https://cdn.fn-api.cc/sprites/coinpile_variant_cursed/largeicon.png"
+        },
+        {
           "id": "plundarrgh_jeweled",
           "name": "Plundarrgh Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/coinpile_variant_jeweled/largeicon.png"
@@ -54,6 +59,11 @@
           "image": "https://cdn.fn-api.cc/sprites/playmakerbrewery_variant_a/largeicon.png"
         },
         {
+          "id": "lil_flacko_cursed",
+          "name": "Lil' Flacko Cursed",
+          "image": "https://cdn.fn-api.cc/sprites/playmakerbrewery_variant_cursed/largeicon.png"
+        },
+        {
           "id": "lil_flacko_jeweled",
           "name": "Lil' Flacko Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/playmakerbrewery_variant_jeweled/largeicon.png"
@@ -69,6 +79,11 @@
           "id": "lil_squibbly_normal",
           "name": "Lil' Squibbly",
           "image": "https://cdn.fn-api.cc/sprites/squibbly_variant_a/largeicon.png"
+        },
+        {
+          "id": "lil_squibbly_cursed",
+          "name": "Lil' Squibbly Cursed",
+          "image": "https://cdn.fn-api.cc/sprites/squibbly_variant_cursed/largeicon.png"
         },
         {
           "id": "lil_squibbly_jeweled",
@@ -105,6 +120,11 @@
           "image": "https://cdn.fn-api.cc/sprites/compass_variant_a/largeicon.png"
         },
         {
+          "id": "wayfinder_cursed",
+          "name": "Wayfinder Cursed",
+          "image": "https://cdn.fn-api.cc/sprites/compass_variant_cursed/largeicon.png"
+        },
+        {
           "id": "wayfinder_jeweled",
           "name": "Wayfinder Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/compass_variant_jeweled/largeicon.png"
@@ -120,6 +140,11 @@
           "id": "exmarks_normal",
           "name": "Exmarks",
           "image": "https://cdn.fn-api.cc/sprites/treasuremap_variant_a/largeicon.png"
+        },
+        {
+          "id": "exmarks_cursed",
+          "name": "Exmarks Cursed",
+          "image": "https://cdn.fn-api.cc/sprites/treasuremap_variant_cursed/largeicon.png"
         },
         {
           "id": "exmarks_jeweled",
@@ -139,6 +164,11 @@
           "image": "https://cdn.fn-api.cc/sprites/barreloffish_variant_a/largeicon.png"
         },
         {
+          "id": "barry_o_fish_cursed",
+          "name": "Barry O'Fish Cursed",
+          "image": "https://cdn.fn-api.cc/sprites/barreloffish_variant_cursed/largeicon.png"
+        },
+        {
           "id": "barry_o_fish_jeweled",
           "name": "Barry O'Fish Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/barreloffish_variant_jeweled/largeicon.png"
@@ -154,6 +184,11 @@
           "id": "chester_normal",
           "name": "Chester",
           "image": "https://cdn.fn-api.cc/sprites/treasurechest_variant_a/largeicon.png"
+        },
+        {
+          "id": "chester_cursed",
+          "name": "Chester Cursed",
+          "image": "https://cdn.fn-api.cc/sprites/treasurechest_variant_cursed/largeicon.png"
         },
         {
           "id": "chester_jeweled",
@@ -173,6 +208,11 @@
           "image": "https://cdn.fn-api.cc/sprites/parrot_variant_a/largeicon.png"
         },
         {
+          "id": "re_pete_cursed",
+          "name": "Re-Pete Cursed",
+          "image": "https://cdn.fn-api.cc/sprites/parrot_variant_cursed/largeicon.png"
+        },
+        {
           "id": "re_pete_jeweled",
           "name": "Re-Pete Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/parrot_variant_jeweled/largeicon.png"
@@ -190,12 +230,29 @@
           "image": "https://cdn.fn-api.cc/sprites/peelybones_variant_a/largeicon.png"
         },
         {
+          "id": "halfpeel_d_cursed",
+          "name": "Halfpeel'd Cursed",
+          "image": "https://cdn.fn-api.cc/sprites/peelybones_variant_cursed/largeicon.png"
+        },
+        {
           "id": "halfpeel_d_jeweled",
           "name": "Halfpeel'd Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/peelybones_variant_jeweled/largeicon.png"
         }
       ]
+    },
+    {
+      "id": "lil_uzi_vert_jr",
+      "name": "Lil' Uzi Vert Jr.",
+      "image": "https://cdn.fn-api.cc/sprites/rookgecko/largeicon.png",
+      "items": [
+        {
+          "id": "lil_uzi_vert_jr_cursed",
+          "name": "Lil' Uzi Vert Jr. Cursed",
+          "image": "https://cdn.fn-api.cc/sprites/rookgecko_variant_cursed/largeicon.png"
+        }
+      ]
     }
   ],
-  "updatedAt": "2026-11-08T14:25:15.672Z"
+  "updatedAt": "2026-11-09T15:06:59.718Z"
 }
