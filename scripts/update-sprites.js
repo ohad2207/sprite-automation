@@ -6,7 +6,12 @@ const SPRITES_API_URL = 'https://prod.fn-api.cc/v1/sprites';
 const FORTNITE_GG_SPRITES_URL = 'https://fortnite.gg/sprites';
 const REQUEST_TIMEOUT_MS = 30_000;
 const CURRENT_SEASON_FILENAME = 'season-current.json';
-const MINI_SEASON_ORDER = 50; // sorts after numbered seasons 1-49 of the chapter
+// A mini season sorts right after the numbered season it follows (chapter -> season).
+// Chapter 7's mini season came after season 4, so a later c7s5 correctly becomes current.
+// Chapters not listed here fall back to MINI_SEASON_DEFAULT_ORDER (after every numbered season).
+const MINI_SEASON_AFTER = { 7: 4 };
+const MINI_SEASON_DEFAULT_ORDER = 50;
+const MAX_NEW_FORTNITE_GG_FAMILIES = 25; // safety cap per run
 
 // These are asset-only variant names that must never be published.  The API
 // currently exposes "reaper" alongside real variants, even though it is not a
@@ -132,7 +137,9 @@ function parseSeason(rawSeason) {
       filename: `c${chapter}ms.json`,
       displayName: `Chapter ${chapter} Mini Season`,
       chapter: Number(chapter),
-      season: MINI_SEASON_ORDER,
+      season: MINI_SEASON_AFTER[chapter] !== undefined
+        ? MINI_SEASON_AFTER[chapter] + 0.5
+        : MINI_SEASON_DEFAULT_ORDER,
     };
   }
 
@@ -231,6 +238,7 @@ async function fetchFortniteGgCatalog() {
     const html = await response.text();
     const verifiedItemIds = new Set();
     const imageByItemId = new Map();
+    const nameBySlug = new Map();
     const slugs = new Set();
 
     const spriteLinks =
@@ -254,6 +262,16 @@ async function fetchFortniteGgCatalog() {
 
       const anchorHtml = html.slice(linkStart, linkEnd + 4);
       if (!anchorHtml.includes(match[0])) continue;
+
+      const altName =
+        anchorHtml.match(/\balt=["']([^"']+)["']/i)?.[1] ||
+        anchorHtml.match(/\btitle=["']([^"']+)["']/i)?.[1];
+      if (altName && !nameBySlug.has(match[1].toLowerCase())) {
+        nameBySlug.set(
+          match[1].toLowerCase(),
+          altName.replace(/&amp;/g, '&').replace(/&#0?39;|&apos;/g, "'").trim()
+        );
+      }
 
       const imageTag =
         anchorHtml.match(/<(?:img|source)\b[^>]*>/i)?.[0];
@@ -280,15 +298,17 @@ async function fetchFortniteGgCatalog() {
 
     verifiedItemIds.imageByItemId = imageByItemId;
     verifiedItemIds.slugs = slugs;
+    verifiedItemIds.nameBySlug = nameBySlug;
 
     // A tiny or malformed page could otherwise silently delete most of the
-    // catalog. Require a credible catalog plus two known current entries.
-    if (
-      verifiedItemIds.size < 100 ||
-      !verifiedItemIds.has('honey_bountyhunter') ||
-      !verifiedItemIds.has('one_wish_willow_bountyhunter')
-    ) {
-      throw new Error('Fortnite.gg returned an incomplete or unrecognised sprite catalog.');
+    // catalog. Require a credible catalog, relative to what is already saved
+    // (no hardcoded sprite names that would break the run when they disappear).
+    const minExpected = Math.max(100, Math.floor(countSavedItems() * 0.5));
+    if (verifiedItemIds.size < minExpected) {
+      throw new Error(
+        `Fortnite.gg returned an incomplete or unrecognised sprite catalog ` +
+        `(${verifiedItemIds.size} found, expected at least ${minExpected}).`
+      );
     }
 
     return verifiedItemIds;
@@ -427,6 +447,31 @@ function loadJson(filePath) {
       `Cannot read valid JSON from ${filePath}: ${error.message}`
     );
   }
+}
+
+function readAllSavedData() {
+  const result = [];
+  if (!fs.existsSync(DATA_DIR)) return result;
+  for (const name of fs.readdirSync(DATA_DIR)) {
+    if (!name.endsWith('.json') || name === CURRENT_SEASON_FILENAME) continue;
+    try {
+      const data = JSON.parse(fs.readFileSync(path.join(DATA_DIR, name), 'utf8'));
+      if (data && Array.isArray(data.categories)) result.push({ name, data });
+    } catch {
+      // not a file we understand; ignore
+    }
+  }
+  return result;
+}
+
+function countSavedItems() {
+  const ids = new Set();
+  for (const { data } of readAllSavedData()) {
+    for (const category of data.categories) {
+      for (const item of category?.items || []) ids.add(item.id);
+    }
+  }
+  return ids.size;
 }
 
 function getExistingSeasonData(seasonInfo) {
@@ -745,15 +790,20 @@ function mergeSeason(existingData, seasonInfo, incomingEntries) {
     }
   }
 
-  const data = {
+  const content = {
     ...existingData,
-    version: `auto-${new Date().toISOString().slice(0, 10)}`,
-    updatedAt: new Date().toISOString(),
     season: existingData.season || seasonInfo.displayName,
     categories: mergedCategories,
   };
 
-  const changed = JSON.stringify(data) !== JSON.stringify(existingData);
+  const changed = !sameContent(content, existingData);
+  const data = changed
+    ? {
+        ...content,
+        version: `auto-${new Date().toISOString().slice(0, 10)}`,
+        updatedAt: new Date().toISOString(),
+      }
+    : existingData;
   return { changed, data };
 }
 
@@ -847,6 +897,121 @@ function printDropSummary(currentSeasonId) {
   }
 }
 
+// fn-api can lag behind Fortnite.gg by hours or days. A brand-new sprite family
+// that Fortnite.gg already lists but the API does not return yet would never be
+// created (the per-family loop only adds missing variants to EXISTING families).
+// This builds those families from Fortnite.gg and files them under the current
+// season. A family is only "new" if its category id is unknown everywhere: not
+// returned by the API and not saved in any data file (so old or deliberately
+// removed sprites never come back).
+function buildFortniteGgOnlyEntries(verifiedItemIds, knownCategoryIds) {
+  const slugs = verifiedItemIds.slugs;
+  if (!slugs || !slugs.size) return [];
+
+  const blocked = new Set(knownCategoryIds);
+  for (const removed of Object.values(SEASON_CATEGORY_REMOVALS)) {
+    for (const id of removed) blocked.add(id);
+  }
+  for (const overrides of Object.values(SEASON_CATEGORY_OVERRIDES)) {
+    for (const [from, to] of Object.entries(overrides)) {
+      blocked.add(from);
+      blocked.add(to.id);
+    }
+  }
+
+  // A slug like "jeweled-plundarrgh", where "jeweled" is a variant word we already
+  // use in saved data, is a variant of a known family and not a new family.
+  // Only variant words we have seen before count, so a genuinely new sprite such
+  // as "Mega Llama" is not mistaken for a variant of "Llama".
+  const knownVariantIds = new Set([
+    ...Object.values(VARIANT_ALIASES).map(alias => alias.id),
+    ...FORTNITE_GG_VARIANT_PREFIXES.map(([, id]) => id),
+  ]);
+  for (const { data } of readAllSavedData()) {
+    for (const category of data.categories) {
+      for (const item of category?.items || []) {
+        if (typeof item?.id === 'string' && typeof category.id === 'string' &&
+            item.id.startsWith(`${category.id}_`)) {
+          knownVariantIds.add(item.id.slice(category.id.length + 1));
+        }
+      }
+    }
+  }
+  knownVariantIds.delete('normal');
+
+  const looksLikeVariantOfKnown = categoryId => {
+    const parts = categoryId.split('_');
+    for (let i = 1; i < parts.length; i++) {
+      if (
+        blocked.has(parts.slice(i).join('_')) &&
+        knownVariantIds.has(parts.slice(0, i).join('_'))
+      ) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const families = new Map();
+  for (const slug of slugs) {
+    const { categoryId, variantId } = parseFortniteGgVariantSlug(slug);
+    if (!categoryId || blocked.has(categoryId)) continue;
+    if (EXCLUDED_VARIANT_IDS.has(variantId)) continue;
+    if (looksLikeVariantOfKnown(categoryId)) continue;
+
+    if (!families.has(categoryId)) families.set(categoryId, new Map());
+    families.get(categoryId).set(variantId, slug);
+  }
+
+  const entries = [];
+  for (const [categoryId, variants] of families) {
+    const normalSlug = variants.get('normal');
+    const displayName = stripSpriteSuffix(
+      (normalSlug && verifiedItemIds.nameBySlug?.get(normalSlug)) ||
+      humanize(categoryId)
+    );
+
+    const items = [];
+    for (const [variantId, slug] of variants) {
+      const itemId = `${categoryId}_${variantId}`;
+      const variantInfo = Object.values(VARIANT_ALIASES).find(
+        alias => alias.id === variantId
+      ) || { id: variantId, label: humanize(variantId) };
+
+      items.push({
+        id: itemId,
+        name: variantInfo.label ? `${displayName} ${variantInfo.label}` : displayName,
+        image: getFortniteGgImage(verifiedItemIds, itemId),
+      });
+    }
+
+    items.sort((a, b) => {
+      if (a.id.endsWith('_normal')) return -1;
+      if (b.id.endsWith('_normal')) return 1;
+      return a.name.localeCompare(b.name);
+    });
+
+    entries.push({
+      category: {
+        id: categoryId,
+        name: displayName,
+        image: items.find(item => item.image)?.image || '',
+        items,
+      },
+      filteredItemIds: [],
+    });
+  }
+
+  return entries;
+}
+
+// Compare saved data while ignoring the bookkeeping fields, so a run that finds
+// nothing new does not create a pointless commit every time.
+function sameContent(a, b) {
+  const strip = ({ version, updatedAt, ...rest }) => JSON.stringify(rest);
+  return strip(a || {}) === strip(b || {});
+}
+
 async function main() {
   console.log(`Fetching sprites from ${SPRITES_API_URL}`);
 
@@ -857,18 +1022,23 @@ async function main() {
   console.log(`Verified ${verifiedItemIds.size} public sprite variant(s) from Fortnite.gg.`);
 
   const families = await fetchSpriteCatalog();
-  const parsed = families.map(family => ({
+  const allParsed = families.map(family => ({
     family,
     seasonInfo: parseSeason(family.season),
   }));
 
-  for (const entry of parsed) {
-    if (!entry.seasonInfo) {
-      throw new Error(
-        `Unknown season "${entry.family.season}". No files were changed.`
-      );
-    }
+  // One unrecognised season string must not block every other update.
+  const unknownSeasons = [
+    ...new Set(
+      allParsed.filter(entry => !entry.seasonInfo).map(entry => String(entry.family.season))
+    ),
+  ];
+  if (unknownSeasons.length) {
+    console.log(
+      `::warning::Skipping families with unknown season value(s): ${unknownSeasons.join(', ')}`
+    );
   }
+  const parsed = allParsed.filter(entry => entry.seasonInfo);
 
   const seasonInfos = [
     ...new Map(
@@ -904,6 +1074,32 @@ async function main() {
     // Do not create a category when all of its variants were filtered out.
     if (entry.category.items.length > 0) {
       addEntryToSeason(bySeason.get(seasonInfo.id), entry);
+    }
+  }
+
+  // Add brand-new families that Fortnite.gg lists but the API does not return yet.
+  const knownCategoryIds = new Set();
+  for (const { entries } of bySeason.values()) {
+    for (const entry of entries) knownCategoryIds.add(entry.category.id);
+  }
+  for (const { data } of readAllSavedData()) {
+    for (const category of data.categories) {
+      if (category?.id) knownCategoryIds.add(category.id);
+    }
+  }
+
+  const ggOnly = buildFortniteGgOnlyEntries(verifiedItemIds, knownCategoryIds);
+  if (ggOnly.length > MAX_NEW_FORTNITE_GG_FAMILIES) {
+    console.log(
+      `::warning::Fortnite.gg lists ${ggOnly.length} unknown families (cap ${MAX_NEW_FORTNITE_GG_FAMILIES}); ` +
+      `adding none. Check them: ${ggOnly.map(e => e.category.id).join(', ')}`
+    );
+  } else {
+    for (const entry of ggOnly) {
+      addEntryToSeason(bySeason.get(currentSeasonId), entry);
+      console.log(
+        `Added ${entry.category.id} (${currentSeasonId}) from Fortnite.gg: not in the API yet.`
+      );
     }
   }
 
@@ -967,7 +1163,7 @@ async function main() {
 
     if (
       !currentData ||
-      JSON.stringify(currentData) !== JSON.stringify(latest.data)
+      !sameContent(currentData, latest.data)
     ) {
       pendingWrites.push({
         filePath: currentPath,
