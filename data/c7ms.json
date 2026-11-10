@@ -1,5 +1,5 @@
 {
-  "version": "auto-2026-11-09",
+  "version": "auto-2026-11-10",
   "season": "Chapter 7 Mini Season",
   "categories": [
     {
@@ -247,12 +247,22 @@
       "image": "https://cdn.fn-api.cc/sprites/rookgecko/largeicon.png",
       "items": [
         {
+          "id": "lil_uzi_vert_jr_normal",
+          "name": "Lil' Uzi Vert Jr.",
+          "image": "https://cdn.fn-api.cc/sprites/rookgecko_variant_a/largeicon.png"
+        },
+        {
           "id": "lil_uzi_vert_jr_cursed",
           "name": "Lil' Uzi Vert Jr. Cursed",
           "image": "https://cdn.fn-api.cc/sprites/rookgecko_variant_cursed/largeicon.png"
+        },
+        {
+          "id": "lil_uzi_vert_jr_jeweled",
+          "name": "Lil' Uzi Vert Jr. Jeweled",
+          "image": "https://cdn.fn-api.cc/sprites/rookgecko_variant_jeweled/largeicon.png"
         }
       ]
     }
   ],
-  "updatedAt": "2026-11-09T15:06:59.718Z"
+  "updatedAt": "2026-11-10T14:04:29.973Z"
 }
