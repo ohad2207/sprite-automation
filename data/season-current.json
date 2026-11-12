@@ -1,5 +1,5 @@
 {
-  "version": "auto-2026-11-10",
+  "version": "auto-2026-11-12",
   "season": "Chapter 7 Mini Season",
   "categories": [
     {
@@ -101,6 +101,11 @@
           "id": "kelper_normal",
           "name": "Kelper",
           "image": "https://cdn.fn-api.cc/sprites/unbotheredfish_variant_a/largeicon.png"
+        },
+        {
+          "id": "kelper_cursed",
+          "name": "Kelper Cursed",
+          "image": "https://cdn.fn-api.cc/sprites/unbotheredfish_variant_cursed/largeicon.png"
         },
         {
           "id": "kelper_jeweled",
@@ -264,5 +269,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-10T14:04:29.973Z"
+  "updatedAt": "2026-11-12T17:35:05.860Z"
 }
