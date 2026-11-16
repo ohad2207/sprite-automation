@@ -1,5 +1,5 @@
 {
-  "version": "auto-2026-11-12",
+  "version": "auto-2026-11-16",
   "season": "Chapter 7 Mini Season",
   "categories": [
     {
@@ -267,7 +267,63 @@
           "image": "https://cdn.fn-api.cc/sprites/rookgecko_variant_jeweled/largeicon.png"
         }
       ]
+    },
+    {
+      "id": "zee",
+      "name": "Zee",
+      "image": "https://cdn.fn-api.cc/sprites/yortmelee/largeicon.png",
+      "items": [
+        {
+          "id": "zee_normal",
+          "name": "Zee",
+          "image": "https://cdn.fn-api.cc/sprites/yortmelee_variant_a/largeicon.png"
+        }
+      ]
+    },
+    {
+      "id": "mini_miku",
+      "name": "Mini Miku",
+      "image": "https://cdn.fn-api.cc/sprites/daffodilchurn/largeicon.png",
+      "items": [
+        {
+          "id": "mini_miku_normal",
+          "name": "Mini Miku",
+          "image": "https://cdn.fn-api.cc/sprites/daffodilchurn_variant_a/largeicon.png"
+        },
+        {
+          "id": "mini_miku_cursed",
+          "name": "Mini Miku Cursed",
+          "image": "https://cdn.fn-api.cc/sprites/daffodilchurn_variant_cursed/largeicon.png"
+        },
+        {
+          "id": "mini_miku_jeweled",
+          "name": "Mini Miku Jeweled",
+          "image": "https://cdn.fn-api.cc/sprites/daffodilchurn_variant_jeweled/largeicon.png"
+        }
+      ]
+    },
+    {
+      "id": "squiplash",
+      "name": "Squiplash",
+      "image": "https://cdn.fn-api.cc/sprites/piratecalamari/largeicon.png",
+      "items": [
+        {
+          "id": "squiplash_normal",
+          "name": "Squiplash",
+          "image": "https://cdn.fn-api.cc/sprites/piratecalamari_variant_a/largeicon.png"
+        },
+        {
+          "id": "squiplash_cursed",
+          "name": "Squiplash Cursed",
+          "image": "https://cdn.fn-api.cc/sprites/piratecalamari_variant_cursed/largeicon.png"
+        },
+        {
+          "id": "squiplash_jeweled",
+          "name": "Squiplash Jeweled",
+          "image": "https://cdn.fn-api.cc/sprites/piratecalamari_variant_jeweled/largeicon.png"
+        }
+      ]
     }
   ],
-  "updatedAt": "2026-11-12T17:35:05.860Z"
+  "updatedAt": "2026-11-16T15:08:46.691Z"
 }
