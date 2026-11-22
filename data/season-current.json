@@ -1,5 +1,5 @@
 {
-  "version": "auto-2026-11-16",
+  "version": "auto-2026-11-22",
   "season": "Chapter 7 Mini Season",
   "categories": [
     {
@@ -323,7 +323,29 @@
           "image": "https://cdn.fn-api.cc/sprites/piratecalamari_variant_jeweled/largeicon.png"
         }
       ]
+    },
+    {
+      "id": "sir_oscar_the_second",
+      "name": "Sir Oscar the Second",
+      "image": "https://cdn.fn-api.cc/sprites/whitetiger/largeicon.png",
+      "items": [
+        {
+          "id": "sir_oscar_the_second_normal",
+          "name": "Sir Oscar the Second",
+          "image": "https://cdn.fn-api.cc/sprites/whitetiger_variant_a/largeicon.png"
+        },
+        {
+          "id": "sir_oscar_the_second_cursed",
+          "name": "Sir Oscar the Second Cursed",
+          "image": "https://cdn.fn-api.cc/sprites/whitetiger_variant_cursed/largeicon.png"
+        },
+        {
+          "id": "sir_oscar_the_second_jeweled",
+          "name": "Sir Oscar the Second Jeweled",
+          "image": "https://cdn.fn-api.cc/sprites/whitetiger_variant_jeweled/largeicon.png"
+        }
+      ]
     }
   ],
-  "updatedAt": "2026-11-16T15:08:46.691Z"
+  "updatedAt": "2026-11-22T16:49:22.696Z"
 }
