@@ -1,6 +1,6 @@
 {
-  "version": "auto-2026-11-09",
-  "updatedAt": "2026-11-09T15:06:59.717Z",
+  "version": "auto-2026-11-24",
+  "updatedAt": "2026-11-24T18:24:53.173Z",
   "season": "Chapter 7 Season 4",
   "categories": [
     {
@@ -21,10 +21,20 @@
           "released": true
         },
         {
+          "id": "overshield_bounty_hunter",
+          "name": "Overshield Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "overshield_cheatmaster",
           "name": "Overshield Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "overshield_cheat_master",
+          "name": "Overshield Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "overshield_gold",
@@ -37,6 +47,16 @@
           "name": "Overshield Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "overshield_loot_hacker",
+          "name": "Overshield Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "overshield_trick_or_treat",
+          "name": "Overshield Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/overshieldsprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "overshield_tricktreat",
@@ -77,6 +97,11 @@
           "released": true
         },
         {
+          "id": "x_ray_bounty_hunter",
+          "name": "X-Ray Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "x_ray_cheatmaster",
           "name": "X-Ray Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_cheatmaster/largeicon.png",
@@ -93,6 +118,16 @@
           "name": "X-Ray Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "x_ray_loot_hacker",
+          "name": "X-Ray Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "x_ray_trick_or_treat",
+          "name": "X-Ray Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/winnerbsprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "x_ray_tricktreat",
@@ -120,6 +155,11 @@
           "released": true
         },
         {
+          "id": "onigiri_bounty_hunter",
+          "name": "Onigiri Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "onigiri_cheatmaster",
           "name": "Onigiri Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_cheatmaster/largeicon.png",
@@ -136,6 +176,16 @@
           "name": "Onigiri Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "onigiri_loot_hacker",
+          "name": "Onigiri Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "onigiri_trick_or_treat",
+          "name": "Onigiri Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/winnercsprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "onigiri_tricktreat",
@@ -163,10 +213,20 @@
           "released": true
         },
         {
+          "id": "jackrabbit_bounty_hunter",
+          "name": "Jackrabbit Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "jackrabbit_cheatmaster",
           "name": "Jackrabbit Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "jackrabbit_cheat_master",
+          "name": "Jackrabbit Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "jackrabbit_gold",
@@ -179,6 +239,16 @@
           "name": "Jackrabbit Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "jackrabbit_loot_hacker",
+          "name": "Jackrabbit Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "jackrabbit_trick_or_treat",
+          "name": "Jackrabbit Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/cosmicthunderdoublejumpsprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "jackrabbit_tricktreat",
@@ -206,10 +276,20 @@
           "released": true
         },
         {
+          "id": "tails_bounty_hunter",
+          "name": "Tails Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "tails_cheatmaster",
           "name": "Tails Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "tails_cheat_master",
+          "name": "Tails Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "tails_gold",
@@ -222,6 +302,16 @@
           "name": "Tails Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "tails_loot_hacker",
+          "name": "Tails Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "tails_trick_or_treat",
+          "name": "Tails Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleamonkeysprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "tails_tricktreat",
@@ -249,10 +339,20 @@
           "released": true
         },
         {
+          "id": "shadow_bounty_hunter",
+          "name": "Shadow Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "shadow_cheatmaster",
           "name": "Shadow Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "shadow_cheat_master",
+          "name": "Shadow Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "shadow_gold",
@@ -265,6 +365,16 @@
           "name": "Shadow Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "shadow_loot_hacker",
+          "name": "Shadow Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "shadow_trick_or_treat",
+          "name": "Shadow Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/reloadovertimesprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "shadow_tricktreat",
@@ -292,10 +402,20 @@
           "released": true
         },
         {
+          "id": "bush_bounty_hunter",
+          "name": "Bush Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "bush_cheatmaster",
           "name": "Bush Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "bush_cheat_master",
+          "name": "Bush Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "bush_gold",
@@ -310,9 +430,19 @@
           "released": true
         },
         {
+          "id": "bush_loot_hacker",
+          "name": "Bush Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_loot_hacker/largeicon.png"
+        },
+        {
           "id": "bush_quack",
           "name": "Bush Quack",
           "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_quack/largeicon.png"
+        },
+        {
+          "id": "bush_trick_or_treat",
+          "name": "Bush Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/bushrangersprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "bush_tricktreat",
@@ -340,10 +470,20 @@
           "released": true
         },
         {
+          "id": "killswitch_bounty_hunter",
+          "name": "Killswitch Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "killswitch_cheatmaster",
           "name": "Killswitch Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "killswitch_cheat_master",
+          "name": "Killswitch Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "killswitch_gold",
@@ -356,6 +496,16 @@
           "name": "Killswitch Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "killswitch_loot_hacker",
+          "name": "Killswitch Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "killswitch_trick_or_treat",
+          "name": "Killswitch Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/killswitchsprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "killswitch_tricktreat",
@@ -383,10 +533,20 @@
           "released": true
         },
         {
+          "id": "adventure_bounty_hunter",
+          "name": "Adventure Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "adventure_cheatmaster",
           "name": "Adventure Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "adventure_cheat_master",
+          "name": "Adventure Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "adventure_gold",
@@ -401,9 +561,19 @@
           "released": true
         },
         {
+          "id": "adventure_loot_hacker",
+          "name": "Adventure Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_loot_hacker/largeicon.png"
+        },
+        {
           "id": "adventure_quack",
           "name": "Adventure Quack",
           "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_quack/largeicon.png"
+        },
+        {
+          "id": "adventure_trick_or_treat",
+          "name": "Adventure Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/dwarfsprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "adventure_tricktreat",
@@ -431,10 +601,20 @@
           "released": true
         },
         {
+          "id": "klombo_bounty_hunter",
+          "name": "Klombo Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "klombo_cheatmaster",
           "name": "Klombo Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "klombo_cheat_master",
+          "name": "Klombo Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "klombo_gold",
@@ -449,9 +629,19 @@
           "released": true
         },
         {
+          "id": "klombo_loot_hacker",
+          "name": "Klombo Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_loot_hacker/largeicon.png"
+        },
+        {
           "id": "klombo_quack",
           "name": "Klombo Quack",
           "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_quack/largeicon.png"
+        },
+        {
+          "id": "klombo_trick_or_treat",
+          "name": "Klombo Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/klombosprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "klombo_tricktreat",
@@ -479,10 +669,20 @@
           "released": true
         },
         {
+          "id": "jonesy_bounty_hunter",
+          "name": "Jonesy Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "jonesy_cheatmaster",
           "name": "Jonesy Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "jonesy_cheat_master",
+          "name": "Jonesy Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "jonesy_gold",
@@ -497,9 +697,19 @@
           "released": true
         },
         {
+          "id": "jonesy_loot_hacker",
+          "name": "Jonesy Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_loot_hacker/largeicon.png"
+        },
+        {
           "id": "jonesy_quack",
           "name": "Jonesy Quack",
           "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_quack/largeicon.png"
+        },
+        {
+          "id": "jonesy_trick_or_treat",
+          "name": "Jonesy Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/jonesysprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "jonesy_tricktreat",
@@ -527,10 +737,20 @@
           "released": true
         },
         {
+          "id": "sonic_bounty_hunter",
+          "name": "Sonic Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "sonic_cheatmaster",
           "name": "Sonic Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "sonic_cheat_master",
+          "name": "Sonic Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "sonic_gold",
@@ -543,6 +763,16 @@
           "name": "Sonic Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "sonic_loot_hacker",
+          "name": "Sonic Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "sonic_trick_or_treat",
+          "name": "Sonic Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/narrowfleasprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "sonic_tricktreat",
@@ -570,10 +800,20 @@
           "released": true
         },
         {
+          "id": "crown_bounty_hunter",
+          "name": "Crown Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "crown_cheatmaster",
           "name": "Crown Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "crown_cheat_master",
+          "name": "Crown Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "crown_gold",
@@ -586,6 +826,16 @@
           "name": "Crown Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "crown_loot_hacker",
+          "name": "Crown Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "crown_trick_or_treat",
+          "name": "Crown Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/crownsprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "crown_tricktreat",
@@ -613,10 +863,20 @@
           "released": true
         },
         {
+          "id": "8_bit_bounty_hunter",
+          "name": "8-Bit Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "8_bit_cheatmaster",
           "name": "8-Bit Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "8_bit_cheat_master",
+          "name": "8-Bit Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "8_bit_gold",
@@ -629,6 +889,16 @@
           "name": "8-Bit Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "8_bit_loot_hacker",
+          "name": "8-Bit Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "8_bit_trick_or_treat",
+          "name": "8-Bit Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/8bitblastersprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "8_bit_tricktreat",
@@ -656,10 +926,20 @@
           "released": true
         },
         {
+          "id": "storm_scout_bounty_hunter",
+          "name": "Storm Scout Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "storm_scout_cheatmaster",
           "name": "Storm Scout Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "storm_scout_cheat_master",
+          "name": "Storm Scout Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "storm_scout_gold",
@@ -672,6 +952,16 @@
           "name": "Storm Scout Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "storm_scout_loot_hacker",
+          "name": "Storm Scout Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "storm_scout_trick_or_treat",
+          "name": "Storm Scout Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/stormscoutsprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "storm_scout_tricktreat",
@@ -699,10 +989,20 @@
           "released": true
         },
         {
+          "id": "blinky_bounty_hunter",
+          "name": "Blinky Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "blinky_cheatmaster",
           "name": "Blinky Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "blinky_cheat_master",
+          "name": "Blinky Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_cheat_master/largeicon.png"
         },
         {
           "id": "blinky_gold",
@@ -715,6 +1015,16 @@
           "name": "Blinky Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "blinky_loot_hacker",
+          "name": "Blinky Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "blinky_trick_or_treat",
+          "name": "Blinky Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/ghostdamage_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "blinky_tricktreat",
@@ -742,10 +1052,20 @@
           "released": true
         },
         {
+          "id": "birthday_bounty_hunter",
+          "name": "Birthday Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "birthday_cheatmaster",
           "name": "Birthday Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "birthday_cheat_master",
+          "name": "Birthday Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "birthday_gold",
@@ -758,6 +1078,16 @@
           "name": "Birthday Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "birthday_loot_hacker",
+          "name": "Birthday Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "birthday_trick_or_treat",
+          "name": "Birthday Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/birthdaysprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "birthday_tricktreat",
@@ -785,10 +1115,20 @@
           "released": true
         },
         {
+          "id": "crash_bandicoot_bounty_hunter",
+          "name": "Crash Bandicoot Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "crash_bandicoot_cheatmaster",
           "name": "Crash Bandicoot Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "crash_bandicoot_cheat_master",
+          "name": "Crash Bandicoot Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "crash_bandicoot_gold",
@@ -801,6 +1141,16 @@
           "name": "Crash Bandicoot Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "crash_bandicoot_loot_hacker",
+          "name": "Crash Bandicoot Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "crash_bandicoot_trick_or_treat",
+          "name": "Crash Bandicoot Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/bodyslamsprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "crash_bandicoot_tricktreat",
@@ -828,10 +1178,20 @@
           "released": true
         },
         {
+          "id": "pond_bounty_hunter",
+          "name": "Pond Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "pond_cheatmaster",
           "name": "Pond Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "pond_cheat_master",
+          "name": "Pond Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "pond_gold",
@@ -844,6 +1204,16 @@
           "name": "Pond Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "pond_loot_hacker",
+          "name": "Pond Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "pond_trick_or_treat",
+          "name": "Pond Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/winnerasprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "pond_tricktreat",
@@ -871,10 +1241,20 @@
           "released": true
         },
         {
+          "id": "morgana_bounty_hunter",
+          "name": "Morgana Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "morgana_cheatmaster",
           "name": "Morgana Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "morgana_cheat_master",
+          "name": "Morgana Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "morgana_gold",
@@ -887,6 +1267,16 @@
           "name": "Morgana Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "morgana_loot_hacker",
+          "name": "Morgana Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "morgana_trick_or_treat",
+          "name": "Morgana Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/increasehealssprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "morgana_tricktreat",
@@ -914,10 +1304,20 @@
           "released": true
         },
         {
+          "id": "spooky_dash_bounty_hunter",
+          "name": "Spooky Dash Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "spooky_dash_cheatmaster",
           "name": "Spooky Dash Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "spooky_dash_cheat_master",
+          "name": "Spooky Dash Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "spooky_dash_gold",
@@ -932,9 +1332,19 @@
           "released": true
         },
         {
+          "id": "spooky_dash_loot_hacker",
+          "name": "Spooky Dash Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_loot_hacker/largeicon.png"
+        },
+        {
           "id": "spooky_dash_quack",
           "name": "Spooky Dash Quack",
           "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_quack/largeicon.png"
+        },
+        {
+          "id": "spooky_dash_trick_or_treat",
+          "name": "Spooky Dash Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/phasedashsprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "spooky_dash_tricktreat",
@@ -962,6 +1372,11 @@
           "released": true
         },
         {
+          "id": "vampire_bounty_hunter",
+          "name": "Vampire Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "vampire_cheatmaster",
           "name": "Vampire Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_cheatmaster/largeicon.png",
@@ -978,6 +1393,16 @@
           "name": "Vampire Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "vampire_loot_hacker",
+          "name": "Vampire Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "vampire_trick_or_treat",
+          "name": "Vampire Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/healthsiphonsprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "vampire_tricktreat",
@@ -1005,6 +1430,11 @@
           "released": true
         },
         {
+          "id": "the_deer_bounty_hunter",
+          "name": "The Deer Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "the_deer_cheatmaster",
           "name": "The Deer Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_cheatmaster/largeicon.png",
@@ -1021,6 +1451,16 @@
           "name": "The Deer Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "the_deer_loot_hacker",
+          "name": "The Deer Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "the_deer_trick_or_treat",
+          "name": "The Deer Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/increasedmeleesprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "the_deer_tricktreat",
@@ -1048,10 +1488,20 @@
           "released": true
         },
         {
+          "id": "dumpster_dive_bounty_hunter",
+          "name": "Dumpster Dive Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "dumpster_dive_cheatmaster",
           "name": "Dumpster Dive Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_cheatmaster/largeicon.png",
           "released": true
+        },
+        {
+          "id": "dumpster_dive_cheat_master",
+          "name": "Dumpster Dive Cheat Master",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_cheat_master/largeicon.png"
         },
         {
           "id": "dumpster_dive_gold",
@@ -1064,6 +1514,16 @@
           "name": "Dumpster Dive Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_loothacker/largeicon.png",
           "released": true
+        },
+        {
+          "id": "dumpster_dive_loot_hacker",
+          "name": "Dumpster Dive Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "dumpster_dive_trick_or_treat",
+          "name": "Dumpster Dive Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/winnerdsprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "dumpster_dive_tricktreat",
@@ -1089,6 +1549,11 @@
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_WinnerE_BountyHunter_L.webp"
         },
         {
+          "id": "honey_bounty_hunter",
+          "name": "Honey Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "honey_cheatmaster",
           "name": "Honey Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_cheatmaster/largeicon.png"
@@ -1102,6 +1567,16 @@
           "id": "honey_hacker",
           "name": "Honey Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_loothacker/largeicon.png"
+        },
+        {
+          "id": "honey_loot_hacker",
+          "name": "Honey Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "honey_trick_or_treat",
+          "name": "Honey Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/winneresprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "honey_tricktreat",
@@ -1126,6 +1601,11 @@
           "image": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_CargoLying_BountyHunter_L.webp"
         },
         {
+          "id": "one_wish_willow_bounty_hunter",
+          "name": "One Wish Willow Bounty Hunter",
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_bounty_hunter/largeicon.png"
+        },
+        {
           "id": "one_wish_willow_cheatmaster",
           "name": "One Wish Willow Cheat Master",
           "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_cheatmaster/largeicon.png"
@@ -1139,6 +1619,16 @@
           "id": "one_wish_willow_hacker",
           "name": "One Wish Willow Loot Hacker",
           "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_loothacker/largeicon.png"
+        },
+        {
+          "id": "one_wish_willow_loot_hacker",
+          "name": "One Wish Willow Loot Hacker",
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_loot_hacker/largeicon.png"
+        },
+        {
+          "id": "one_wish_willow_trick_or_treat",
+          "name": "One Wish Willow Trick or Treat",
+          "image": "https://cdn.fn-api.cc/sprites/cargolyingsprite_variant_trick_or_treat/largeicon.png"
         },
         {
           "id": "one_wish_willow_tricktreat",
