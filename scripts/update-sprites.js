@@ -411,7 +411,7 @@ function isPurgedItem(item) {
 
   // This removes previously committed Reaper entries even if the source API
   // does not return their family during the current run.
-  return PURGE_ITEM_IDS.has(item.id) || /_reaper$/i.test(item.id);
+  return PURGE_ITEM_IDS.has(item.id) || /_(reaper|liquidgold)$/i.test(item.id);
 }
 
 // Removes purged items from a categories array. A category that ONLY becomes

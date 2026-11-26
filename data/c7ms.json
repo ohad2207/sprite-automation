@@ -50,11 +50,6 @@
           "id": "plundarrgh_jeweled",
           "name": "Plundarrgh Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/coinpile_variant_jeweled/largeicon.png"
-        },
-        {
-          "id": "plundarrgh_liquidgold",
-          "name": "Plundarrgh Liquid Gold",
-          "image": "https://cdn.fn-api.cc/sprites/coinpile_variant_liquidgold/largeicon.png"
         }
       ]
     },
@@ -82,11 +77,6 @@
           "id": "lil_flacko_jeweled",
           "name": "Lil' Flacko Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/playmakerbrewery_variant_jeweled/largeicon.png"
-        },
-        {
-          "id": "lil_flacko_liquidgold",
-          "name": "Lil' Flacko Liquid Gold",
-          "image": "https://cdn.fn-api.cc/sprites/playmakerbrewery_variant_liquidgold/largeicon.png"
         }
       ]
     },
@@ -114,11 +104,6 @@
           "id": "lil_squibbly_jeweled",
           "name": "Lil' Squibbly Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/squibbly_variant_jeweled/largeicon.png"
-        },
-        {
-          "id": "lil_squibbly_liquidgold",
-          "name": "Lil' Squibbly Liquid Gold",
-          "image": "https://cdn.fn-api.cc/sprites/squibbly_variant_liquidgold/largeicon.png"
         }
       ]
     },
@@ -146,11 +131,6 @@
           "id": "kelper_jeweled",
           "name": "Kelper Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/unbotheredfish_variant_jeweled/largeicon.png"
-        },
-        {
-          "id": "kelper_liquidgold",
-          "name": "Kelper Liquid Gold",
-          "image": "https://cdn.fn-api.cc/sprites/unbotheredfish_variant_liquidgold/largeicon.png"
         }
       ]
     },
@@ -178,11 +158,6 @@
           "id": "wayfinder_jeweled",
           "name": "Wayfinder Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/compass_variant_jeweled/largeicon.png"
-        },
-        {
-          "id": "wayfinder_liquidgold",
-          "name": "Wayfinder Liquid Gold",
-          "image": "https://cdn.fn-api.cc/sprites/compass_variant_liquidgold/largeicon.png"
         }
       ]
     },
@@ -210,11 +185,6 @@
           "id": "exmarks_jeweled",
           "name": "Exmarks Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/treasuremap_variant_jeweled/largeicon.png"
-        },
-        {
-          "id": "exmarks_liquidgold",
-          "name": "Exmarks Liquid Gold",
-          "image": "https://cdn.fn-api.cc/sprites/treasuremap_variant_liquidgold/largeicon.png"
         }
       ]
     },
@@ -242,11 +212,6 @@
           "id": "barry_o_fish_jeweled",
           "name": "Barry O'Fish Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/barreloffish_variant_jeweled/largeicon.png"
-        },
-        {
-          "id": "barry_o_fish_liquidgold",
-          "name": "Barry O'Fish Liquid Gold",
-          "image": "https://cdn.fn-api.cc/sprites/barreloffish_variant_liquidgold/largeicon.png"
         }
       ]
     },
@@ -274,11 +239,6 @@
           "id": "chester_jeweled",
           "name": "Chester Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/treasurechest_variant_jeweled/largeicon.png"
-        },
-        {
-          "id": "chester_liquidgold",
-          "name": "Chester Liquid Gold",
-          "image": "https://cdn.fn-api.cc/sprites/treasurechest_variant_liquidgold/largeicon.png"
         }
       ]
     },
@@ -306,11 +266,6 @@
           "id": "re_pete_jeweled",
           "name": "Re-Pete Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/parrot_variant_jeweled/largeicon.png"
-        },
-        {
-          "id": "re_pete_liquidgold",
-          "name": "Re-Pete Liquid Gold",
-          "image": "https://cdn.fn-api.cc/sprites/parrot_variant_liquidgold/largeicon.png"
         }
       ]
     },
@@ -338,11 +293,6 @@
           "id": "halfpeel_d_jeweled",
           "name": "Halfpeel'd Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/peelybones_variant_jeweled/largeicon.png"
-        },
-        {
-          "id": "halfpeel_d_liquidgold",
-          "name": "Halfpeel'd Liquid Gold",
-          "image": "https://cdn.fn-api.cc/sprites/peelybones_variant_liquidgold/largeicon.png"
         }
       ]
     },
@@ -370,11 +320,6 @@
           "id": "lil_uzi_vert_jr_jeweled",
           "name": "Lil' Uzi Vert Jr. Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/rookgecko_variant_jeweled/largeicon.png"
-        },
-        {
-          "id": "lil_uzi_vert_jr_liquidgold",
-          "name": "Lil' Uzi Vert Jr. Liquid Gold",
-          "image": "https://cdn.fn-api.cc/sprites/rookgecko_variant_liquidgold/largeicon.png"
         }
       ]
     },
@@ -414,11 +359,6 @@
           "id": "mini_miku_jeweled",
           "name": "Mini Miku Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/daffodilchurn_variant_jeweled/largeicon.png"
-        },
-        {
-          "id": "mini_miku_liquidgold",
-          "name": "Mini Miku Liquid Gold",
-          "image": "https://cdn.fn-api.cc/sprites/daffodilchurn_variant_liquidgold/largeicon.png"
         }
       ]
     },
@@ -446,11 +386,6 @@
           "id": "squiplash_jeweled",
           "name": "Squiplash Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/piratecalamari_variant_jeweled/largeicon.png"
-        },
-        {
-          "id": "squiplash_liquidgold",
-          "name": "Squiplash Liquid Gold",
-          "image": "https://cdn.fn-api.cc/sprites/piratecalamari_variant_liquidgold/largeicon.png"
         }
       ]
     },
@@ -478,14 +413,9 @@
           "id": "sir_oscar_the_second_jeweled",
           "name": "Sir Oscar the Second Jeweled",
           "image": "https://cdn.fn-api.cc/sprites/whitetiger_variant_jeweled/largeicon.png"
-        },
-        {
-          "id": "sir_oscar_the_second_liquidgold",
-          "name": "Sir Oscar the Second Liquid Gold",
-          "image": "https://cdn.fn-api.cc/sprites/whitetiger_variant_liquidgold/largeicon.png"
         }
       ]
     }
   ],
-  "updatedAt": "2026-11-26T20:30:49.394Z"
+  "updatedAt": "2026-11-26T20:47:09.395Z"
 }
