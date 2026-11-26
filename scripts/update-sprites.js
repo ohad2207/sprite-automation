@@ -55,6 +55,10 @@ const VARIANT_ALIASES = {
   candy: { id: 'gummy', label: 'Gummy' },
   gummy: { id: 'gummy', label: 'Gummy' },
   gold: { id: 'gold', label: 'Gold' },
+  // The API names the gold variant "LiquidGold", while fortnite.gg uses
+  // "gold-..." in its URLs. Both must map to the same id and label.
+  liquidgold: { id: 'gold', label: 'Gold' },
+  liquid_gold: { id: 'gold', label: 'Gold' },
   galaxy: { id: 'galaxy', label: 'Galaxy' },
   gem: { id: 'gem', label: 'Gem' },
   holofoil: { id: 'holofoil', label: 'Holofoil' },
@@ -225,20 +229,20 @@ async function fetchFortniteGgCatalog() {
 
   try {
     let html;
-try {
-  html = execFileSync(
-    process.platform === 'win32' ? 'curl.exe' : 'curl',
-    [
-      '-sS', '-L', '--fail', '--max-time', '30',
-      '-A', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
-      '-H', 'Accept-Language: en-US,en;q=0.9',
-      FORTNITE_GG_SPRITES_URL,
-    ],
-    { encoding: 'utf8', maxBuffer: 50 * 1024 * 1024 }
-  );
-} catch (error) {
-  throw new Error(`Fortnite.gg request failed: ${error.message}`);
-}
+    try {
+      html = execFileSync(
+        process.platform === 'win32' ? 'curl.exe' : 'curl',
+        [
+          '-sS', '-L', '--fail', '--max-time', '30',
+          '-A', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+          '-H', 'Accept-Language: en-US,en;q=0.9',
+          FORTNITE_GG_SPRITES_URL,
+        ],
+        { encoding: 'utf8', maxBuffer: 50 * 1024 * 1024 }
+      );
+    } catch (error) {
+      throw new Error(`Fortnite.gg request failed: ${error.message}`);
+    }
     const verifiedItemIds = new Set();
     const imageByItemId = new Map();
     const nameBySlug = new Map();
@@ -601,9 +605,12 @@ function buildIncomingCategory(family, seasonInfo, isCurrentSeason, verifiedItem
       isExplicitlyUnreleased(variant);
 
     // "enabled" is a live switch, not a historical release record.
-    // Use it only for the current season.
+    // Use it only for the current season, and never for an item that
+    // fortnite.gg already lists (fortnite.gg wins over the API switch).
+    const onFortniteGg = verifiedItemIds.has(itemId);
     const disabledNow =
       isCurrentSeason &&
+      !onFortniteGg &&
       (family.enabled === false || variant.enabled === false);
 
     if (explicitlyUnreleased || disabledNow) {
